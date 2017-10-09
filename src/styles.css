@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+.sparkline .ct-bar{
+    stroke-width: 2px !important;
+}
+.sparkline{
+    height: 100px;
+    margin-top: -25px;
+} 
+.blue .ct-bar{
+    stroke:#3f1ade;
+} 
+.green .ct-bar{
+    stroke:green;
+} 
+.yellow .ct-bar{
+    stroke:yellow;
+}
