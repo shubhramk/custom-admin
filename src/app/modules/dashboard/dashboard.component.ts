@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 import {Router} from "@angular/router";
+
+import chartist from 'chartist';
 @Component({
   styleUrls: ['./dashboard.component.scss'],
   templateUrl: './dashboard.component.html'

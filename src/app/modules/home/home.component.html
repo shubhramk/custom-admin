@@ -35,91 +35,36 @@
   <!-- Start Page Content -->
   <!-- ============================================================== -->
   <!-- Row -->
+  <!-- Views at the dashboard top section -->
   <div class="row">
-    <!-- Column -->
-    <div class="col-lg-3 col-md-6">
+      <div *ngFor="let data of visitData; let i=index"  class="col-lg-3 col-md-6">
       <div class="card">
         <div class="card-body">
           <!-- Row -->
           <div class="row">
-            <div class="col-8"><span class="display-6">2376 <i class="ti-angle-down font-14 text-danger"></i></span>
-              <h6>Total Visits</h6></div>
+            <div class="col-8"><span class="display-6">{{data.total}} 
+              <i *ngIf="data.symbol=='down'" class="ti-angle-down font-14 text-danger"></i>
+              <i *ngIf="data.symbol=='up'" class="ti-angle-up font-14 text-success"></i>
+              </span>
+              <h6>{{data.name}}</h6></div>
             <div class="col-4 align-self-center text-right  p-l-0">
-              <div id="sparklinedash3"></div>
+              <app-total-view [barColor] = "data.color" [barValue] = "data.val"></app-total-view>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </div> 
     <!-- Column -->
-    <div class="col-lg-3 col-md-6">
-      <div class="card">
-        <div class="card-body">
-          <!-- Row -->
-          <div class="row">
-            <div class="col-8"><span class="display-6">3670 <i class="ti-angle-up font-14 text-success"></i></span>
-              <h6>Page Views</h6></div>
-            <div class="col-4 align-self-center text-right p-l-0">
-              <div id="sparklinedash"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Column -->
-    <div class="col-lg-3 col-md-6">
-      <div class="card">
-        <div class="card-body">
-          <!-- Row -->
-          <div class="row">
-            <div class="col-8"><span class="display-6">1562 <i class="ti-angle-up font-14 text-success"></i></span>
-              <h6>Unique Visits</h6></div>
-            <div class="col-4 align-self-center text-right p-l-0">
-              <div id="sparklinedash2"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Column -->
-    <div class="col-lg-3 col-md-6">
-      <div class="card">
-        <div class="card-body">
-          <!-- Row -->
-          <div class="row">
-            <div class="col-8"><span class="display-6">35% <i class="ti-angle-down font-14 text-danger"></i></span>
-              <h6>Bounce Rate</h6></div>
-            <div class="col-4 align-self-center text-right p-l-0">
-              <div id="sparklinedash4"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+   <!-- End of Views at the dashboard top section --> 
+    
   </div>
   <!-- Row -->
   <!-- Row -->
   <div class="row">
     <!-- Column -->
+    <!-- Total Revenue at the dashboard-->
     <div class="col-lg-8">
-      <div class="card">
-        <div class="card-body">
-          <ul class="list-inline pull-right">
-            <li>
-              <h6 class="text-muted"><i class="fa fa-circle m-r-5" style="color:#51bdff"></i>2015</h6>
-            </li>
-            <li>
-              <h6 class="text-muted"><i class="fa fa-circle m-r-5" style="color:#11a0f8"></i>2016</h6>
-            </li>
-            <li>
-              <h6 class="text-muted"><i class="fa fa-circle m-r-5 text-info"></i>2017</h6>
-            </li>
-          </ul>
-          <h4 class="card-title">Total Revenue</h4>
-          <div class="clear"></div>
-          <div class="total-sales" style="height: 365px;"></div>
-        </div>
-      </div>
+        <app-total-revenu [count]="initialCount"></app-total-revenu>
     </div>
     <!-- Column -->
     <div class="col-lg-4">

@@ -1,0 +1,16 @@
+.ct-bar{
+    stroke-width: 1px;
+}
+#sparklinedash1, #sparklinedash4, #sparklinedash2,#sparklinedash3{
+    height: 100px;
+    margin-top: -25px;
+} 
+#sparklinedash3 .ct-bar{
+    stroke:#fff;
+} 
+#sparklinedash .ct-bar{
+    stroke:green;
+} 
+#sparklinedash2 .ct-bar{
+    stroke:yellow;
+}
