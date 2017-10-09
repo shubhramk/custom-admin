@@ -9,6 +9,8 @@ import {GeneralUserComponent} from "./modules/user/general/general.component";
 import {AdminUserComponent} from "./modules/user/admin/admin.component";
 import { TotalRevenuComponent } from './common/component/total-revenu/total-revenu.component';
 import { TotalViewComponent } from './common/component/total-view/total-view.component';
+import { CategoryComponent } from './modules/category/category.component';
+import { DatatableComponent } from './common/component/datatable/datatable.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { TotalViewComponent } from './common/component/total-view/total-view.com
     GeneralUserComponent,
     AdminUserComponent,
     TotalRevenuComponent,
-    TotalViewComponent
+    TotalViewComponent,
+    CategoryComponent,
+    DatatableComponent
   ],
   imports: [
     BrowserModule,

@@ -4,6 +4,8 @@ import {DashboardComponent} from "../../modules/dashboard/dashboard.component";
 import {HomeComponent} from "../../modules/home/home.component";
 import {AdminUserComponent} from "../../modules/user/admin/admin.component";
 import {GeneralUserComponent} from "../../modules/user/general/general.component";
+import {CategoryComponent} from "../../modules/category/category.component";
+
 
 const adminRoutes: Routes = [
   {
@@ -27,6 +29,10 @@ const adminRoutes: Routes = [
         path: 'users/general',
         component: GeneralUserComponent
       },
+      {
+        path: 'category',
+        component: CategoryComponent
+      }
 
     ]
   }

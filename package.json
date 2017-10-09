@@ -21,8 +21,11 @@
     "@angular/platform-browser": "^4.2.4",
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
+    "bootstrap": "^3.3.7",
     "chartist": "^0.11.0",
     "core-js": "^2.4.1",
+    "datatables.net-bs": "^1.10.16",
+    "datatables.net-dt": "^1.10.16",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"
   },
