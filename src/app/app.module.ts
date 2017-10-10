@@ -12,6 +12,10 @@ import { TotalViewComponent } from './common/component/total-view/total-view.com
 import { CategoryComponent } from './modules/category/category.component';
 import { DatatableComponent } from './common/component/datatable/datatable.component';
 import {LoginComponent} from "./modules/login/login.component";
+import { GeneralSh8keComponent } from './modules/sh8ke/general-sh8ke/general-sh8ke.component';
+import { GlobalSh8keComponent } from './modules/sh8ke/global-sh8ke/global-sh8ke.component';
+import { ExampleSh8keComponent } from './modules/sh8ke/example-sh8ke/example-sh8ke.component';
+import { NewsComponent } from './modules/news/news.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +28,11 @@ import {LoginComponent} from "./modules/login/login.component";
     TotalViewComponent,
     CategoryComponent,
     DatatableComponent,
-    LoginComponent
+    LoginComponent,
+    GeneralSh8keComponent,
+    GlobalSh8keComponent,
+    ExampleSh8keComponent,
+    NewsComponent
   ],
   imports: [
     BrowserModule,

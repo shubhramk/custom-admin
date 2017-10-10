@@ -1,5 +1,5 @@
 import {Component, AfterViewInit, ElementRef} from '@angular/core';
-import Chartist from 'chartist';
+import Chartist from 'chartist'; 
 @Component({
   styleUrls: ['./home.component.scss'],
   templateUrl: './home.component.html'

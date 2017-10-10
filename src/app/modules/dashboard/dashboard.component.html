@@ -19,21 +19,8 @@
       <!-- ============================================================== -->
       <div class="navbar-header">
         <a class="navbar-brand" href="javascript:void(0);">
-          <!-- Logo icon -->
-          <b>
-            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
-            <!-- Dark Logo icon -->
-            <img src="../assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
-            <!-- Light Logo icon -->
-            <img src="../assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
-          </b>
-          <!--End Logo icon -->
           <!-- Logo text -->
-          <span>
-                         <!-- dark Logo text -->
-                         <img src="../assets/images/logo-text.png" alt="homepage" class="dark-logo" />
-            <!-- Light Logo text -->
-                         <img src="../assets/images/logo-light-text.png" class="light-logo" alt="homepage" /></span> </a>
+          <span>Sh8ke</span> </a>
       </div>
       <!-- ============================================================== -->
       <!-- End Logo -->
@@ -46,19 +33,7 @@
           <!-- This is  -->
           <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
           <li class="nav-item"> <a class="nav-link sidebartoggler hidden-sm-down text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="icon-arrow-left-circle"></i></a> </li>
-          <!-- ============================================================== -->
-          <!-- Comment -->
-          <!-- ============================================================== -->
-          <!-- ============================================================== -->
-          <!-- Messages -->
-          <!-- ============================================================== -->
-          <!-- ============================================================== -->
-          <!-- End Messages -->
-          <!-- ============================================================== -->
-          <!-- ============================================================== -->
-          <!-- Messages -->
-          <!-- ============================================================== -->
-
+         
           <!-- ============================================================== -->
           <!-- End Messages -->
           <!-- ============================================================== -->
@@ -71,17 +46,7 @@
             <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="../assets/images/users/1.jpg" alt="user" class="profile-pic" /></a>
             <div class="dropdown-menu dropdown-menu-right animated flipInY">
               <ul class="dropdown-user">
-                <li>
-                  <div class="dw-user-box">
-                    <div class="u-img"><img src="../assets/images/users/1.jpg" alt="user"></div>
-                    <div class="u-text">
-                      <h4>Steave Jobs</h4>
-                      <p class="text-muted">varun@gmail.com</p><a href="javascript:void(0);" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
-                  </div>
-                </li>
-                <li role="separator" class="divider"></li>
-                <li><a href="javascript:void(0);"><i class="ti-user"></i> My Profile</a></li>
-                <li role="separator" class="divider"></li>
+                
                 <li><a href="javascript:void(0);"><i class="fa fa-power-off"></i> Logout</a></li>
               </ul>
             </div>
@@ -104,13 +69,9 @@
         <!-- User profile image -->
         <div class="profile-img"> <img src="../assets/images/users/1.jpg" alt="user" /> </div>
         <!-- User profile text-->
-        <div class="profile-text"> <a href="#" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Markarn Doe <span class="caret"></span></a>
+        <div class="profile-text"> <a href="javascript:void(0)" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Markarn Doe <span class="caret"></span></a>
           <div class="dropdown-menu animated flipInY">
-            <a href="#" class="dropdown-item"><i class="ti-user"></i> My Profile</a>
-            <a href="#" class="dropdown-item"><i class="ti-wallet"></i> My Balance</a>
-            <a href="#" class="dropdown-item"><i class="ti-email"></i> Inbox</a>
-            <div class="dropdown-divider"></div> <a href="#" class="dropdown-item"><i class="ti-settings"></i> Account Setting</a>
-            <div class="dropdown-divider"></div> <a href="login.html" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
+            <a href="javascript:void(0)" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
           </div>
         </div>
       </div>
@@ -142,13 +103,13 @@
               <i class="mdi mdi-hexagon"></i><span class="hide-menu">Sh8ke</span>
             </a>
             <ul aria-expanded="false" class="collapse">
-              <li><a href="javascript:void(0)">General Sh8ke</a></li>
-              <li><a href="javascript:void(0)">Global Sh8ke</a></li>
-              <li><a href="javascript:void(0)">Example Sh8ke</a></li>
+              <li><a href="javascript:void(0)" (click)="navigateTo('sh8ke/generalSh8ke')">General Sh8ke</a></li>
+              <li><a href="javascript:void(0)" (click)="navigateTo('sh8ke/globalSh8ke')">Global Sh8ke</a></li>
+              <li><a href="javascript:void(0)" (click)="navigateTo('sh8ke/exampleSh8ke')">Example Sh8ke</a></li>
             </ul>
           </li>
           <li>
-            <a href="javascript:void(0);" aria-expanded="false">
+            <a href="javascript:void(0);" aria-expanded="false" (click)="navigateTo('news')">
               <i class="mdi mdi-newspaper"></i><span class="hide-menu">News</span>
             </a>
           </li>

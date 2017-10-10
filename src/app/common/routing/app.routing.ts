@@ -6,7 +6,10 @@ import {AdminUserComponent} from "../../modules/user/admin/admin.component";
 import {GeneralUserComponent} from "../../modules/user/general/general.component";
 import {CategoryComponent} from "../../modules/category/category.component";
 import {LoginComponent} from "../../modules/login/login.component";
-
+import {GlobalSh8keComponent} from "../../modules/sh8ke/global-sh8ke/global-sh8ke.component";
+import {GeneralSh8keComponent} from "../../modules/sh8ke/general-sh8ke/general-sh8ke.component";
+import {ExampleSh8keComponent} from "../../modules/sh8ke/example-sh8ke/example-sh8ke.component";
+import {NewsComponent} from "../../modules/news/news.component";
 
 
 const adminRoutes: Routes = [
@@ -39,6 +42,22 @@ const adminRoutes: Routes = [
       {
         path: 'category',
         component: CategoryComponent
+      },
+      {
+        path: 'sh8ke/exampleSh8ke',
+        component: ExampleSh8keComponent
+      },
+      {
+        path: 'sh8ke/generalSh8ke',
+        component: GeneralSh8keComponent
+      },
+      {
+        path: 'sh8ke/globalSh8ke',
+        component: GlobalSh8keComponent
+      },
+      {
+        path: 'news',
+        component: NewsComponent
       }
 
     ]

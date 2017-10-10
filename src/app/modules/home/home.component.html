@@ -13,20 +13,7 @@
         <li class="breadcrumb-item active">Dashboard</li>
       </ol>
     </div>
-    <div class="col-md-6 col-4 align-self-center">
-      <button class="right-side-toggle waves-effect waves-light btn-info btn-circle btn-sm pull-right m-l-10"><i class="ti-settings text-white"></i></button>
-      <button class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Create</button>
-      <div class="dropdown pull-right m-r-10 hidden-sm-down">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          January 2017
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item" href="#">February 2017</a>
-          <a class="dropdown-item" href="#">March 2017</a>
-          <a class="dropdown-item" href="#">April 2017</a>
-        </div>
-      </div>
-    </div>
+    
   </div>
   <!-- ============================================================== -->
   <!-- End Bread crumb and right sidebar toggle -->
@@ -113,9 +100,9 @@
         <div class="card">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs customtab" role="tablist">
-                <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home2" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Home</span></a> </li>
-                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile2" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Profile</span></a> </li>
-                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages2" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Messages</span></a> </li>
+                <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home2" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">General Sh8ke</span></a> </li>
+                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile2" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Global Sh8ke</span></a> </li>
+                
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
@@ -123,7 +110,7 @@
                     <app-datatable  [dtTableData]="topGeneralSh8ke"></app-datatable>
                 </div>
                 <div class="tab-pane" id="profile2" role="tabpanel"><app-datatable [dtTableData]="topGeneralSh8ke"></app-datatable></div>
-                <div class="tab-pane" id="messages2" role="tabpanel"><app-datatable [dtTableData]="topGeneralSh8ke"></app-datatable></div>
+                
             </div>
         </div>
     </div>

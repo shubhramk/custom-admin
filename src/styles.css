@@ -22,3 +22,10 @@
 .marB{
     margin-bottom: 15px;
 }
+.navbar-header .navbar-brand span{
+font-size: 25px;
+    font-weight: 700;
+    letter-spacing: 12px;
+    text-decoration: overline;
+    color: #01c0c8;
+}
