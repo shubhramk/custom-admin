@@ -15,4 +15,5 @@ export class DashboardComponent {
   navigateTo(url:string){
     this.router.navigate([url]);
   }
+
 }

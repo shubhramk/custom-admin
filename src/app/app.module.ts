@@ -11,6 +11,7 @@ import { TotalRevenuComponent } from './common/component/total-revenu/total-reve
 import { TotalViewComponent } from './common/component/total-view/total-view.component';
 import { CategoryComponent } from './modules/category/category.component';
 import { DatatableComponent } from './common/component/datatable/datatable.component';
+import {LoginComponent} from "./modules/login/login.component";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { DatatableComponent } from './common/component/datatable/datatable.compo
     TotalRevenuComponent,
     TotalViewComponent,
     CategoryComponent,
-    DatatableComponent
+    DatatableComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
