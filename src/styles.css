@@ -15,3 +15,10 @@
 .yellow .ct-bar{
     stroke:yellow;
 }
+
+.marginCenter{
+    margin: 0 auto;
+}
+.marB{
+    margin-bottom: 15px;
+}

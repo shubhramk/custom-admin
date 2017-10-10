@@ -6,7 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./category.component.css']
 })
 export class CategoryComponent implements OnInit {
- 
+ topGeneralSh8ke = 
+    [
+      {Title:"goals", Description:"Share, Socialize", Category:"goals", "Times sh8ken":167, "Times sh8red":0, Creater:"akshay Kumar", Answer:"Answer(2)"},
+      {Title:"goals", Description:"Share, Socialize", Category:"goals", "Times sh8ken":167, "Times sh8red":0, Creater:"akshay Kumar", Answer:"Answer(2)"},
+      {Title:"goals", Description:"Share, Socialize", Category:"goals", "Times sh8ken":167, "Times sh8red":0, Creater:"akshay Kumar", Answer:"Answer(2)"},
+      {Title:"goals", Description:"Share, Socialize", Category:"goals", "Times sh8ken":167, "Times sh8red":0, Creater:"akshay Kumar", Answer:"Answer(2)"},
+      {Title:"goals", Description:"Share, Socialize", Category:"goals", "Times sh8ken":167, "Times sh8red":0, Creater:"akshay Kumar", Answer:"Answer(2)"},
+      {Title:"goals", Description:"Share, Socialize", Category:"goals", "Times sh8ken":167, "Times sh8red":0, Creater:"akshay Kumar", Answer:"Answer(2)"}
+    ];
   constructor() {
      
    }
