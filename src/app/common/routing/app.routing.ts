@@ -66,7 +66,7 @@ const adminRoutes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(adminRoutes)
+    RouterModule.forRoot(adminRoutes,{ useHash: true })
   ],
   exports: [
     RouterModule
