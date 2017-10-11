@@ -1,3 +1,4 @@
+
 <!-- ============================================================== -->
 <!-- Container fluid  -->
 <!-- ============================================================== -->
@@ -7,17 +8,173 @@
   <!-- ============================================================== -->
   <div class="row page-titles">
     <div class="col-md-6 col-8 align-self-center">
-      <h3 class="text-themecolor m-b-0 m-t-0">Users</h3>
+      <h3 class="text-themecolor m-b-0 m-t-0">User</h3>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item active">General</li>
+        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+        <li class="breadcrumb-item active">User</li>
+        <li class="breadcrumb-item active">General User</li>
+        <li class="breadcrumb-item active" *ngIf="visibleElement">Add General User</li>
       </ol>
     </div>
+    
   </div>
-  <!-- ============================================================== -->
-  <!-- End Bread crumb and right sidebar toggle -->
-  <!-- ============================================================== -->
-  =
+  <div class="row">
+    <div class="col-md-12 marB">
+      <a href="javascript:void(0)" *ngIf ="!visibleElement" (click)="handleVisiblity()">Add New User</a>
+      <a href="javascript:void(0)" *ngIf="visibleElement" (click)="handleVisiblity()">Back</a>
+    </div>
+  </div>
+  <div class="row" *ngIf = "visibleElement">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-9 marginCenter">
+                   <h4 class="card-title"> Add General User</h4>
+                </div>
+              </div>
+                <form class="form p-t-20">
+                      <div class="form-group row">
+                        <div class="col-sm-9 marginCenter">
+                          <label for="exampleInputuname2">Name</label>
+                          <div class="input-group">
+                              <div class="input-group-addon"><i class="ti-user"></i></div>
+                              <input type="text" class="form-control" id="exampleInputuname2" placeholder="Name">                             
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-sm-9 marginCenter">
+                          <label for="exampleInputuname2">Surname</label>
+                          <div class="input-group">
+                              <div class="input-group-addon"><i class="ti-user"></i></div>
+                              <input type="text" class="form-control" id="exampleInputuname2" placeholder="surname">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-sm-9 marginCenter">
+                          <label for="exampleInputuname2">Phone</label>
+                          <div class="input-group">
+                              <div class="input-group-addon"><i class="ti-user"></i></div>
+                              <input type="text" class="form-control" id="exampleInputuname2" placeholder="Phone">
+                             
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-sm-9 marginCenter">
+                          <label for="exampleInputEmail2">Email address</label>
+                          <div class="input-group">
+                              <div class="input-group-addon"><i class="ti-email"></i></div>
+                              <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
+                              
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-sm-9 marginCenter">
+                          <label for="exampleInputpwd2">User Name</label>
+                          <div class="input-group">
+                              <div class="input-group-addon"><i class="ti-user"></i></div>
+                              <input type="text" class="form-control" id="exampleInputpwd2" placeholder="Username">
+                              
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-sm-9 marginCenter">
+                          <label for="exampleInputpwd2">Password</label>
+                          <div class="input-group">
+                              <div class="input-group-addon"><i class="ti-lock"></i></div>
+                              <input type="password" class="form-control" id="exampleInputpwd2" placeholder="Enter pwd">
+                              
+                          </div>
+                      </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-sm-9 marginCenter">
+                          <label for="exampleInputpwd3">Upload Photo</label>
+                          <div class="input-group">
+                              <input type="file" class="form-control" id="exampleInputpwd3" placeholder="Upload Photo">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-sm-9 marginCenter">
+                          <label for="exampleInputpwd3">Select Gender</label>
+                          <div class="input-group">
+                            <select class="form-control" id="user_type" name="user_type" aria-required="true" aria-invalid="false">
+                              <option value="">Select Gender</option>
+                              <option value="Super Administrator">Male</option>
+                              <option value="Administrator">Female</option>                        
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-sm-9 marginCenter">
+                          <label for="exampleInputpwd3">Select Status</label>
+                          <div class="input-group">
+                            <select class="form-control" id="user_status" name="user_type" aria-required="true" aria-invalid="false">
+                              <option value="">Select Status</option>
+                              <option value="Super Administrator">Single</option>
+                              <option value="Administrator">Married</option> 
+                              <option value="Administrator">Divorced</option>  
+                              <option value="Administrator">Open</option>                        
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-sm-9 marginCenter">
+                          <label for="user_status">Intrest</label>
+                          <div class="input-group">
+                            <select class="form-control" id="user_status" name="user_interest" aria-required="true" aria-invalid="false">
+                              <option value="">Intrested In</option>
+                              <option value="Super Administrator">Male</option>
+                              <option value="Administrator">Female</option>                    
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                          <div class="col-sm-9 marginCenter">
+                            <div >
+                              <label for="preferences">Preferences</label>
+                            </div>                           
+                            <div class="form-check checkBoxContainer col-md-4 col-sm-6" *ngFor = "let checkData of preferencesItems; let i= index;">
+                              
+                                  <label class="custom-control custom-checkbox">
+                                      <input type="checkbox" class="custom-control-input">
+                                      <span class="custom-control-indicator"></span>
+                                      <span class="custom-control-description">{{checkData}}</span>
+                                  </label>
+                              </div>
+                          </div>
+                    </div>
+                      <div class="form-group row">
+                          <div class="col-sm-9 marginCenter">
+                          <div class="input-group">
+                              <input type="text" class="form-control" id="datepicker-autoclose" placeholder="mm/dd/yyyy">
+                              <span class="input-group-addon"><i class="icon-calender"></i></span> </div>
+                          </div>
+                      </div>
+                      <div class="text-left row">
+                        <div class="col-sm-9 marginCenter">
+                          <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
+                          <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
+                        </div>
+                      </div>
+                  </form>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="row" *ngIf = "!visibleElement">
+    <div class="col-md-12">
+       <!--<app-datatable  [dtTableData]="topGeneralSh8ke"></app-datatable>-->
+       <app-datatable [config]='dtConfig' [data]="topGeneralSh8ke" (onMenuSelect)="onMenuSelect($event)"></app-datatable>
+    </div>
+  </div>
 </div>
-<!-- ============================================================== -->
-<!-- End Container fluid  -->
-<!-- ============================================================== -->

@@ -24,27 +24,105 @@
   <!-- Row -->
   <!-- Views at the dashboard top section -->
   <div class="row">
-      <div *ngFor="let data of visitData; let i=index"  class="col-lg-3 col-md-6">
+    
+    <div class="col-lg-3 col-md-6">
       <div class="card">
         <div class="card-body">
           <!-- Row -->
           <div class="row">
-            <div class="col-8"><span class="display-6">{{data.total}}
-              <i *ngIf="data.symbol=='down'" class="ti-angle-down font-14 text-danger"></i>
-              <i *ngIf="data.symbol=='up'" class="ti-angle-up font-14 text-success"></i>
+            <div class="col-12 text-center"><span class="display-6">{{visitData.totalusers}}
+             <!-- <i *ngIf="data.symbol=='down'" class="ti-angle-down font-14 text-danger"></i>
+              <i *ngIf="data.symbol=='up'" class="ti-angle-up font-14 text-success"></i>-->
               </span>
-              <h6>{{data.name}}</h6></div>
-            <div class="col-4 align-self-center text-right  p-l-0">
+              <h6><a href="javascript:void(0)" aria-expanded="false"  (click)="navigateTo('users/general')">TOTAL USERS</a></h6></div>
+            <!--<div class="col-4 align-self-center text-right  p-l-0">
               <app-total-view [barColor] = "data.color" [barValue] = "data.val"></app-total-view>
-            </div>
+            </div>-->
           </div>
         </div>
       </div>
     </div>
+
+    <div class="col-lg-3 col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <!-- Row -->
+          <div class="row">
+            <div class="col-12 text-center"><span class="display-6">{{visitData.totalprousers}}
+              <!--<i *ngIf="data.symbol=='down'" class="ti-angle-down font-14 text-danger"></i>
+              <i *ngIf="data.symbol=='up'" class="ti-angle-up font-14 text-success"></i>-->
+              </span>
+              <h6><a href="javascript:void(0)" (click)="navigateTo('users/admin')">TOTAL PRO USERS</a></h6></div>
+            <!--<div class="col-4 align-self-center text-right  p-l-0">
+              <app-total-view [barColor] = "data.color" [barValue] = "data.val"></app-total-view>
+            </div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <!-- Row -->
+          <div class="row">
+            <div class="col-12 text-center"><span class="display-6">{{visitData.generalsha8ke}}
+              <!--<i *ngIf="data.symbol=='down'" class="ti-angle-down font-14 text-danger"></i>
+              <i *ngIf="data.symbol=='up'" class="ti-angle-up font-14 text-success"></i>-->
+              </span>
+              <h6><a href="javascript:void(0)" (click)="navigateTo('sh8ke/generalSh8ke')">GENERAL SH8KE</a></h6></div>
+            <!--<div class="col-4 align-self-center text-right  p-l-0">
+              <app-total-view [barColor] = "data.color" [barValue] = "data.val"></app-total-view>
+            </div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <!-- Row -->
+          <div class="row">
+            <div class="col-12 text-center"><span class="display-6">{{visitData.globalsh8ke}}
+              <!--<i *ngIf="data.symbol=='down'" class="ti-angle-down font-14 text-danger"></i>
+              <i *ngIf="data.symbol=='up'" class="ti-angle-up font-14 text-success"></i>-->
+              </span>
+              <h6><a href="javascript:void(0)" (click)="navigateTo('sh8ke/globalSh8ke')">GLOBAL SH8KE</a></h6></div>
+            <!--<div class="col-4 align-self-center text-right  p-l-0">
+              <app-total-view [barColor] = "data.color" [barValue] = "data.val"></app-total-view>
+            </div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <!-- Row -->
+          <div class="row">
+            <div class="col-12 text-center"><span class="display-6">{{uniqueVisit.uniqueVisits}}
+              <!--<i *ngIf="data.symbol=='down'" class="ti-angle-down font-14 text-danger"></i>
+              <i *ngIf="data.symbol=='up'" class="ti-angle-up font-14 text-success"></i>-->
+              </span>
+              <h6><a href="javascript:void(0)">UNIQUE VISITS</a></h6>
+              <h6>{{uniqueVisit.decrease}}% DECREASE {{uniqueVisit.decreaseTime}} AGO <i class="ti-angle-down font-14 text-danger"></i></h6>
+              </div>
+              
+            <!--<div class="col-4 align-self-center text-right  p-l-0">
+              <app-total-view [barColor] = "data.color" [barValue] = "data.val"></app-total-view>
+            </div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+   
+   </div>
     <!-- Column -->
    <!-- End of Views at the dashboard top section -->
 
-  </div>
+  
   <!-- Row -->
   <!-- Row -->
   <div class="row">

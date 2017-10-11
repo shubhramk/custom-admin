@@ -1,22 +1,36 @@
 import {Component, AfterViewInit, ElementRef, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
 //import Chartist from 'chartist';
 @Component({
   styleUrls: ['./home.component.scss'],
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit,AfterViewInit{
-  visitData = [{total:2301, name:"Total Visits", symbol:"down", color:'red', val:[ 0, 5, 6, 10, 9, 12, 4, 9]},
+ /* visitData = [
+              {total:2301, name:"Total Visits", symbol:"down", color:'red', val:[ 0, 5, 6, 10, 9, 12, 4, 9]},
               {total:2421, name:"Page Views", symbol:"up", color:'blue', val:[ 0, 5, 6, 10, 9, 12, 4, 9]},
               {total:2515, name:"Unique Visits", symbol:"down", color:'yellow', val:[ 0, 5, 6, 10, 9, 12, 4, 9]},
               {total:1122, name:"Bounce Rate", symbol:"up", color:'green', val:[ 0, 5, 6, 10, 9, 12, 4, 9]}
-  ];
+  ];*/
+  visitData = {
+    totalusers:50, 
+    totalprousers:100,
+    generalsha8ke:50, 
+    globalsh8ke:100
+  };
+  uniqueVisit ={
+    uniqueVisits:4444,
+    decrease:6,   
+    decreaseTime:"1W" 
+  };
   topGeneralSh8ke =[];
   initialCount:number = 30;
   dtConfig:Object = {};
-  constructor() {}
+
+  constructor(private router:Router) {}
 
   ngOnInit(){
-    this.dtConfig = {
+    this.dtConfig = { 
       "columnDefs": [
         {
           "targets": 6,
@@ -45,7 +59,7 @@ export class HomeComponent implements OnInit,AfterViewInit{
         { "title": 'Creater' , "data":"creater"},
         { "title": '' , "data":"title"}
       ]
-    }
+     }
 
     //data
     this.topGeneralSh8ke = [
@@ -56,7 +70,7 @@ export class HomeComponent implements OnInit,AfterViewInit{
       {title:"goals", description:"Share, Socialize", category:"goals 5", "timesh8ken":167, "timesh8red":0, creater:"akshay Kumar"},
       {title:"goals", description:"Share, Socialize", category:"goals 6", "timesh8ken":167, "timesh8red":0, creater:"akshay Kumar"}
       ];
-  }
+      }
 
   //on Menu Icon selected
   onMenuSelect(data: any) {
@@ -64,6 +78,11 @@ export class HomeComponent implements OnInit,AfterViewInit{
       let customData = data['value'];
       alert(customData);
     }
+  }
+
+  //navigate to page
+  navigateTo(url:string){
+    this.router.navigate([url]);
   }
 
   ngAfterViewInit(){}

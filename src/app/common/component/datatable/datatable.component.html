@@ -6,17 +6,17 @@
           <table [attr.id]= "elemID" class="table table-bordered table-striped">
               <thead>
                   <tr> 
-                      <th *ngFor="let head of dtTableHeader">{{head}}</th>
-                      <!--<th>Description</th>
+                     <th>Title</th>
+                      <th>Description</th>
                       <th>Category</th>
                       <th>Times sh8ken</th>
                       <th>Times sh8red</th>
-                      <th>Creater</th>-->
+                      <th>Creater</th>
                   </tr>
               </thead>
               <tbody>
                   <tr *ngFor = "let dtData of dtTableData">
-                      <td>{{dtData.Title}}<div style="font-size:12px"><a href="#">{{dtData.Answer}}</a></div></td>
+                      <td>{{dtData.Title}}<div style="font-size:12px"><a href="#">Answer(2)</a></div></td>
                       <td>{{dtData.Description}}</td>
                       <td>{{dtData.Category}}</td>
                       <td>{{dtData["Times sh8ken"]}}</td>
