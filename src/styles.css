@@ -5,13 +5,13 @@
 .sparkline{
     height: 100px;
     margin-top: -25px;
-} 
+}
 .blue .ct-bar{
     stroke:#3f1ade;
-} 
+}
 .green .ct-bar{
     stroke:green;
-} 
+}
 .yellow .ct-bar{
     stroke:yellow;
 }
@@ -28,4 +28,11 @@ font-size: 25px;
     letter-spacing: 12px;
     text-decoration: overline;
     color: #01c0c8;
+}
+
+.dt-menu-icons{
+  text-align: center;
+}
+.dt-menu-icons .fa{
+    padding:0px 5px;
 }

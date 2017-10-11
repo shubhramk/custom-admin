@@ -13,7 +13,7 @@
         <li class="breadcrumb-item active">Dashboard</li>
       </ol>
     </div>
-    
+
   </div>
   <!-- ============================================================== -->
   <!-- End Bread crumb and right sidebar toggle -->
@@ -29,7 +29,7 @@
         <div class="card-body">
           <!-- Row -->
           <div class="row">
-            <div class="col-8"><span class="display-6">{{data.total}} 
+            <div class="col-8"><span class="display-6">{{data.total}}
               <i *ngIf="data.symbol=='down'" class="ti-angle-down font-14 text-danger"></i>
               <i *ngIf="data.symbol=='up'" class="ti-angle-up font-14 text-success"></i>
               </span>
@@ -40,10 +40,10 @@
           </div>
         </div>
       </div>
-    </div> 
+    </div>
     <!-- Column -->
-   <!-- End of Views at the dashboard top section --> 
-    
+   <!-- End of Views at the dashboard top section -->
+
   </div>
   <!-- Row -->
   <!-- Row -->
@@ -102,21 +102,33 @@
             <ul class="nav nav-tabs customtab" role="tablist">
                 <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home2" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">General Sh8ke</span></a> </li>
                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile2" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Global Sh8ke</span></a> </li>
-                
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane active" id="home2" role="tabpanel">
-                    <app-datatable  [dtTableData]="topGeneralSh8ke"></app-datatable>
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="table-responsive m-t-40">
+                          <app-datatable [config]='dtConfig' [data]="topGeneralSh8ke" (onMenuSelect)="onMenuSelect($event)"></app-datatable>
+                        </div>
+                      </div>
+                  </div>
                 </div>
-                <div class="tab-pane" id="profile2" role="tabpanel"><app-datatable [dtTableData]="topGeneralSh8ke"></app-datatable></div>
-                
+                <div class="tab-pane" id="profile2" role="tabpanel">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="table-responsive m-t-40">
+                        <app-datatable [config]='dtConfig' [data]="topGeneralSh8ke" (onMenuSelect)="onMenuSelect($event)"></app-datatable>
+                      </div>
+                    </div>
+                  </div>
+                </div>
             </div>
         </div>
     </div>
 
   </div>
-  
+
   <!-- ============================================================== -->
   <!-- End PAge Content -->
   <!-- ============================================================== -->
