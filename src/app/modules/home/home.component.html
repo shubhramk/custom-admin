@@ -24,13 +24,13 @@
   <!-- Row -->
   <!-- Views at the dashboard top section -->
   <div class="row">
-    
+
     <div class="col-lg-3 col-md-6">
       <div class="card">
         <div class="card-body">
           <!-- Row -->
           <div class="row">
-            <div class="col-12 text-center"><span class="display-6">{{visitData.totalusers}}
+            <div class="col-12 text-center"><span class="display-6">{{cardStatistcs.totalusers}}
              <!-- <i *ngIf="data.symbol=='down'" class="ti-angle-down font-14 text-danger"></i>
               <i *ngIf="data.symbol=='up'" class="ti-angle-up font-14 text-success"></i>-->
               </span>
@@ -48,7 +48,7 @@
         <div class="card-body">
           <!-- Row -->
           <div class="row">
-            <div class="col-12 text-center"><span class="display-6">{{visitData.totalprousers}}
+            <div class="col-12 text-center"><span class="display-6">{{cardStatistcs.prousers}}
               <!--<i *ngIf="data.symbol=='down'" class="ti-angle-down font-14 text-danger"></i>
               <i *ngIf="data.symbol=='up'" class="ti-angle-up font-14 text-success"></i>-->
               </span>
@@ -66,7 +66,7 @@
         <div class="card-body">
           <!-- Row -->
           <div class="row">
-            <div class="col-12 text-center"><span class="display-6">{{visitData.generalsha8ke}}
+            <div class="col-12 text-center"><span class="display-6">{{cardStatistcs.generalsha8ke}}
               <!--<i *ngIf="data.symbol=='down'" class="ti-angle-down font-14 text-danger"></i>
               <i *ngIf="data.symbol=='up'" class="ti-angle-up font-14 text-success"></i>-->
               </span>
@@ -84,7 +84,7 @@
         <div class="card-body">
           <!-- Row -->
           <div class="row">
-            <div class="col-12 text-center"><span class="display-6">{{visitData.globalsh8ke}}
+            <div class="col-12 text-center"><span class="display-6">{{cardStatistcs.globalsha8ke}}
               <!--<i *ngIf="data.symbol=='down'" class="ti-angle-down font-14 text-danger"></i>
               <i *ngIf="data.symbol=='up'" class="ti-angle-up font-14 text-success"></i>-->
               </span>
@@ -102,14 +102,14 @@
         <div class="card-body">
           <!-- Row -->
           <div class="row">
-            <div class="col-12 text-center"><span class="display-6">{{uniqueVisit.uniqueVisits}}
+            <div class="col-12 text-center"><span class="display-6">{{cardStatistcs.uniquevisitscurrent}}
               <!--<i *ngIf="data.symbol=='down'" class="ti-angle-down font-14 text-danger"></i>
               <i *ngIf="data.symbol=='up'" class="ti-angle-up font-14 text-success"></i>-->
               </span>
               <h6><a href="javascript:void(0)">UNIQUE VISITS</a></h6>
-              <h6>{{uniqueVisit.decrease}}% DECREASE {{uniqueVisit.decreaseTime}} AGO <i class="ti-angle-down font-14 text-danger"></i></h6>
+              <h6>{{cardStatistcs.deviation}}% DECREASE 1W AGO <i class="ti-angle-down font-14 text-danger"></i></h6>
               </div>
-              
+
             <!--<div class="col-4 align-self-center text-right  p-l-0">
               <app-total-view [barColor] = "data.color" [barValue] = "data.val"></app-total-view>
             </div>-->
@@ -117,12 +117,12 @@
         </div>
       </div>
     </div>
-   
+
    </div>
     <!-- Column -->
    <!-- End of Views at the dashboard top section -->
 
-  
+
   <!-- Row -->
   <!-- Row -->
   <div class="row">

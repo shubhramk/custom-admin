@@ -1,36 +1,36 @@
 import {Component, AfterViewInit, ElementRef, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {HttpService} from "../../common/services/http.service";
+import {PathConfig} from "../../common/config/path.config";
+
 //import Chartist from 'chartist';
 @Component({
   styleUrls: ['./home.component.scss'],
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit,AfterViewInit{
- /* visitData = [
-              {total:2301, name:"Total Visits", symbol:"down", color:'red', val:[ 0, 5, 6, 10, 9, 12, 4, 9]},
-              {total:2421, name:"Page Views", symbol:"up", color:'blue', val:[ 0, 5, 6, 10, 9, 12, 4, 9]},
-              {total:2515, name:"Unique Visits", symbol:"down", color:'yellow', val:[ 0, 5, 6, 10, 9, 12, 4, 9]},
-              {total:1122, name:"Bounce Rate", symbol:"up", color:'green', val:[ 0, 5, 6, 10, 9, 12, 4, 9]}
-  ];*/
-  visitData = {
-    totalusers:50, 
-    totalprousers:100,
-    generalsha8ke:50, 
-    globalsh8ke:100
-  };
-  uniqueVisit ={
-    uniqueVisits:4444,
-    decrease:6,   
-    decreaseTime:"1W" 
-  };
+
   topGeneralSh8ke =[];
   initialCount:number = 30;
   dtConfig:Object = {};
 
-  constructor(private router:Router) {}
+  cardStatistcs = {
+    "totalusers":0,
+    "prousers":0,
+    "generalsha8ke":0,
+    "globalsha8ke":0,
+    "uniquevisitscurrent":0,
+    "uniquevisitsprevious":0,
+    "deviation":0
+  };
+
+  constructor(
+    private router:Router,
+    private http:HttpService
+  ) {}
 
   ngOnInit(){
-    this.dtConfig = { 
+    this.dtConfig = {
       "columnDefs": [
         {
           "targets": 6,
@@ -61,16 +61,37 @@ export class HomeComponent implements OnInit,AfterViewInit{
       ]
      }
 
-    //data
-    this.topGeneralSh8ke = [
-      {title:"goals", description:"Share, Socialize", category:"goals 1", "timesh8ken":167, "timesh8red":0, creater:"akshay Kumar"},
-      {title:"goals", description:"Share, Socialize", category:"goals 2", "timesh8ken":167, "timesh8red":0, creater:"akshay Kumar"},
-      {title:"goals", description:"Share, Socialize", category:"goals 3", "timesh8ken":167, "timesh8red":0, creater:"akshay Kumar"},
-      {title:"goals", description:"Share, Socialize", category:"goals 4", "timesh8ken":167, "timesh8red":0, creater:"akshay Kumar"},
-      {title:"goals", description:"Share, Socialize", category:"goals 5", "timesh8ken":167, "timesh8red":0, creater:"akshay Kumar"},
-      {title:"goals", description:"Share, Socialize", category:"goals 6", "timesh8ken":167, "timesh8red":0, creater:"akshay Kumar"}
-      ];
+    //get statistics
+    this.getStatistics();
+    //get top general shakes
+    this.getTopGeneralShakes();
+  }
+
+  //get statistics for stats cards
+  getStatistics(){
+    this.http.get(PathConfig.GET_STATISTICS)
+      .subscribe((response)=> {
+
+        this.cardStatistcs = response;
+        this.cardStatistcs['deviation'] = 4;
+      },
+      err => {
+          // Log errors if any
       }
+    );
+  }
+
+  //get top20 generalShakes
+  getTopGeneralShakes(){
+    this.http.get(PathConfig.GET_GENERAL_SHAKES)
+      .subscribe((response)=> {
+          this.topGeneralSh8ke = response;
+        },
+        err => {
+          // Log errors if any
+        }
+      );
+  }
 
   //on Menu Icon selected
   onMenuSelect(data: any) {

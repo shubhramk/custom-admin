@@ -16,6 +16,10 @@ import { GeneralSh8keComponent } from './modules/sh8ke/general-sh8ke/general-sh8
 import { GlobalSh8keComponent } from './modules/sh8ke/global-sh8ke/global-sh8ke.component';
 import { ExampleSh8keComponent } from './modules/sh8ke/example-sh8ke/example-sh8ke.component';
 import { NewsComponent } from './modules/news/news.component';
+import {HttpService} from "./common/services/http.service";
+import {LocalStorageService} from "./common/services/local-storage.service";
+import {Broadcaster} from "./common/services/broadcaster.service";
+import {HttpModule} from "@angular/http";
 
 @NgModule({
   declarations: [
@@ -36,9 +40,14 @@ import { NewsComponent } from './modules/news/news.component';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     RoutingModule
   ],
-  providers: [],
+  providers: [
+    HttpService,
+    LocalStorageService,
+    Broadcaster
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
