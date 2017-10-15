@@ -18,8 +18,8 @@
   </div>
   <div class="row">
     <div class="col-md-12 marB">
-      <a href="javascript:void(0)" *ngIf ="!visibleElement" (click)="visibleElement = !visibleElement">Add New</a>
-      <a href="javascript:void(0)" *ngIf="visibleElement" (click)="visibleElement = !visibleElement">Back</a>
+      <a href="javascript:void(0)" *ngIf ="!visibleElement" (click)=" this.visibleElement = !this.visibleElement;">Add New</a>
+      <a href="javascript:void(0)" *ngIf="visibleElement" (click)=" this.visibleElement = !this.visibleElement;">Back</a>
     </div>
   </div>
   <div class="row" *ngIf = "visibleElement">

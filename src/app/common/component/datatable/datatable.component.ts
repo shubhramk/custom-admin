@@ -27,7 +27,7 @@ export class DatatableComponent implements OnChanges, AfterViewInit, OnInit {
 
   elemID = 'dt-' + Math.random().toString(36).slice(2);
   dt: any = null;
-  COMMON_CONFIG: Object = {};
+  COMMON_CONFIG: Object = {}; 
 
   //Constructor
   constructor() { }
@@ -35,6 +35,7 @@ export class DatatableComponent implements OnChanges, AfterViewInit, OnInit {
   //on component init
   ngOnInit() {
     this.initConfig();
+
   }
 
   //when data changes
@@ -49,10 +50,13 @@ export class DatatableComponent implements OnChanges, AfterViewInit, OnInit {
         setTimeout(() => this.reloadTable(), 500);
       }
     }
-
     if (data) {
       if (data['currentValue'] != data['previousValue']) {
-        setTimeout(() => this.addData(), 100);
+        if(Object.keys(data['currentValue']).length > 0){
+          console.log(this.data);
+            setTimeout(() => this.addData(), 100);
+        }
+          
       }
     }
   }
@@ -74,11 +78,13 @@ export class DatatableComponent implements OnChanges, AfterViewInit, OnInit {
   initDT(options: Object): void {
     if (this.dt) {
       this.dt.clear().destroy();
-      this.dt = null;
+      this.dt = null;      
       setTimeout(() => this.initDT(options), 0);
     } else {
-      this.dt = $('#' + this.elemID).DataTable(options);
-      setTimeout(() => this.onInitComplete(), 200);
+      if(options["data"].length > 0){
+        this.dt = $('#' + this.elemID).DataTable(options);
+        setTimeout(() => this.onInitComplete(), 200);
+      }
     }
   }
 
@@ -90,13 +96,14 @@ export class DatatableComponent implements OnChanges, AfterViewInit, OnInit {
   }
 
   //add data through JSON / Array
-  addData() {
+  addData() {    
     let options: Object = _.extend(
       {},
       this.COMMON_CONFIG,
       this.config,
       { "data": this.data || [] }
     );
+    console.log(this.data);
     this.initDT(options);
   }
 
@@ -115,7 +122,7 @@ export class DatatableComponent implements OnChanges, AfterViewInit, OnInit {
   onInitComplete() {
     let self = this;
     let table = $('#' + self.elemID + "_wrapper .dt-table").DataTable();
-
+    
     // menu functionality
     $('#' + self.elemID + "_wrapper .dt-table").off('click', 'a');
     $('#' + self.elemID + "_wrapper .dt-table").on('click', 'a', function () {

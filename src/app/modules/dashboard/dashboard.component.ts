@@ -1,5 +1,6 @@
 import {Component, AfterViewInit, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {ConstantConfig} from "../../common/config/constant.config";
 
 import chartist from 'chartist';
 declare var $:any;
@@ -9,6 +10,7 @@ declare var $:any;
   templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit,AfterViewInit{
+  visibleElement:boolean = false;
   constructor(
     private router:Router
   ) {}
@@ -21,6 +23,8 @@ export class DashboardComponent implements OnInit,AfterViewInit{
 
   //navigate to page
   navigateTo(url:string){
+    this.visibleElement = false;
+    ConstantConfig.visibleElement = this.visibleElement;
     this.router.navigate([url]);
   }
 

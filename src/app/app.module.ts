@@ -16,10 +16,19 @@ import { GeneralSh8keComponent } from './modules/sh8ke/general-sh8ke/general-sh8
 import { GlobalSh8keComponent } from './modules/sh8ke/global-sh8ke/global-sh8ke.component';
 import { ExampleSh8keComponent } from './modules/sh8ke/example-sh8ke/example-sh8ke.component';
 import { NewsComponent } from './modules/news/news.component';
+
 import {HttpService} from "./common/services/http.service";
 import {LocalStorageService} from "./common/services/local-storage.service";
 import {Broadcaster} from "./common/services/broadcaster.service";
 import {HttpModule} from "@angular/http";
+import { GenralSh8keEditComponent } from './modules/sh8ke/general-sh8ke/genral-sh8ke-edit/genral-sh8ke-edit.component';
+import { ExampleSh8keEditComponent } from './modules/sh8ke/example-sh8ke/example-sh8ke-edit/example-sh8ke-edit.component';
+import { GlobalSh8keEditComponent } from './modules/sh8ke/global-sh8ke/global-sh8ke-edit/global-sh8ke-edit.component';
+import { LineChartComponent } from './common/component/line-chart/line-chart.component';
+import { EditCategoryComponent } from './modules/category/edit-category/edit-category.component';
+import { EditNewsComponent } from './modules/news/edit-news/edit-news.component';
+import { EditAdminComponent } from './modules/user/admin/edit-admin/edit-admin.component';
+import { EditGeneralComponent } from './modules/user/general/edit-general/edit-general.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +45,15 @@ import {HttpModule} from "@angular/http";
     GeneralSh8keComponent,
     GlobalSh8keComponent,
     ExampleSh8keComponent,
-    NewsComponent
+    NewsComponent,
+    GenralSh8keEditComponent,
+    ExampleSh8keEditComponent,
+    GlobalSh8keEditComponent,
+    LineChartComponent,
+    EditCategoryComponent,
+    EditNewsComponent,
+    EditAdminComponent,
+    EditGeneralComponent
   ],
   imports: [
     BrowserModule,

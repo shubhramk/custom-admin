@@ -1,20 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
+import {ConstantConfig} from "../../common/config/constant.config";
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.css']
 })
 export class CategoryComponent implements OnInit {
-    visibleElement:boolean = false;
-
+    
  topGeneralSh8ke = [];
  dtConfig:Object = {};
-  constructor() {
+ visibleElement:boolean = false;
+  constructor(private router:Router) {
      
    }
 
   ngOnInit(){
+    this.visibleElement = ConstantConfig.visibleElement;
     this.dtConfig = { 
       "columnDefs": [
         {
@@ -61,8 +63,13 @@ export class CategoryComponent implements OnInit {
   onMenuSelect(data: any) {
     if (data['clickedOn'] == 'edit') {
       let customData = data['value'];
-      alert(customData);
+      this.navigateTo('sh8ke/categoryEdit');
     }
+  }
+  
+  //navigate to page
+  navigateTo(url:string){
+    this.router.navigate([url]);
   }
 
 }

@@ -80,6 +80,9 @@ export class HttpService {
   getAuthHeaders():Headers{
     let headers = new Headers(); //set content type to JSON
     headers.append('Content-Type','application/json' );
+    headers.append('Access-Control-Allow-Origin', '*');
+    headers.append('Access-Control-Allow-Headers', 'Content-Type');
+    headers.append('Access-Control-Allow-Credentials', 'true');
     headers.append('Authorization',  this.localStorage.get(ConstantConfig.AUTH_TOKEN));
     return headers;
   }

@@ -1,0 +1,101 @@
+<div class="container-fluid">
+  <div class="row page-titles">
+    <div class="col-md-6 col-8 align-self-center">
+      <h3 class="text-themecolor m-b-0 m-t-0">User</h3>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+        <li class="breadcrumb-item active">User</li>
+        <li class="breadcrumb-item active">Edit Admin User</li>
+      </ol>
+    </div>    
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 marB">
+      <a href="javascript:void(0)"  (click)="navigateTo('users/admin')">Back</a>
+    </div>
+  </div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-9 marginCenter">
+                    <h4 class="card-title"> Update Admin User</h4>
+                </div>
+              </div>
+                <form class="form p-t-20">
+                      <div class="form-group row">
+                        <div class="col-sm-9 marginCenter">
+                          <label for="exampleInputuname2">Name</label>
+                          <div class="input-group">
+                              <div class="input-group-addon"><i class="ti-user"></i></div>
+                              <input type="text" class="form-control" id="exampleInputuname2" placeholder="Name">
+                             
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-sm-9 marginCenter">
+                          <label for="exampleInputEmail2">Email address</label>
+                          <div class="input-group">
+                              <div class="input-group-addon"><i class="ti-email"></i></div>
+                              <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
+                              
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-sm-9 marginCenter">
+                          <label for="exampleInputpwd2">User Name</label>
+                          <div class="input-group">
+                              <div class="input-group-addon"><i class="ti-user"></i></div>
+                              <input type="text" class="form-control" id="exampleInputpwd2" placeholder="Username">
+                              
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-sm-9 marginCenter">
+                          <label for="exampleInputpwd2">Password</label>
+                          <div class="input-group">
+                              <div class="input-group-addon"><i class="ti-lock"></i></div>
+                              <input type="password" class="form-control" id="exampleInputpwd2" placeholder="Enter pwd"/>                                                     
+                          </div>
+                          <label>(Leave blank if you do not want to change password)</label> 
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-sm-9 marginCenter">
+                          <label for="exampleInputpwd3">Upload Photo</label>
+                          <div class="input-group">
+                              <input type="file" class="form-control" id="exampleInputpwd3" placeholder="Upload Photo">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-sm-9 marginCenter">
+                          <label for="exampleInputpwd3">User Type</label>
+                          <div class="input-group">
+                            <select class="form-control" id="user_type" name="user_type" aria-required="true" aria-invalid="false">
+                              <option value="">Select user type</option>
+                              <option value="Super Administrator">Super Administrator</option>
+                              <option value="Administrator">Admin users</option> 
+                              <option value="PRO users">PRO users</option>                             
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="text-left row">
+                        <div class="col-sm-9 marginCenter">
+                          <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
+                          <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
+                      </div>
+                      </div>
+                  </form>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

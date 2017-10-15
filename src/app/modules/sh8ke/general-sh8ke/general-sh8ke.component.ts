@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-general-sh8ke',
@@ -10,7 +11,7 @@ export class GeneralSh8keComponent implements OnInit {
   visibleElement:boolean = false;
   topGeneralSh8ke = [];
   dtConfig:Object = {}; 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit(){
     this.dtConfig = { 
@@ -59,8 +60,12 @@ export class GeneralSh8keComponent implements OnInit {
   onMenuSelect(data: any) {
     if (data['clickedOn'] == 'edit') {
       let customData = data['value'];
-      alert(customData);
+      this.navigateTo('sh8ke/genralsh8keedit');
     }
+  }
+  //navigate to page
+  navigateTo(url:string){
+    this.router.navigate([url]);
   }
 
 }

@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 @Component({
   styleUrls: ['./admin.component.scss'],
   templateUrl: './admin.component.html'
@@ -7,7 +8,7 @@ export class AdminUserComponent implements OnInit {
   visibleElement:boolean = false;
   topGeneralSh8ke = [];
   dtConfig:object = {};
-  constructor() {}
+  constructor(private router:Router) {}
   ngOnInit(){
     this.dtConfig = { 
       "columnDefs": [
@@ -55,7 +56,12 @@ export class AdminUserComponent implements OnInit {
   onMenuSelect(data: any) {
     if (data['clickedOn'] == 'edit') {
       let customData = data['value'];
-      alert(customData);
+      this.navigateTo('users/edit-admin');
     }
+  }
+
+  //navigate to page
+  navigateTo(url:string){
+    this.router.navigate([url]);
   }
 }

@@ -11,8 +11,10 @@ import {PathConfig} from "../../common/config/path.config";
 export class HomeComponent implements OnInit,AfterViewInit{
 
   topGeneralSh8ke =[];
+  currentWeekReport = [];
   initialCount:number = 30;
   dtConfig:Object = {};
+  keysLength:number = 0;
 
   cardStatistcs = {
     "totalusers":0,
@@ -53,11 +55,10 @@ export class HomeComponent implements OnInit,AfterViewInit{
       "columns": [
         { "title": 'Title', "data": "title" },
         { "title": 'Description', "data": "description" },
-        { "title": 'Category', "data": "category" },
-        { "title": 'Times sh8ken', "data": "timesh8ken" },
-        { "title": 'Times sh8red', "data": "timesh8red" },
-        { "title": 'Creater' , "data":"creater"},
-        { "title": '' , "data":"title"}
+        { "title": 'Category', "data": "CategoryName" },
+        { "title": 'Times sh8ken', "data": "timesSh8ken" },
+        { "title": 'Times sh8red', "data": "timesSh8red" },
+        { "title": 'Creater' , "data":"created"}
       ]
      }
 
@@ -65,14 +66,16 @@ export class HomeComponent implements OnInit,AfterViewInit{
     this.getStatistics();
     //get top general shakes
     this.getTopGeneralShakes();
+
+    //get current week report
+    this.getCurrentWeekReport();
   }
 
   //get statistics for stats cards
   getStatistics(){
     this.http.get(PathConfig.GET_STATISTICS)
       .subscribe((response)=> {
-
-        this.cardStatistcs = response;
+        this.cardStatistcs = response.data;
         this.cardStatistcs['deviation'] = 4;
       },
       err => {
@@ -83,12 +86,23 @@ export class HomeComponent implements OnInit,AfterViewInit{
 
   //get top20 generalShakes
   getTopGeneralShakes(){
-    this.http.get(PathConfig.GET_GENERAL_SHAKES)
+    this.http.post(PathConfig.GET_GENERAL_SHAKES, {"limit": "","user_type": "","user_id": 1})
       .subscribe((response)=> {
-          this.topGeneralSh8ke = response;
+          this.topGeneralSh8ke =  response.data;
+          console.log(JSON.stringify(this.topGeneralSh8ke));
         },
         err => {
-          // Log errors if any
+        }
+      );
+  }
+  //get current week report
+  getCurrentWeekReport(){
+    this.http.get(PathConfig.GET_CURR_WEEK_REPORT)
+      .subscribe((response)=> {
+          this.currentWeekReport = response;
+          
+        },
+        err => {
         }
       );
   }
@@ -97,7 +111,7 @@ export class HomeComponent implements OnInit,AfterViewInit{
   onMenuSelect(data: any) {
     if (data['clickedOn'] == 'edit') {
       let customData = data['value'];
-      alert(customData);
+      this.navigateTo("sh8ke/genralsh8keedit");
     }
   }
 

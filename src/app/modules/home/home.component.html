@@ -30,7 +30,7 @@
         <div class="card-body">
           <!-- Row -->
           <div class="row">
-            <div class="col-12 text-center"><span class="display-6">{{cardStatistcs.totalusers}}
+            <div class="col-12 text-center"><span class="display-6">{{cardStatistcs.totaluser}}
              <!-- <i *ngIf="data.symbol=='down'" class="ti-angle-down font-14 text-danger"></i>
               <i *ngIf="data.symbol=='up'" class="ti-angle-up font-14 text-success"></i>-->
               </span>
@@ -48,7 +48,7 @@
         <div class="card-body">
           <!-- Row -->
           <div class="row">
-            <div class="col-12 text-center"><span class="display-6">{{cardStatistcs.prousers}}
+            <div class="col-12 text-center"><span class="display-6">{{cardStatistcs.totalprouser}}
               <!--<i *ngIf="data.symbol=='down'" class="ti-angle-down font-14 text-danger"></i>
               <i *ngIf="data.symbol=='up'" class="ti-angle-up font-14 text-success"></i>-->
               </span>
@@ -66,7 +66,7 @@
         <div class="card-body">
           <!-- Row -->
           <div class="row">
-            <div class="col-12 text-center"><span class="display-6">{{cardStatistcs.generalsha8ke}}
+            <div class="col-12 text-center"><span class="display-6">{{cardStatistcs.totalgeneralsh8ke}}
               <!--<i *ngIf="data.symbol=='down'" class="ti-angle-down font-14 text-danger"></i>
               <i *ngIf="data.symbol=='up'" class="ti-angle-up font-14 text-success"></i>-->
               </span>
@@ -84,7 +84,7 @@
         <div class="card-body">
           <!-- Row -->
           <div class="row">
-            <div class="col-12 text-center"><span class="display-6">{{cardStatistcs.globalsha8ke}}
+            <div class="col-12 text-center"><span class="display-6">{{cardStatistcs.totalglobalsh8ke}}
               <!--<i *ngIf="data.symbol=='down'" class="ti-angle-down font-14 text-danger"></i>
               <i *ngIf="data.symbol=='up'" class="ti-angle-up font-14 text-success"></i>-->
               </span>
@@ -102,7 +102,7 @@
         <div class="card-body">
           <!-- Row -->
           <div class="row">
-            <div class="col-12 text-center"><span class="display-6">{{cardStatistcs.uniquevisitscurrent}}
+            <div class="col-12 text-center"><span class="display-6">{{cardStatistcs.totaluniqvisits}}
               <!--<i *ngIf="data.symbol=='down'" class="ti-angle-down font-14 text-danger"></i>
               <i *ngIf="data.symbol=='up'" class="ti-angle-up font-14 text-success"></i>-->
               </span>
@@ -172,6 +172,21 @@
     </div>
     <!-- Column -->
   </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-lg-12">
+              <div class="card">
+                  <div class="card-body">
+                      <h4 class="card-title">Current Week Report</h4>
+                      <app-line-chart [data]= "currentWeekReport"></app-line-chart>
+                  </div>
+              </div>
+          </div>
+        </div>
+      
+    </div>
+  </div>
   <!-- Row -->
   <div class="row">
     <div class="col-md-12">
@@ -187,6 +202,7 @@
                   <div class="card">
                     <div class="card-body">
                       <div class="table-responsive m-t-40">
+                          
                           <app-datatable [config]='dtConfig' [data]="topGeneralSh8ke" (onMenuSelect)="onMenuSelect($event)"></app-datatable>
                         </div>
                       </div>

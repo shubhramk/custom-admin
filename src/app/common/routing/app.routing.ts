@@ -10,6 +10,13 @@ import {GlobalSh8keComponent} from "../../modules/sh8ke/global-sh8ke/global-sh8k
 import {GeneralSh8keComponent} from "../../modules/sh8ke/general-sh8ke/general-sh8ke.component";
 import {ExampleSh8keComponent} from "../../modules/sh8ke/example-sh8ke/example-sh8ke.component";
 import {NewsComponent} from "../../modules/news/news.component";
+import {GenralSh8keEditComponent} from "../../modules/sh8ke/general-sh8ke/genral-sh8ke-edit/genral-sh8ke-edit.component"
+import {ExampleSh8keEditComponent} from "../../modules/sh8ke/example-sh8ke/example-sh8ke-edit/example-sh8ke-edit.component"
+import {GlobalSh8keEditComponent} from "../../modules/sh8ke/global-sh8ke/global-sh8ke-edit/global-sh8ke-edit.component"
+import {EditCategoryComponent} from "../../modules/category/edit-category/edit-category.component";
+import {EditNewsComponent} from "../../modules/news/edit-news/edit-news.component";
+import {EditAdminComponent} from "../../modules/user/admin/edit-admin/edit-admin.component";
+import {EditGeneralComponent} from "../../modules/user/general/edit-general/edit-general.component";
 
 
 const adminRoutes: Routes = [
@@ -36,28 +43,56 @@ const adminRoutes: Routes = [
         component: AdminUserComponent
       },
       {
+        path: 'users/edit-admin',
+        component: EditAdminComponent
+      },
+      {
         path: 'users/general',
         component: GeneralUserComponent
+      },
+      {
+        path: 'users/edit-general',
+        component: EditGeneralComponent
       },
       {
         path: 'category',
         component: CategoryComponent
       },
       {
+        path: 'sh8ke/categoryEdit',
+        component: EditCategoryComponent
+      }
+      ,
+      {
         path: 'sh8ke/exampleSh8ke',
         component: ExampleSh8keComponent
+      }
+      ,
+      {
+        path: 'sh8ke/examplesh8keedit',
+        component: ExampleSh8keEditComponent
       },
       {
         path: 'sh8ke/generalSh8ke',
         component: GeneralSh8keComponent
+      },{
+        path: 'sh8ke/genralsh8keedit',
+        component: GenralSh8keEditComponent
       },
       {
         path: 'sh8ke/globalSh8ke',
         component: GlobalSh8keComponent
+      },{
+        path: 'sh8ke/globalsh8keedit',
+        component: GlobalSh8keEditComponent
       },
       {
         path: 'news',
         component: NewsComponent
+      },
+      {
+        path: 'news/editNews',
+        component: EditNewsComponent
       }
 
     ]

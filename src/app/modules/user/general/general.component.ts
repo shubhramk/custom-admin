@@ -1,4 +1,5 @@
 import {Component, AfterViewInit, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 declare var $:any;
 @Component({
   styleUrls: ['./general.component.scss'],
@@ -10,7 +11,7 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
   "Funny", "Manly", "Sassy", "Ditzy", "Social", "Techie"];
    topGeneralSh8ke = [];
    dtConfig:Object = {};
-  constructor() {}
+  constructor(private router:Router) {}
   ngAfterViewInit(){
     
   }
@@ -61,7 +62,7 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
   onMenuSelect(data: any) {
     if (data['clickedOn'] == 'edit') {
       let customData = data['value'];
-      alert(customData);
+       this.navigateTo('users/edit-general');
     }
   }
   handleVisiblity(){    
@@ -73,6 +74,9 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
      });
       },200)
       
+  }
+  navigateTo(url:string){
+    this.router.navigate([url]);
   }
   
 }
