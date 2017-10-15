@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
+import {HttpService} from "../../../common/services/http.service";
+import {PathConfig} from "../../../common/config/path.config";
 
 @Component({
   selector: 'app-general-sh8ke',
@@ -11,7 +13,7 @@ export class GeneralSh8keComponent implements OnInit {
   visibleElement:boolean = false;
   topGeneralSh8ke = [];
   dtConfig:Object = {}; 
-  constructor(private router:Router) { }
+  constructor(private router:Router, private http:HttpService) { }
 
   ngOnInit(){
     this.dtConfig = { 
@@ -37,26 +39,28 @@ export class GeneralSh8keComponent implements OnInit {
       "columns": [
         { "title": 'Title', "data": "title" },
         { "title": 'Description', "data": "description" },
-        { "title": 'Category', "data": "category" },
-        { "title": 'Times sh8ken', "data": "timesh8ken" },
-        { "title": 'Times sh8red', "data": "timesh8red" },
-        { "title": 'Creater' , "data":"creater"},
-        { "title": '' , "data":"title"}
+        { "title": 'Category', "data": "CategoryName" },
+        { "title": 'Times sh8ken', "data": "timesSh8ken" },
+        { "title": 'Times sh8red', "data": "timesSh8red" },
+        { "title": 'Creater' , "data":"created"}
       ]
      }
-
-    //data
-    this.topGeneralSh8ke = [
-          {title:"goals", description:"Share, Socialize", category:"goals 1", "timesh8ken":167, "timesh8red":0, creater:"akshay Kumar"},
-          {title:"goals", description:"Share, Socialize", category:"goals 2", "timesh8ken":167, "timesh8red":0, creater:"akshay Kumar"},
-          {title:"goals", description:"Share, Socialize", category:"goals 3", "timesh8ken":167, "timesh8red":0, creater:"akshay Kumar"},
-          {title:"goals", description:"Share, Socialize", category:"goals 4", "timesh8ken":167, "timesh8red":0, creater:"akshay Kumar"},
-          {title:"goals", description:"Share, Socialize", category:"goals 5", "timesh8ken":167, "timesh8red":0, creater:"akshay Kumar"},
-          {title:"goals", description:"Share, Socialize", category:"goals 6", "timesh8ken":167, "timesh8red":0, creater:"akshay Kumar"}
-        ];
+     //get top general shakes
+    this.getTopGeneralShakes();
       }
 
-      //on Menu Icon selected
+   //get top20 generalShakes
+  getTopGeneralShakes(){
+    this.http.post(PathConfig.GET_GENERAL_SHAKES, {"limit": "","user_type": "","user_id": 1})
+      .subscribe((response)=> {
+          this.topGeneralSh8ke =  response.data;
+          console.log(JSON.stringify(this.topGeneralSh8ke));
+        },
+        err => {
+        }
+      );
+  }
+   //on Menu Icon selected
   onMenuSelect(data: any) {
     if (data['clickedOn'] == 'edit') {
       let customData = data['value'];

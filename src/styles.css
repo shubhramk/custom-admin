@@ -40,3 +40,6 @@ font-size: 25px;
     display: inline-block;
     padding: 0;
 }
+.custom-dt-table table tr td:first-child{
+    width: 20%;
+}
