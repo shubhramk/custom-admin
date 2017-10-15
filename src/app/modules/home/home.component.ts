@@ -86,7 +86,7 @@ export class HomeComponent implements OnInit,AfterViewInit{
 
   //get top20 generalShakes
   getTopGeneralShakes(){
-    this.http.post(PathConfig.GET_GENERAL_SHAKES, {"limit": "","user_type": "","user_id": 1})
+    this.http.post(PathConfig.GET_GENERAL_SHAKES, {"limit": "20","user_type": "","user_id": 1})
       .subscribe((response)=> {
           this.topGeneralSh8ke =  response.data;
           console.log(JSON.stringify(this.topGeneralSh8ke));
