@@ -25,7 +25,7 @@
   <!-- Views at the dashboard top section -->
   <div class="row">
 
-    <div class="col-lg-3 col-md-6">
+    <div class="col-lg-2 col-md-6">
       <div class="card">
         <div class="card-body">
           <!-- Row -->
@@ -43,7 +43,7 @@
       </div>
     </div>
 
-    <div class="col-lg-3 col-md-6">
+    <div class="col-lg-2 col-md-6">
       <div class="card">
         <div class="card-body">
           <!-- Row -->
@@ -61,7 +61,7 @@
       </div>
     </div>
 
-    <div class="col-lg-3 col-md-6">
+    <div class="col-lg-2 col-md-6">
       <div class="card">
         <div class="card-body">
           <!-- Row -->
@@ -79,7 +79,7 @@
       </div>
     </div>
 
-    <div class="col-lg-3 col-md-6">
+    <div class="col-lg-2 col-md-6">
       <div class="card">
         <div class="card-body">
           <!-- Row -->
@@ -97,7 +97,7 @@
       </div>
     </div>
 
-    <div class="col-lg-3 col-md-6">
+    <div class="col-lg-4 col-md-6">
       <div class="card">
         <div class="card-body">
           <!-- Row -->
@@ -107,7 +107,7 @@
               <i *ngIf="data.symbol=='up'" class="ti-angle-up font-14 text-success"></i>-->
               </span>
               <h6><a href="javascript:void(0)">UNIQUE VISITS</a></h6>
-              <h6>{{cardStatistcs.deviation}}% DECREASE 1W AGO <i class="ti-angle-down font-14 text-danger"></i></h6>
+              <h6 class="sup-data">{{cardStatistcs.deviation}}% DECREASE 1W AGO <i class="ti-angle-down text-danger"></i></h6>
               </div>
 
             <!--<div class="col-4 align-self-center text-right  p-l-0">
@@ -126,66 +126,66 @@
   <!-- Row -->
   <!-- Row -->
   <div class="row">
-    <!-- Column -->
-    <!-- Total Revenue at the dashboard-->
-    <div class="col-lg-8">
-        <app-total-revenu [count]="initialCount"></app-total-revenu>
-    </div>
-    <!-- Column -->
-    <div class="col-lg-4">
+    <div class="col-md-12">
       <div class="row">
-        <div class="col-12">
+        <div class="col-lg-12">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">Sales Prediction</h4>
-              <div class="d-flex flex-row">
-                <div class="align-self-center">
-                  <span class="display-6 text-primary">$3528</span>
-                  <h6 class="text-muted">10% Increased</h6>
-                  <h5>(150-165 Sales)</h5>
-                </div>
-                <div class="ml-auto">
-                  <div id="gauge-chart" style=" width:150px; height:150px;"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title">Sales Difference</h4>
-              <div class="d-flex flex-row">
-                <div class="align-self-center">
-                  <span class="display-6 text-success">$4316</span>
-                  <h6 class="text-muted">10% Increased</h6>
-                  <h5>(150-165 Sales)</h5>
-                </div>
-                <div class="ml-auto">
-                  <div class="ct-chart" style="width:120px; height: 120px;"></div>
-                </div>
-              </div>
+              <h4 class="card-title">Current Week Report</h4>
+              <app-line-chart [data]= "currentWeekReport"></app-line-chart>
             </div>
           </div>
         </div>
       </div>
+
     </div>
-    <!-- Column -->
   </div>
   <div class="row">
-    <div class="col-md-12">
-      <div class="row">
-        <div class="col-lg-12">
-              <div class="card">
-                  <div class="card-body">
-                      <h4 class="card-title">Current Week Report</h4>
-                      <app-line-chart [data]= "currentWeekReport"></app-line-chart>
-                  </div>
-              </div>
-          </div>
-        </div>
-      
+    <!-- Column -->
+    <!-- Total Revenue at the dashboard-->
+    <div class="col-lg-12">
+        <app-total-revenu [count]="initialCount"></app-total-revenu>
     </div>
+    <!-- Column -->
+    <!--<div class="col-lg-4">-->
+    <!--<div class="row">-->
+      <!--<div class="col-12">-->
+        <!--<div class="card">-->
+          <!--<div class="card-body">-->
+            <!--<h4 class="card-title">Sales Prediction</h4>-->
+            <!--<div class="d-flex flex-row">-->
+              <!--<div class="align-self-center">-->
+                <!--<span class="display-6 text-primary">$3528</span>-->
+                <!--<h6 class="text-muted">10% Increased</h6>-->
+                <!--<h5>(150-165 Sales)</h5>-->
+              <!--</div>-->
+              <!--<div class="ml-auto">-->
+                <!--<div id="gauge-chart" style=" width:150px; height:150px;"></div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="col-12">-->
+        <!--<div class="card">-->
+          <!--<div class="card-body">-->
+            <!--<h4 class="card-title">Sales Difference</h4>-->
+            <!--<div class="d-flex flex-row">-->
+              <!--<div class="align-self-center">-->
+                <!--<span class="display-6 text-success">$4316</span>-->
+                <!--<h6 class="text-muted">10% Increased</h6>-->
+                <!--<h5>(150-165 Sales)</h5>-->
+              <!--</div>-->
+              <!--<div class="ml-auto">-->
+                <!--<div class="ct-chart" style="width:120px; height: 120px;"></div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+    <!-- Column -->
   </div>
   <!-- Row -->
   <div class="row">
@@ -202,8 +202,8 @@
                   <div class="card">
                     <div class="card-body">
                       <div class="table-responsive m-t-40">
-                          
-                          <app-datatable [config]='dtConfig' [data]="topGeneralSh8ke" (onMenuSelect)="onMenuSelect($event)"></app-datatable>
+
+                          <app-datatable [config]='dtConfigGeneral' [data]="topGeneralSh8ke" (onMenuSelect)="onMenuSelect($event)"></app-datatable>
                         </div>
                       </div>
                   </div>
@@ -212,7 +212,7 @@
                   <div class="card">
                     <div class="card-body">
                       <div class="table-responsive m-t-40">
-                        <app-datatable [config]='dtConfig' [data]="topGeneralSh8ke" (onMenuSelect)="onMenuSelect($event)"></app-datatable>
+                        <app-datatable [config]='dtConfigGlobal' [data]="topGlobalSh8ke" (onMenuSelect)="onMenuSelect($event)"></app-datatable>
                       </div>
                     </div>
                   </div>

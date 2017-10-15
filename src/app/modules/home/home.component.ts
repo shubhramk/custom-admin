@@ -2,6 +2,7 @@ import {Component, AfterViewInit, ElementRef, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpService} from "../../common/services/http.service";
 import {PathConfig} from "../../common/config/path.config";
+import * as _ from 'lodash';
 
 //import Chartist from 'chartist';
 @Component({
@@ -11,9 +12,11 @@ import {PathConfig} from "../../common/config/path.config";
 export class HomeComponent implements OnInit,AfterViewInit{
 
   topGeneralSh8ke =[];
+  topGlobalSh8ke  = [];
   currentWeekReport = [];
   initialCount:number = 30;
-  dtConfig:Object = {};
+  dtConfigGlobal:Object = {};
+  dtConfigGeneral:Object = {};
   keysLength:number = 0;
 
   cardStatistcs = {
@@ -32,8 +35,92 @@ export class HomeComponent implements OnInit,AfterViewInit{
   ) {}
 
   ngOnInit(){
-    this.dtConfig = {
+
+    //global data table
+    this.dtConfigGlobal = {
       "columnDefs": [
+
+        {
+          "targets": 0,
+          "orderable": false,
+          "render": function (data, type, full, meta) {
+            var template = '';
+
+            let val = data;
+            template = '<div class="sh8ke-title">' +
+                '<div>'+data+'</div>' +
+                '<a href="javascript:void(0);" data-name="global-answers" data-custom="' + full['rowId'] + '">Answers('+full['count']+')</a>' +
+              '</div>';
+
+            return template;
+          }
+        },
+        {
+          "targets": 4,
+          "render": function (data, type, full, meta) {
+            var template = '';
+            template =
+              '<a href="javascript:void(0);" data-name="global-creator" data-custom="' + full['creator_id'] + '">'+data+'</a>';
+
+            return template;
+          }
+        },
+        {
+          "targets": 5,
+          "width": "10%",
+          "orderable": false,
+          "className": "noPadding",
+          "render": function (data, type, full, meta) {
+            var template = '';
+
+            let val = data;
+            template = '<div class="dt-menu-icons">' +
+              '<a href="javascript:void(0);" data-name="edit" data-custom="' + val + '"><span class="fa fa-pencil" aria-hidden="true"></span></a>' +
+              '<a href="javascript:void(0);" data-name="delete" data-custom="' + val + '"><span class="fa fa-trash-o" aria-hidden="true"></span></a>' +
+              '</div>';
+
+            return template;
+          }
+        }
+      ],
+      "columns": [
+        { "title": 'Title', "data": "title" },
+        { "title": 'Description', "data": "description" },
+        { "title": 'Category', "data": "CategoryName" },
+        { "title": 'Times sh8ken', "data": "timesSh8ken" },
+        { "title": 'Creater' , "data":"created"}
+      ]
+     }
+
+    //general data table
+    this.dtConfigGeneral = {
+      "columnDefs": [
+
+        {
+          "targets": 0,
+          "orderable": false,
+          "render": function (data, type, full, meta) {
+            var template = '';
+
+            let val = data;
+            template = '<div class="sh8ke-title">' +
+              '<div>'+data+'</div>' +
+              '<a href="javascript:void(0);" data-name="general-answers" data-custom="' + full['rowId'] + '">Answers('+full['count']+')</a>' +
+              '</div>';
+
+            return template;
+          }
+        },
+        {
+          "targets": 5,
+          "render": function (data, type, full, meta) {
+            var template = '';
+            template =
+              '<a href="javascript:void(0);" data-name="general-creator" data-custom="' + full['creator_id'] + '">'+data+'</a>';
+
+            return template;
+          }
+        },
         {
           "targets": 6,
           "width": "10%",
@@ -60,12 +147,15 @@ export class HomeComponent implements OnInit,AfterViewInit{
         { "title": 'Times sh8red', "data": "timesSh8red" },
         { "title": 'Creater' , "data":"created"}
       ]
-     }
+    }
 
     //get statistics
     this.getStatistics();
     //get top general shakes
     this.getTopGeneralShakes();
+
+    //get top global shakes
+    this.getTopGlobalShakes();
 
     //get current week report
     this.getCurrentWeekReport();
@@ -84,12 +174,21 @@ export class HomeComponent implements OnInit,AfterViewInit{
     );
   }
 
+  //get top20 globalShakes
+  getTopGlobalShakes(){
+    this.http.post(PathConfig.GET_SHAKES_LIST, { "trending_type": "global","limit": "20","user_type": "","user_id": 1})
+      .subscribe((response)=> {
+          this.topGlobalSh8ke =  response.data;
+        },
+        err => {
+        }
+      );
+  }
   //get top20 generalShakes
   getTopGeneralShakes(){
-    this.http.post(PathConfig.GET_GENERAL_SHAKES, {"limit": "20","user_type": "","user_id": 1})
+    this.http.post(PathConfig.GET_SHAKES_LIST, { "trending_type": "general","limit": "20","user_type": "","user_id": 1})
       .subscribe((response)=> {
           this.topGeneralSh8ke =  response.data;
-          console.log(JSON.stringify(this.topGeneralSh8ke));
         },
         err => {
         }
@@ -99,8 +198,19 @@ export class HomeComponent implements OnInit,AfterViewInit{
   getCurrentWeekReport(){
     this.http.get(PathConfig.GET_CURR_WEEK_REPORT)
       .subscribe((response)=> {
-          this.currentWeekReport = response;
-          
+        let weekDataStr = response['data']['weekDataStr'];
+        let weekDataStrArr = response['data']['weekDataStr'] ? response['data']['weekDataStr'].split(",").reverse() : [];
+
+        let data = [];
+        _.forEach(weekDataStrArr,function(val,index){
+            let prevDate = new Date();
+            prevDate.setDate(prevDate.getDate() - index);
+            let date = prevDate.getFullYear()+'-'+(prevDate.getMonth() + 1)+'-'+prevDate.getDate();
+
+            data.push( {"year": date, "item": parseInt(weekDataStrArr[index])});
+        })
+
+        this.currentWeekReport =  data;
         },
         err => {
         }
@@ -112,6 +222,14 @@ export class HomeComponent implements OnInit,AfterViewInit{
     if (data['clickedOn'] == 'edit') {
       let customData = data['value'];
       this.navigateTo("sh8ke/genralsh8keedit");
+    }else if(data['clickedOn'] == 'general-answers'){
+        alert(data['value']);
+    }else if(data['clickedOn'] == 'general-creator'){
+      alert(data['value']);
+    }else if(data['clickedOn'] == 'global-answers'){
+      alert(data['value']);
+    }else if(data['clickedOn'] == 'global-creator'){
+      alert(data['value']);
     }
   }
 

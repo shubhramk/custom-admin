@@ -12,26 +12,26 @@ export class LineChartComponent implements OnInit, AfterViewInit, OnChanges {
   constructor() { }
   ngAfterViewInit(){
     // LINE CHART
-    
-        
+
+
   }
   //when data changes
   ngOnChanges(changes: SimpleChanges) {
-    
+
     let data = changes['data'] || [];
-    
+
     if (data['currentValue'].length > 0) {
       if (data['currentValue'] != data['previousValue']) {
         setTimeout(() => this.initLineChart(), 100);
       }
     }
   }
-  initLineChart(){   
-    
+  initLineChart(){
+
     if(this.data.length < 1){
       return;
-    }   
-        
+    }
+
         var line = new Morris.Line({
           element: this.elemID,
           data: this.data,

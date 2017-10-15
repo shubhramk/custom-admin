@@ -12,11 +12,11 @@ export class GeneralSh8keComponent implements OnInit {
   categoryItems = ["Daily", "Shakedown", "Private", "Share", "Explode", "Socialize", "Password", "Adult Material"];
   visibleElement:boolean = false;
   topGeneralSh8ke = [];
-  dtConfig:Object = {}; 
+  dtConfig:Object = {};
   constructor(private router:Router, private http:HttpService) { }
 
   ngOnInit(){
-    this.dtConfig = { 
+    this.dtConfig = {
       "columnDefs": [
         {
           "targets": 6,
@@ -51,7 +51,7 @@ export class GeneralSh8keComponent implements OnInit {
 
    //get top20 generalShakes
   getTopGeneralShakes(){
-    this.http.post(PathConfig.GET_GENERAL_SHAKES, {"limit": "","user_type": "","user_id": 1})
+    this.http.post(PathConfig.GET_SHAKES_LIST, { "trending_type": "general","limit": "20","user_type": "","user_id": 1})
       .subscribe((response)=> {
           this.topGeneralSh8ke =  response.data;
           console.log(JSON.stringify(this.topGeneralSh8ke));
