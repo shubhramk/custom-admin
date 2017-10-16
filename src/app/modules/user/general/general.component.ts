@@ -12,43 +12,22 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
   visibleElement:boolean = false;
   preferencesItems = ["Arty", "Girly", "Nerdy", "Craftsman", "Hip-ster", "Old School", "Dapper", "Jock", "Quiet", "Extreme", "Loud", "Romantic",
   "Funny", "Manly", "Sassy", "Ditzy", "Social", "Techie"];
-   topGeneralSh8ke = [];
-   dtConfigGeneral:Object = {};
+   generalUser = [];
+   dtConfigGeneralUser:Object = {};
   constructor(private router:Router, private http:HttpService) {}
   ngAfterViewInit(){
     
   }
   ngOnInit(){
      //general data table
-      this.dtConfigGeneral = {
+      this.dtConfigGeneralUser =  {
         "columnDefs": [
           {
             "targets": 0,
             "orderable": false,
-            "render": function (data, type, full, meta) {
-              var template = '';
-
-              let val = data;
-              template = '<div class="sh8ke-title">' +
-                '<div>'+data+'</div>' +
-                '<a href="javascript:void(0);" data-name="general-answers" data-custom="' + full['rowId'] + '">Answers('+full['count']+')</a>' +
-                '</div>';
-
-              return template;
-            }
           },
           {
-            "targets": 5,
-            "render": function (data, type, full, meta) {
-              var template = '';
-              template =
-                '<a href="javascript:void(0);" data-name="general-creator" data-custom="' + full['creator_id'] + '">'+data+'</a>';
-
-              return template;
-            }
-          },
-          {
-            "targets": 6,
+            "targets": 8,
             "width": "10%",
             "orderable": false,
             "className": "noPadding",
@@ -63,28 +42,61 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
 
               return template;
             }
+          },{
+            "targets": 7,
+            "width": "10%",
+            "orderable": false,
+            "className": "noPadding",
+            "render": function (data, type, full, meta) {
+              var template = '';
+
+              let val = data;
+              template = '<div class="dt-menu-icons">' +
+                '<span class="fa fa-thumbs-o-up" aria-hidden="true" *ngIf="'+val+'">'+'</span>' +
+                '</div>';
+
+              return template;
+            }
+          },
+          {
+            "targets": 0,
+            "width": "10%",
+            "orderable": false,
+            "className": "noPadding",
+            "render": function (data, type, full, meta) {
+              var template = '';
+
+              let val = data;
+              template = '<a href="javascript:void(0);" data-name="name" data-custom="' + val + '">'+val+'</a>';
+
+              return template;
+            }
           }
+
         ],
         "columns": [
-          { "title": 'Title', "data": "title" },
-          { "title": 'Description', "data": "description" },
-          { "title": 'Category', "data": "CategoryName" },
-          { "title": 'Times sh8ken', "data": "timesSh8ken" },
-          { "title": 'Times sh8red', "data": "timesSh8red" },
-          { "title": 'Creater' , "data":"created"}
+          { "title": 'Name', "data": "name" },
+          { "title": 'Mobile', "data": "mobile_no" },
+          { "title": 'Email', "data": "mail_id" },
+          { "title": 'Gender', "data": "gender" },
+          { "title": 'Date of Birth', "data": "birth" },
+          { "title": 'Platform' , "data":"platform"},
+          { "title": 'Status' , "data":"status"},
+          { "title": 'isActive' , "data":"isActive"}
         ]
       }
       //get top global shakes
-      this.getTopGeneralShakes();
+      this.getGeneralUsersList();
   }
 
       //on Menu Icon selected
   
   //get generalShakes
-  getTopGeneralShakes(){
-    this.http.post(PathConfig.GET_SHAKES_LIST, { "trending_type": "general","limit": "","user_type": "","user_id": 1})
+  getGeneralUsersList(){
+    this.http.get(PathConfig.GET_GENERAL_USER)
       .subscribe((response)=> {
-          this.topGeneralSh8ke =  response.data;
+          this.generalUser =  response.data;
+          console.log(this.generalUser);
         },
         err => {
         }
@@ -94,6 +106,8 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
     if (data['clickedOn'] == 'edit') {
       let customData = data['value'];
        this.navigateTo('users/edit-general');
+    }else if(data['clickedOn'] == 'name'){
+      this.navigateTo('user/generalCreator');
     }
   }
   handleVisiblity(){    

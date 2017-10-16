@@ -7,5 +7,8 @@ export class PathConfig {
     public static GET_MONTHLY_REPORT :string = PathConfig.BASE_URL_API + 'api/api.php?action=MonthlyReport';
     public static GET_SHAKES_LIST :string = PathConfig.BASE_URL_API + 'api/api.php?action=TrendingSh8kes';
 
+    public static GET_GENERAL_USER :string = PathConfig.BASE_URL_API + 'api/api.php?action=GeneralUsers';
+    public static GET_ADMIN_USER :string = PathConfig.BASE_URL_API + 'api/api.php?action=AdminUsers';
+    
 
 }
