@@ -17,7 +17,7 @@ import {EditCategoryComponent} from "../../modules/category/edit-category/edit-c
 import {EditNewsComponent} from "../../modules/news/edit-news/edit-news.component";
 import {EditAdminComponent} from "../../modules/user/admin/edit-admin/edit-admin.component";
 import {EditGeneralComponent} from "../../modules/user/general/edit-general/edit-general.component";
-
+import {GeneralCreatorComponent} from "../../modules/user/general/general-creator/general-creator.component";
 
 const adminRoutes: Routes = [
 
@@ -93,6 +93,10 @@ const adminRoutes: Routes = [
       {
         path: 'news/editNews',
         component: EditNewsComponent
+      },
+      {
+        path: 'user/generalCreator',
+        component: GeneralCreatorComponent
       }
 
     ]

@@ -53,7 +53,6 @@ export class DatatableComponent implements OnChanges, AfterViewInit, OnInit {
     if (data) {
       if (data['currentValue'] != data['previousValue']) {
         if(Object.keys(data['currentValue']).length > 0){
-          console.log(this.data);
             setTimeout(() => this.addData(), 100);
         }
           

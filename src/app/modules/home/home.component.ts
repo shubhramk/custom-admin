@@ -225,7 +225,7 @@ export class HomeComponent implements OnInit,AfterViewInit{
     }else if(data['clickedOn'] == 'general-answers'){
         alert(data['value']);
     }else if(data['clickedOn'] == 'general-creator'){
-      alert(data['value']);
+      this.navigateTo('user/generalCreator');
     }else if(data['clickedOn'] == 'global-answers'){
       alert(data['value']);
     }else if(data['clickedOn'] == 'global-creator'){

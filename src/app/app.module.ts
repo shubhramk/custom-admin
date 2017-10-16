@@ -29,6 +29,7 @@ import { EditCategoryComponent } from './modules/category/edit-category/edit-cat
 import { EditNewsComponent } from './modules/news/edit-news/edit-news.component';
 import { EditAdminComponent } from './modules/user/admin/edit-admin/edit-admin.component';
 import { EditGeneralComponent } from './modules/user/general/edit-general/edit-general.component';
+import { GeneralCreatorComponent } from './modules/user/general/general-creator/general-creator.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { EditGeneralComponent } from './modules/user/general/edit-general/edit-g
     EditCategoryComponent,
     EditNewsComponent,
     EditAdminComponent,
-    EditGeneralComponent
+    EditGeneralComponent,
+    GeneralCreatorComponent
   ],
   imports: [
     BrowserModule,

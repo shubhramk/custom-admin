@@ -54,7 +54,6 @@ export class GeneralSh8keComponent implements OnInit {
     this.http.post(PathConfig.GET_SHAKES_LIST, { "trending_type": "general","limit": "20","user_type": "","user_id": 1})
       .subscribe((response)=> {
           this.topGeneralSh8ke =  response.data;
-          console.log(JSON.stringify(this.topGeneralSh8ke));
         },
         err => {
         }
