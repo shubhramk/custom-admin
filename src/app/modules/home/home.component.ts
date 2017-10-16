@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit,AfterViewInit{
   topGeneralSh8ke =[];
   topGlobalSh8ke  = [];
   currentWeekReport = [];
+  monthlyReport = [];
   initialCount:number = 30;
   dtConfigGlobal:Object = {};
   dtConfigGeneral:Object = {};
@@ -159,6 +160,12 @@ export class HomeComponent implements OnInit,AfterViewInit{
 
     //get current week report
     this.getCurrentWeekReport();
+
+    //get current mpnth report
+    this.getCurrentMonthReport();
+
+
+
   }
 
   //get statistics for stats cards
@@ -216,6 +223,30 @@ export class HomeComponent implements OnInit,AfterViewInit{
         }
       );
   }
+
+  //get month report
+  getCurrentMonthReport(){
+    this.http.get(PathConfig.GET_MONTHLY_REPORT)
+      .subscribe((response)=> {
+          let monthStr = response['data']['monthStr'];
+          let monthStrArr = response['data']['monthStr'] ? response['data']['monthStr'].split(",") : [];
+          let totalUser   = response['data']['monthDataStr'] ? response['data']['monthDataStr'].split(",") : [];
+          let createdUser   = response['data']['monthDataShcreateStr'] ? response['data']['monthDataShcreateStr'].split(",") : [];
+          let sharedUser   = response['data']['monthSharedDataStr'] ? response['data']['monthSharedDataStr'].split(",") : [];
+
+          let data = [];
+          _.forEach(monthStrArr,function(val,index){
+            let prevDate = new Date();
+            let date = prevDate.getFullYear()+'-'+(prevDate.getMonth() + 1)+'-'+(index + 1);
+            data.push( {"date": date, "a": parseInt(totalUser[index]),"b": parseInt(createdUser[index]),"c": parseInt(sharedUser[index])});
+          })
+          this.monthlyReport =  data;
+        },
+        err => {
+        }
+      );
+  }
+
 
   //on Menu Icon selected
   onMenuSelect(data: any) {
