@@ -42,4 +42,5 @@ font-size: 25px;
 }
 .custom-dt-table table tr td:first-child{
     width: 20%;
+    word-break: break-word;
 }

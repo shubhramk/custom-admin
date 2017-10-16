@@ -12,12 +12,38 @@ export class GeneralSh8keComponent implements OnInit {
   categoryItems = ["Daily", "Shakedown", "Private", "Share", "Explode", "Socialize", "Password", "Adult Material"];
   visibleElement:boolean = false;
   topGeneralSh8ke = [];
-  dtConfig:Object = {};
+  dtConfigGeneral:Object = {};
   constructor(private router:Router, private http:HttpService) { }
 
   ngOnInit(){
-    this.dtConfig = {
+    this.dtConfigGeneral = {
       "columnDefs": [
+
+        {
+          "targets": 0,
+          "orderable": false,
+          "render": function (data, type, full, meta) {
+            var template = '';
+
+            let val = data;
+            template = '<div class="sh8ke-title">' +
+              '<div>'+data+'</div>' +
+              '<a href="javascript:void(0);" data-name="general-answers" data-custom="' + full['rowId'] + '">Answers('+full['count']+')</a>' +
+              '</div>';
+
+            return template;
+          }
+        },
+        {
+          "targets": 5,
+          "render": function (data, type, full, meta) {
+            var template = '';
+            template =
+              '<a href="javascript:void(0);" data-name="general-creator" data-custom="' + full['creator_id'] + '">'+data+'</a>';
+
+            return template;
+          }
+        },
         {
           "targets": 6,
           "width": "10%",
@@ -44,14 +70,13 @@ export class GeneralSh8keComponent implements OnInit {
         { "title": 'Times sh8red', "data": "timesSh8red" },
         { "title": 'Creater' , "data":"created"}
       ]
-     }
-     //get top general shakes
+    }
     this.getTopGeneralShakes();
-      }
+  }
 
    //get top20 generalShakes
   getTopGeneralShakes(){
-    this.http.post(PathConfig.GET_SHAKES_LIST, { "trending_type": "general","limit": "20","user_type": "","user_id": 1})
+    this.http.post(PathConfig.GET_SHAKES_LIST, { "trending_type": "general","limit": "","user_type": "","user_id": 1})
       .subscribe((response)=> {
           this.topGeneralSh8ke =  response.data;
         },
