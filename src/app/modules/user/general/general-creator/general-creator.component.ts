@@ -28,34 +28,8 @@ export class GeneralCreatorComponent implements OnInit {
               '</div>';
             return template;
           }
-        },
-        {
-          "targets": 4,
-          "render": function (data, type, full, meta) {
-            var template = '';
-            template =
-              '<a href="javascript:void(0);" data-name="global-creator" data-custom="' + full['creator_id'] + '">'+data+'</a>';
-
-            return template;
-          }
-        },
-        {
-          "targets": 5,
-          "width": "10%",
-          "orderable": false,
-          "className": "noPadding",
-          "render": function (data, type, full, meta) {
-            var template = '';
-
-            let val = data;
-            template = '<div class="dt-menu-icons">' +
-              '<a href="javascript:void(0);" data-name="edit" data-custom="' + val + '"><span class="fa fa-pencil" aria-hidden="true"></span></a>' +
-              '<a href="javascript:void(0);" data-name="delete" data-custom="' + val + '"><span class="fa fa-trash-o" aria-hidden="true"></span></a>' +
-              '</div>';
-
-            return template;
-          }
         }
+        
       ],
       "columns": [
         { "title": 'Title', "data": "title" },
@@ -76,5 +50,8 @@ export class GeneralCreatorComponent implements OnInit {
         err => {
         }
       );
+  }
+  onMenuSelect(data:any){
+
   }
 }

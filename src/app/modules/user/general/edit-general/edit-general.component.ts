@@ -7,7 +7,8 @@ declare var $:any;
   styleUrls: ['./edit-general.component.css']
 })
 export class EditGeneralComponent implements OnInit {
-
+  preferencesItems = ["Arty", "Girly", "Nerdy", "Craftsman", "Hip-ster", "Old School", "Dapper", "Jock", "Quiet", "Extreme", "Loud", "Romantic",
+  "Funny", "Manly", "Sassy", "Ditzy", "Social", "Techie"];
   constructor(private router:Router) { }
 
   ngOnInit() {

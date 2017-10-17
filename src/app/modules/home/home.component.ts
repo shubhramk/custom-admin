@@ -19,16 +19,16 @@ export class HomeComponent implements OnInit,AfterViewInit{
   dtConfigGlobal:Object = {};
   dtConfigGeneral:Object = {};
   keysLength:number = 0;
-
-  cardStatistcs = {
-    "totalusers":0,
-    "prousers":0,
-    "generalsha8ke":0,
-    "globalsha8ke":0,
-    "uniquevisitscurrent":0,
-    "uniquevisitsprevious":0,
+  cardStatistcs = {};
+  /*cardStatistcs = {
+    "totalusers":"0",
+    "prousers":"0",
+    "generalsha8ke":"0",
+    "globalsha8ke":"0",
+    "uniquevisitscurrent":"0",
+    "uniquevisitsprevious":"0",
     "deviation":0
-  };
+  };*/
 
   constructor(
     private router:Router,
