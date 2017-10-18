@@ -1,0 +1,72 @@
+
+<!-- ============================================================== -->
+<!-- Container fluid  -->
+<!-- ============================================================== -->
+<div class="container-fluid">
+  <!-- ============================================================== -->
+  <!-- Bread crumb and right sidebar toggle -->
+  <!-- ============================================================== -->
+  <div class="row page-titles">
+    <div class="col-md-6 col-8 align-self-center">
+      <h3 class="text-themecolor m-b-0 m-t-0">SH8KE</h3>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+        <li class="breadcrumb-item active">sh8ke</li>
+        <li class="breadcrumb-item active">Global sh8ke</li>
+        <li class="breadcrumb-item active" *ngIf="visibleElement">Add Global User</li>
+        <li class="breadcrumb-item active" *ngIf="!visibleElement">Answer</li>
+      </ol>
+    </div>
+    
+  </div>
+  <div class="row">
+    <div class="col-md-12 marB">
+      <a href="javascript:void(0)" *ngIf ="!visibleElement" (click)="handleVisiblity()">Add New Answer</a>
+      <a href="javascript:void(0)" *ngIf="visibleElement" (click)="handleVisiblity()">Back</a>
+    </div>
+  </div>
+  <div class="row" *ngIf = "visibleElement">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-9 marginCenter">
+                   <h4 class="card-title"> Add Answer</h4>
+                </div>
+              </div>
+                <form class="form p-t-20">
+                      
+                      <div class="form-group row">
+                        <div class="col-sm-9 marginCenter">
+                          <label for="exampleInputpwd3">Select Gender</label>
+                          <div class="input-group">
+                            <select class="form-control" id="answer_type" name="answer_type" aria-required="true" aria-invalid="false">
+                              <option value="">Select Type</option>
+                              <option value="text">Text</option>
+                              <option value="image">Image</option> 
+                              <option value="audio">Audio</option>
+                              <option value="video">Video</option>                        
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      
+                      <div class="text-left row">
+                        <div class="col-sm-9 marginCenter">
+                          <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
+                          <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
+                        </div>
+                      </div>
+                  </form>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="row" *ngIf = "!visibleElement">
+    <div class="col-md-12">
+       <!--<app-datatable  [dtTableData]="topGeneralSh8ke"></app-datatable>-->
+       <app-datatable [config]='dtConfigGeneralUser' [data]="generalUser" (onMenuSelect)="onMenuSelect($event)"></app-datatable>
+    </div>
+  </div>
+</div>

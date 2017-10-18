@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpService} from "../../../../common/services/http.service";
 import {PathConfig} from "../../../../common/config/path.config";
+declare var $:any;
 
 @Component({
   selector: 'app-general-creator',
@@ -41,6 +42,11 @@ export class GeneralCreatorComponent implements OnInit {
      }
 
      this.getTopGlobalShakes();
+     setTimeout(()=>{
+       $('#date-range').datepicker({
+        toggleActive: true
+    });
+      },200)
   }
    getTopGlobalShakes(){
     this.http.post(PathConfig.GET_SHAKES_LIST, { "trending_type": "global","limit": "20","user_type": "","user_id": 1})

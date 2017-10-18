@@ -29,8 +29,10 @@ import { EditCategoryComponent } from './modules/category/edit-category/edit-cat
 import { EditNewsComponent } from './modules/news/edit-news/edit-news.component';
 import { EditAdminComponent } from './modules/user/admin/edit-admin/edit-admin.component';
 import { EditGeneralComponent } from './modules/user/general/edit-general/edit-general.component';
-import { GeneralCreatorComponent } from './modules/user/general/general-creator/general-creator.component';
+import { GeneralCreatorComponent } from './modules/sh8ke/general-sh8ke/general-creator/general-creator.component';
 import {LineChartMultiComponent} from "./common/component/line-chart-multi/line-chart-multi.component";
+import { GeneralAnswerComponent } from './modules/sh8ke/general-sh8ke/general-answer/general-answer.component';
+import { GlobalAnswerComponent } from './modules/sh8ke/global-sh8ke/global-answer/global-answer.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +59,9 @@ import {LineChartMultiComponent} from "./common/component/line-chart-multi/line-
     EditNewsComponent,
     EditAdminComponent,
     EditGeneralComponent,
-    GeneralCreatorComponent
+    GeneralCreatorComponent,
+    GeneralAnswerComponent,
+    GlobalAnswerComponent
   ],
   imports: [
     BrowserModule,

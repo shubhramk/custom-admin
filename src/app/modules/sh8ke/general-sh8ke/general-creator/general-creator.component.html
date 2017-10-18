@@ -16,6 +16,22 @@
     </div>
     
   </div>
+   <hr>
+  <div class="row">
+    <div class=" datePickerContainer col-md-12">
+          <div class="input-daterange input-group col-md-5 pull-right" id="date-range">
+              <input type="text" class="form-control" name="start" />
+              <span class="input-group-addon bg-info b-0 text-white">to</span>
+              <input type="text" class="form-control" name="end" />
+              <button type="button" value="Filter" class="btn btn-success waves-effect waves-light m-l-10">Filter</button>
+          </div>    
+          <div class="col-md-2">
+            
+          </div>                
+     </div>
+     
+  </div>
+  <hr>
   <div class="row">
   <div class="col-md-12">
     <app-datatable [config]='dtConfigGlobal' [data]="topGlobalSh8ke" (onMenuSelect)="onMenuSelect($event)"></app-datatable>

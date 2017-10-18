@@ -10,14 +10,18 @@ import {GlobalSh8keComponent} from "../../modules/sh8ke/global-sh8ke/global-sh8k
 import {GeneralSh8keComponent} from "../../modules/sh8ke/general-sh8ke/general-sh8ke.component";
 import {ExampleSh8keComponent} from "../../modules/sh8ke/example-sh8ke/example-sh8ke.component";
 import {NewsComponent} from "../../modules/news/news.component";
-import {GenralSh8keEditComponent} from "../../modules/sh8ke/general-sh8ke/genral-sh8ke-edit/genral-sh8ke-edit.component"
-import {ExampleSh8keEditComponent} from "../../modules/sh8ke/example-sh8ke/example-sh8ke-edit/example-sh8ke-edit.component"
-import {GlobalSh8keEditComponent} from "../../modules/sh8ke/global-sh8ke/global-sh8ke-edit/global-sh8ke-edit.component"
+import {GenralSh8keEditComponent} from "../../modules/sh8ke/general-sh8ke/genral-sh8ke-edit/genral-sh8ke-edit.component";
+import {ExampleSh8keEditComponent} from "../../modules/sh8ke/example-sh8ke/example-sh8ke-edit/example-sh8ke-edit.component";
+import {GlobalSh8keEditComponent} from "../../modules/sh8ke/global-sh8ke/global-sh8ke-edit/global-sh8ke-edit.component";
+
+import {GeneralAnswerComponent} from "../../modules/sh8ke/general-sh8ke/general-answer/general-answer.component";
+
 import {EditCategoryComponent} from "../../modules/category/edit-category/edit-category.component";
 import {EditNewsComponent} from "../../modules/news/edit-news/edit-news.component";
 import {EditAdminComponent} from "../../modules/user/admin/edit-admin/edit-admin.component";
 import {EditGeneralComponent} from "../../modules/user/general/edit-general/edit-general.component";
-import {GeneralCreatorComponent} from "../../modules/user/general/general-creator/general-creator.component";
+import {GeneralCreatorComponent} from "../../modules/sh8ke/general-sh8ke/general-creator/general-creator.component";
+import { GlobalAnswerComponent } from '../../modules/sh8ke/global-sh8ke/global-answer/global-answer.component';
 
 const adminRoutes: Routes = [
 
@@ -97,6 +101,14 @@ const adminRoutes: Routes = [
       {
         path: 'user/generalCreator',
         component: GeneralCreatorComponent
+      },
+      {
+        path: 'sh8ke/generalAnswer/:id',
+        component: GeneralAnswerComponent
+      },
+      {
+        path: 'sh8ke/globalAnswer/:id',
+        component: GlobalAnswerComponent
       }
 
     ]

@@ -254,11 +254,11 @@ export class HomeComponent implements OnInit,AfterViewInit{
       let customData = data['value'];
       this.navigateTo("sh8ke/genralsh8keedit");
     }else if(data['clickedOn'] == 'general-answers'){
-        alert(data['value']);
+        this.navigateTo('sh8ke/generalAnswer/'+data['value']);
     }else if(data['clickedOn'] == 'general-creator'){
       this.navigateTo('user/generalCreator');
     }else if(data['clickedOn'] == 'global-answers'){
-      alert(data['value']);
+      this.navigateTo('sh8ke/globalAnswer/'+data['value']);
     }else if(data['clickedOn'] == 'global-creator'){
       alert(data['value']);
     }
