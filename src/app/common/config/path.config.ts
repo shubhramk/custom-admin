@@ -5,10 +5,13 @@ export class PathConfig {
 
     public static GET_CURR_WEEK_REPORT :string  = PathConfig.BASE_URL_API + 'api/api.php?action=CurrentWeekReport';
     public static GET_MONTHLY_REPORT :string = PathConfig.BASE_URL_API + 'api/api.php?action=MonthlyReport';
+    
     public static GET_SHAKES_LIST :string = PathConfig.BASE_URL_API + 'api/api.php?action=TrendingSh8kes';
 
     public static GET_GENERAL_USER :string = PathConfig.BASE_URL_API + 'api/api.php?action=GeneralUsers';
     public static GET_ADMIN_USER :string = PathConfig.BASE_URL_API + 'api/api.php?action=AdminUsers';
-    
+    public static GET_CATEGORY :string = PathConfig.BASE_URL_API + 'api/api.php?action=Category';
+    public static GET_NEWS :string = PathConfig.BASE_URL_API + 'api/api.php?action=News';
+     public static GET_EXAMPLE_SH8KE :string = PathConfig.BASE_URL_API + 'api/api.php?action=ExampleSh8kes';
 
 }

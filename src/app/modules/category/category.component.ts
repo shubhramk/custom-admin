@@ -1,6 +1,8 @@
 import { Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {ConstantConfig} from "../../common/config/constant.config";
+import {HttpService} from "../../common/services/http.service";
+import {PathConfig} from "../../common/config/path.config";
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -8,10 +10,10 @@ import {ConstantConfig} from "../../common/config/constant.config";
 })
 export class CategoryComponent implements OnInit {
     
- topGeneralSh8ke = [];
+ categoryList = [];
  dtConfig:Object = {};
  visibleElement:boolean = false;
-  constructor(private router:Router) {
+  constructor(private router:Router, private http:HttpService) {
      
    }
 
@@ -20,7 +22,7 @@ export class CategoryComponent implements OnInit {
     this.dtConfig = { 
       "columnDefs": [
         {
-          "targets": 6,
+          "targets": 3,
           "width": "10%",
           "orderable": false,
           "className": "noPadding",
@@ -35,31 +37,45 @@ export class CategoryComponent implements OnInit {
 
             return template;
           }
+        },
+        {
+          "targets": 2,
+          "width": "20%",
+          "orderable": false,
+          "className": "noPadding",
+          "render": function (data, type, full, meta) {
+            var template = '';
+
+            let val = data;
+            template = '<div class="dt-menu-icons">' +
+              '<img src ="'+val+'" data-name="img" data-custom="' + val + '" style="height:40px;"/>' +
+              '</div>';
+
+            return template;
+          }
         }
       ],
       "columns": [
-        { "title": 'Title', "data": "title" },
-        { "title": 'Description', "data": "description" },
-        { "title": 'Category', "data": "category" },
-        { "title": 'Times sh8ken', "data": "timesh8ken" },
-        { "title": 'Times sh8red', "data": "timesh8red" },
-        { "title": 'Creater' , "data":"creater"},
-        { "title": '' , "data":"title"}
+        { "title": 'Title English', "data": "title_english" },
+        { "title": 'Order', "data": "sorting_order" },
+        { "title": 'Icon', "data": "iconUrl" }
       ]
      }
+    this.getCategoryList();
+}
 
-    //data
-    this.topGeneralSh8ke = [
-          {title:"goals", description:"Share, Socialize", category:"goals 1", "timesh8ken":167, "timesh8red":0, creater:"akshay Kumar"},
-          {title:"goals", description:"Share, Socialize", category:"goals 2", "timesh8ken":167, "timesh8red":0, creater:"akshay Kumar"},
-          {title:"goals", description:"Share, Socialize", category:"goals 3", "timesh8ken":167, "timesh8red":0, creater:"akshay Kumar"},
-          {title:"goals", description:"Share, Socialize", category:"goals 4", "timesh8ken":167, "timesh8red":0, creater:"akshay Kumar"},
-          {title:"goals", description:"Share, Socialize", category:"goals 5", "timesh8ken":167, "timesh8red":0, creater:"akshay Kumar"},
-          {title:"goals", description:"Share, Socialize", category:"goals 6", "timesh8ken":167, "timesh8red":0, creater:"akshay Kumar"}
-        ];
+getCategoryList(){
+  this.http.get(PathConfig.GET_CATEGORY)
+      .subscribe((response)=> {
+        this.categoryList = response.data;
+        console.log(this.categoryList);
+      },
+      err => {
+          // Log errors if any
       }
-
-      //on Menu Icon selected
+      )
+};
+  //on Menu Icon selected
   onMenuSelect(data: any) {
     if (data['clickedOn'] == 'edit') {
       let customData = data['value'];
