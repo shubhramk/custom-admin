@@ -22,6 +22,7 @@ export class GlobalCreatorComponent implements OnInit {
     this.dtConfig = {
       "columnDefs": [
       ],
+      
       "columns": [
         { "title": 'Title', "data": "Title" },
         { "title": 'Description', "data": "description" },
@@ -33,6 +34,7 @@ export class GlobalCreatorComponent implements OnInit {
   getgeneralSh8keList(id:string){
     this.http.get(PathConfig.GET_GLOBAL_SH8KE_CREATOR+id).subscribe((response)=>{
       this.generalSh8keList = response.data;
+      //this.generalSh8keList = [{}];
     },
     err => {
     });

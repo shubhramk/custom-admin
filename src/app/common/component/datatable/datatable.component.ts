@@ -52,7 +52,6 @@ export class DatatableComponent implements OnChanges, AfterViewInit, OnInit {
       }
     }
     if (data) {
-      console.log(data);
       if (data['currentValue'] != data['previousValue']) {
         setTimeout(() => this.addData(), 100);
         if(Object.keys(data['currentValue']).length > 0){
@@ -105,7 +104,6 @@ export class DatatableComponent implements OnChanges, AfterViewInit, OnInit {
       this.config,
       { "data": this.data || [] }
     );
-    console.log(this.data);
     this.initDT(options);
   }
 

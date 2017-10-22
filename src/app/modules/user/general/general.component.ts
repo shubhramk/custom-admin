@@ -65,9 +65,9 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
             "className": "noPadding",
             "render": function (data, type, full, meta) {
               var template = '';
-
               let val = data;
-              template = '<a href="javascript:void(0);" data-name="name" data-custom="' + val + '">'+val+'</a>';
+               
+              template = '<a href="javascript:void(0);" data-name="name" data-custom="' + full['rowId'] + '" data-creator="' + data + '">'+val+'</a>';
 
               return template;
             }
@@ -107,7 +107,7 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
       let customData = data['value'];
        this.navigateTo('users/edit-general');
     }else if(data['clickedOn'] == 'name'){
-      this.navigateTo('user/generalCreator');
+      this.navigateTo('user/generalCreator/'+data['value']+"/"+data['creatorName']);
     }
   }
   handleVisiblity(){    

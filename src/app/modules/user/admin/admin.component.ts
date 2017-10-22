@@ -45,7 +45,7 @@ ngOnInit(){
               var template = '';
 
               let val = data;
-              template = '<a href="javascript:void(0);" data-name="name" data-custom="' + val + '">'+val+'</a>';
+              template = '<a href="javascript:void(0);" data-name="name" data-custom="' + full['rowId'] + '" data-creator="' + data + '">'+val+'</a>';
 
               return template;
             }
@@ -82,6 +82,8 @@ ngOnInit(){
     if (data['clickedOn'] == 'edit') {
       let customData = data['value'];
       this.navigateTo('users/edit-admin');
+    }else if(data['clickedOn'] == 'name'){
+      this.navigateTo('user/globalCreator/'+data['value']+"/"+data['creatorName']);
     }
   }
 //get top20 globalShakes
@@ -90,6 +92,7 @@ ngOnInit(){
     this.http.get(PathConfig.GET_ADMIN_USER)
       .subscribe((response)=> {
           this.adminUserList =  response.data;
+          console.log(this.adminUserList);
         },
         err => {
         }

@@ -250,7 +250,6 @@ export class HomeComponent implements OnInit,AfterViewInit{
 
   //on Menu Icon selected
   onMenuSelect(data: any) {
-    console.log(data);
     if (data['clickedOn'] == 'edit') {
       let customData = data['value'];
       this.navigateTo("sh8ke/genralsh8keedit");
