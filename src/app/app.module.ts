@@ -34,6 +34,7 @@ import { GeneralCreatorComponent } from './modules/sh8ke/general-sh8ke/general-c
 import {LineChartMultiComponent} from "./common/component/line-chart-multi/line-chart-multi.component";
 import { GeneralAnswerComponent } from './modules/sh8ke/general-sh8ke/general-answer/general-answer.component';
 import { GlobalAnswerComponent } from './modules/sh8ke/global-sh8ke/global-answer/global-answer.component';
+import { GlobalCreatorComponent } from './modules/sh8ke/global-sh8ke/global-creator/global-creator.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { GlobalAnswerComponent } from './modules/sh8ke/global-sh8ke/global-answe
     EditGeneralComponent,
     GeneralCreatorComponent,
     GeneralAnswerComponent,
-    GlobalAnswerComponent
+    GlobalAnswerComponent,
+    GlobalCreatorComponent
   ],
   imports: [
     BrowserModule,

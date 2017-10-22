@@ -22,6 +22,8 @@ import {EditAdminComponent} from "../../modules/user/admin/edit-admin/edit-admin
 import {EditGeneralComponent} from "../../modules/user/general/edit-general/edit-general.component";
 import {GeneralCreatorComponent} from "../../modules/sh8ke/general-sh8ke/general-creator/general-creator.component";
 import { GlobalAnswerComponent } from '../../modules/sh8ke/global-sh8ke/global-answer/global-answer.component';
+import {GlobalCreatorComponent} from "../../modules/sh8ke/global-sh8ke/global-creator/global-creator.component";
+
 
 const adminRoutes: Routes = [
 
@@ -103,8 +105,12 @@ const adminRoutes: Routes = [
         component: GeneralCreatorComponent
       },
       {
+        path: 'user/globalCreator/:id/:name',
+        component: GlobalCreatorComponent
+      },
+      {
         path: 'sh8ke/generalAnswer/:id',
-        component: GeneralAnswerComponent
+        component: GlobalCreatorComponent
       },
       {
         path: 'sh8ke/globalAnswer/:id',

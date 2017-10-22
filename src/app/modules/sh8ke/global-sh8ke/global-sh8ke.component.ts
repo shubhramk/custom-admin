@@ -26,7 +26,7 @@ export class GlobalSh8keComponent implements OnInit {
 
             let val = data;
             template = '<div class="sh8ke-title">' +
-                '<div>'+data+'</div>' +
+                '<div>'+'<a href="javascript:void(0);" data-name="title" data-custom="">'+data+'</a>' +'</div>'+
                 '<a href="javascript:void(0);" data-name="global-answers" data-custom="' + full['rowId'] + '">Answers('+full['count']+')</a>' +
               '</div>';
 

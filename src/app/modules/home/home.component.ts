@@ -61,7 +61,7 @@ export class HomeComponent implements OnInit,AfterViewInit{
           "render": function (data, type, full, meta) {
             var template = '';
             template =
-              '<a href="javascript:void(0);" data-name="global-creator" data-custom="' + full['creator_id'] + '">'+data+'</a>';
+              '<a href="javascript:void(0);" data-name="global-creator" data-custom="' + full['creator_id'] + '"data-creator="' + data + '">'+data+'</a>';
 
             return template;
           }
@@ -261,7 +261,7 @@ export class HomeComponent implements OnInit,AfterViewInit{
     }else if(data['clickedOn'] == 'global-answers'){
       this.navigateTo('sh8ke/globalAnswer/'+data['value']);
     }else if(data['clickedOn'] == 'global-creator'){
-      alert(data['value']);
+      this.navigateTo('user/globalCreator/'+data['value']+"/"+data['creatorName']);
     }
   }
 

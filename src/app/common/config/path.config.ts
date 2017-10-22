@@ -20,4 +20,6 @@ export class PathConfig {
 
     public static GET_GLOBAL_SH8KE_ANSWER :string = PathConfig.BASE_URL_API + 'api/api.php?action=GlobalSh8keAnswer&id=';
 
+    public static GET_GLOBAL_SH8KE_CREATOR :string = PathConfig.BASE_URL_API + 'api/api.php?action=AdminUserShk8e&userid=';
+
 }
