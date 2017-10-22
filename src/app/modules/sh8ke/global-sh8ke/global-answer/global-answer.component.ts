@@ -1,5 +1,5 @@
 import {Component, AfterViewInit, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 import {HttpService} from "../../../../common/services/http.service";
 import {PathConfig} from "../../../../common/config/path.config";
 declare var $:any;
@@ -9,21 +9,21 @@ declare var $:any;
   styleUrls: ['./global-answer.component.css']
 })
 export class GlobalAnswerComponent implements OnInit {
-  generalUser = [];
-  dtConfigGeneralUser:Object = {};
+  globalsh8keAnswer = [];
+  dtConfig:Object = {};
  visibleElement:boolean = false;
-  constructor(private router:Router, private http:HttpService) { }
+  constructor(private router:Router, private http:HttpService, private activeRoute:ActivatedRoute) { }
 
   ngOnInit(){
      //general data table
-      this.dtConfigGeneralUser =  {
+      this.dtConfig =  {
         "columnDefs": [
           {
             "targets": 0,
             "orderable": false,
           },
           {
-            "targets": 8,
+            "targets": 3,
             "width": "10%",
             "orderable": false,
             "className": "noPadding",
@@ -39,31 +39,15 @@ export class GlobalAnswerComponent implements OnInit {
               return template;
             }
           },{
-            "targets": 7,
+            "targets": 2,
             "width": "10%",
             "orderable": false,
             "className": "noPadding",
             "render": function (data, type, full, meta) {
               var template = '';
-
+              //console.log(data + "    FULLLL" );
               let val = data;
-              template = '<div class="dt-menu-icons">' +
-                '<span class="fa fa-check-circle" aria-hidden="true" *ngIf="'+val+'">'+'</span>' +
-                '</div>';
-
-              return template;
-            }
-          },
-          {
-            "targets": 0,
-            "width": "10%",
-            "orderable": false,
-            "className": "noPadding",
-            "render": function (data, type, full, meta) {
-              var template = '';
-
-              let val = data;
-              template = '<a href="javascript:void(0);" data-name="name" data-custom="' + val + '">'+val+'</a>';
+              template = '<span>'+data+'</span>';
 
               return template;
             }
@@ -71,28 +55,24 @@ export class GlobalAnswerComponent implements OnInit {
 
         ],
         "columns": [
-          { "title": 'Name', "data": "name" },
-          { "title": 'Mobile', "data": "mobile_no" },
-          { "title": 'Email', "data": "mail_id" },
-          { "title": 'Gender', "data": "gender" },
-          { "title": 'Date of Birth', "data": "birth" },
-          { "title": 'Platform' , "data":"platform"},
-          { "title": 'Status' , "data":"status"},
-          { "title": 'isActive' , "data":"isActive"}
+          { "title": 'ID', "data": "id" },
+          { "title": 'Type', "data": "type" },
+          { "title": 'Answer', "data": "answer" }
         ]
       }
       //get top global shakes
-      this.getGeneralUsersList();
+      this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
+      
   }
 
       //on Menu Icon selected
   
   //get generalShakes
-  getGeneralUsersList(){
-    this.http.get(PathConfig.GET_GENERAL_USER)
+  getGlobalAnswerList(id:string){
+    this.http.get(PathConfig.GET_GLOBAL_SH8KE_ANSWER+id)
       .subscribe((response)=> {
-          this.generalUser =  response.data;
-          console.log(this.generalUser);
+          this.globalsh8keAnswer =  response.data;
+          console.log(this.globalsh8keAnswer);
         },
         err => {
         }

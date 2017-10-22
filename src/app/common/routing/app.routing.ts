@@ -99,7 +99,7 @@ const adminRoutes: Routes = [
         component: EditNewsComponent
       },
       {
-        path: 'user/generalCreator',
+        path: 'user/generalCreator/:id/:name',
         component: GeneralCreatorComponent
       },
       {

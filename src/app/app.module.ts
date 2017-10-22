@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { RoutingModule} from "./common/routing/app.routing";
@@ -66,7 +67,8 @@ import { GlobalAnswerComponent } from './modules/sh8ke/global-sh8ke/global-answe
   imports: [
     BrowserModule,
     HttpModule,
-    RoutingModule
+    RoutingModule, 
+    FormsModule 
   ],
   providers: [
     HttpService,

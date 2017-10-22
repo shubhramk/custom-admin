@@ -117,7 +117,7 @@ export class HomeComponent implements OnInit,AfterViewInit{
           "render": function (data, type, full, meta) {
             var template = '';
             template =
-              '<a href="javascript:void(0);" data-name="general-creator" data-custom="' + full['creator_id'] + '">'+data+'</a>';
+              '<a href="javascript:void(0);" data-name="general-creator" data-custom="' + full['creator_id'] + '" data-creator="' + data + '">'+data+'</a>';
 
             return template;
           }
@@ -250,13 +250,14 @@ export class HomeComponent implements OnInit,AfterViewInit{
 
   //on Menu Icon selected
   onMenuSelect(data: any) {
+    console.log(data);
     if (data['clickedOn'] == 'edit') {
       let customData = data['value'];
       this.navigateTo("sh8ke/genralsh8keedit");
     }else if(data['clickedOn'] == 'general-answers'){
         this.navigateTo('sh8ke/generalAnswer/'+data['value']);
     }else if(data['clickedOn'] == 'general-creator'){
-      this.navigateTo('user/generalCreator');
+      this.navigateTo('user/generalCreator/'+data['value']+"/"+data['creatorName']);
     }else if(data['clickedOn'] == 'global-answers'){
       this.navigateTo('sh8ke/globalAnswer/'+data['value']);
     }else if(data['clickedOn'] == 'global-creator'){

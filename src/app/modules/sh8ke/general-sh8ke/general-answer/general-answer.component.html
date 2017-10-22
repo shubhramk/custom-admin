@@ -66,7 +66,7 @@
   <div class="row" *ngIf = "!visibleElement">
     <div class="col-md-12">
        <!--<app-datatable  [dtTableData]="topGeneralSh8ke"></app-datatable>-->
-       <app-datatable [config]='dtConfigGeneralUser' [data]="generalUser" (onMenuSelect)="onMenuSelect($event)"></app-datatable>
+       <app-datatable [config]='dtConfig' [data]="generalAnswerList" (onMenuSelect)="onMenuSelect($event)"></app-datatable>
     </div>
   </div>
 </div>

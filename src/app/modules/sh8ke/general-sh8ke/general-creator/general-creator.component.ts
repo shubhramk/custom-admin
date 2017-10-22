@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpService} from "../../../../common/services/http.service";
 import {PathConfig} from "../../../../common/config/path.config";
+import {ActivatedRoute} from '@angular/router';
 declare var $:any;
 
 @Component({
@@ -9,53 +10,60 @@ declare var $:any;
   styleUrls: ['./general-creator.component.css']
 })
 export class GeneralCreatorComponent implements OnInit {
-  dtConfigGlobal:Object= {};
-  topGlobalSh8ke = [];
+  dtConfig:Object= {};
+  generalCreator = [];
 
-  constructor(private http:HttpService) { }
+  startDate = "";
+  endDate:any;
+  creatorName:string="";
+
+  constructor(private http:HttpService, private activateroute:ActivatedRoute) { }
 
   ngOnInit() {    
-      this.dtConfigGlobal = {
-      "columnDefs": [
-        {
-          "targets": 0,
-          "orderable": false,
-          "render": function (data, type, full, meta) {
-            var template = '';
-            let val = data;
-            template = '<div class="sh8ke-title">' +
-                '<div>'+data+'</div>' +
-                '<a href="javascript:void(0);" data-name="global-answers" data-custom="' + full['rowId'] + '">Answers('+full['count']+')</a>' +
-              '</div>';
-            return template;
-          }
-        }
-        
-      ],
+    this.creatorName = this.activateroute.snapshot.params['name'];
+   // alert(this.generalCreator);
+
+    this.startDate = "01-01-2016";
+    this.endDate = new Date();
+    this.endDate = this.endDate.getDate()+"-"+this.endDate.getMonth()+"-"+this.endDate.getFullYear();
+    //console.log(this.endDate + "    this.endDate");
+      this.dtConfig = {
+      "columnDefs": [],
       "columns": [
         { "title": 'Title', "data": "title" },
         { "title": 'Description', "data": "description" },
-        { "title": 'Category', "data": "CategoryName" },
-        { "title": 'Times sh8ken', "data": "timesSh8ken" },
-        { "title": 'Creater' , "data":"created"}
+        { "title": 'Category', "data": "CategoryName" }
       ]
      }
-
-     this.getTopGlobalShakes();
      setTimeout(()=>{
        $('#date-range').datepicker({
-        toggleActive: true
-    });
-      },200)
+        toggleActive: true,
+        format:"dd-mm-yyyy"
+      });
+    },200);
+    this.startDate = $("#startDate").val();
+    this.endDate = $("#endDate").val();
+    this.getGeneralCreator(this.activateroute.snapshot.params['id'], this.startDate, this.endDate);
   }
-   getTopGlobalShakes(){
-    this.http.post(PathConfig.GET_SHAKES_LIST, { "trending_type": "global","limit": "20","user_type": "","user_id": 1})
+   getGeneralCreator(id:string, startDate, endDate){
+     console.log(this.startDate, this.endDate);
+    this.http.post(PathConfig.GET_GENERAL_SH8KE_CREATOR+id, {"startDate" : startDate,	"endDate" : endDate})
       .subscribe((response)=> {
-          this.topGlobalSh8ke =  response.data;
+          this.generalCreator =  response.data;
+          if(this.generalCreator.length == 0){
+            this.generalCreator = [];
+          }
+          console.log(this.generalCreator);
         },
         err => {
         }
       );
+  }
+  filterDataAccordingDate(){
+    this.startDate = $("#startDate").val();
+    this.endDate = $("#endDate").val();
+    console.log(this.startDate, this.endDate);
+    this.getGeneralCreator(this.activateroute.snapshot.params['id'], this.startDate, this.endDate);
   }
   onMenuSelect(data:any){
 
