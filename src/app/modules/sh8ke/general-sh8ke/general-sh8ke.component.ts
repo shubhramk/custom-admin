@@ -27,7 +27,7 @@ export class GeneralSh8keComponent implements OnInit {
 
             let val = data;
             template = '<div class="sh8ke-title">' +
-              '<div>'+'<a href="javascript:void(0);" data-name="title" data-custom="">'+data+'</a>' +'</div>'+
+              '<div>'+'<a href="javascript:void(0);" data-name="title" data-custom="' + full['rowId'] + '"data-creator="' + data + '">'+data+'</a>' +'</div>'+
               '<a href="javascript:void(0);" data-name="general-answers" data-custom="' + full['rowId'] + '">Answers('+full['count']+')</a>' +
               '</div>';
 
@@ -39,7 +39,7 @@ export class GeneralSh8keComponent implements OnInit {
           "render": function (data, type, full, meta) {
             var template = '';
             template =
-              '<a href="javascript:void(0);" data-name="general-creator" data-custom="' + full['creator_id'] + '">'+data+'</a>';
+              '<a href="javascript:void(0);" data-name="general-creator" data-custom="' + full['creator_id'] + '" data-creator="' + data + '">'+data+'</a>';
 
             return template;
           }
@@ -89,6 +89,12 @@ export class GeneralSh8keComponent implements OnInit {
     if (data['clickedOn'] == 'edit') {
       let customData = data['value'];
       this.navigateTo('sh8ke/genralsh8keedit');
+    }else if(data['clickedOn'] == 'general-answers'){
+        this.navigateTo('sh8ke/generalAnswer/'+data['value']);
+    }else if(data['clickedOn'] == 'title'){
+        this.navigateTo('sh8ke/generalstatics/'+data['value']+"/"+data['creatorName']);
+    }else if(data['clickedOn'] == 'general-creator'){
+      this.navigateTo('user/generalCreator/'+data['value']+"/"+data['creatorName']);
     }
   }
   //navigate to page

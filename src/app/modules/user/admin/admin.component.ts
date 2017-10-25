@@ -59,7 +59,7 @@ ngOnInit(){
 
               let val = data;
               template = '<div class="dt-menu-icons">' +
-                '<span class="fa fa-thumbs-o-up" aria-hidden="true" *ngIf="'+val+'">'+'</span>' +
+                '<span class="fa fa-check-circle" aria-hidden="true" *ngIf="'+val+'">'+'</span>' +
                 '</div>';
 
               return template;

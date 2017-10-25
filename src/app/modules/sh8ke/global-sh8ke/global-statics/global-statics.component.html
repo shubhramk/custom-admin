@@ -1,0 +1,45 @@
+<div class="container-fluid">
+  <div class="row page-titles">
+    <div class="col-md-6 col-8 align-self-center">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">Shake Statistic of {{globalSh8keName}}</a></li>
+      </ol>
+    </div>    
+  </div>
+
+  <hr>
+  <div class="row">
+    <div class=" datePickerContainer col-md-12">
+          <div class="input-daterange input-group col-md-5 pull-right" id="date-range">
+              <input type="text" class="form-control" id ="startDate" name="start" [(ngModel)]="startDate"/>
+              <span class="input-group-addon bg-info b-0 text-white">to</span>
+              <input type="text" class="form-control" id ="endDate" name="end" [(ngModel)]="endDate"/>
+              <button type="button" value="Filter" class="btn btn-success waves-effect waves-light m-l-10" (click)="filterDataAccordingDate()">Filter</button>
+          </div>    
+          <div class="col-md-2">
+            
+          </div>                
+     </div>
+     
+  </div>
+  <hr>
+
+  <div class="row">
+    <!-- Column -->
+    <!-- Total Revenue at the dashboard-->
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <ul class="list-inline pull-right">
+            <li>
+              <h6 class="text-muted"><i class="fa fa-circle m-r-5" style="color:#4DA74D"></i>Sh8ke Favorite Count</h6>
+            </li>
+          </ul>
+          <h4 class="card-title">Monthly Report</h4>
+          <div class="clear"></div>
+          <app-line-multi-chart [data]= "monthlyReport" [configLabel]="configLabel" [configLinecolor]="configLinecolor" [configYKeys]="configYKeys"></app-line-multi-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

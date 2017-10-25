@@ -24,6 +24,10 @@ import {GeneralCreatorComponent} from "../../modules/sh8ke/general-sh8ke/general
 import { GlobalAnswerComponent } from '../../modules/sh8ke/global-sh8ke/global-answer/global-answer.component';
 import {GlobalCreatorComponent} from "../../modules/sh8ke/global-sh8ke/global-creator/global-creator.component";
 
+import {GeneralStaticsComponent} from "../../modules/sh8ke/general-sh8ke/general-statics/general-statics.component";
+import {GlobalStaticsComponent} from "../../modules/sh8ke/global-sh8ke/global-statics/global-statics.component";
+import {ExampleAnswerComponent} from "../../modules/sh8ke/example-sh8ke/example-answer/example-answer.component";
+import {ExampleStaticsComponent} from "../../modules/sh8ke/example-sh8ke/example-statics/example-statics.component";
 
 const adminRoutes: Routes = [
 
@@ -82,14 +86,14 @@ const adminRoutes: Routes = [
         path: 'sh8ke/generalSh8ke',
         component: GeneralSh8keComponent
       },{
-        path: 'sh8ke/genralsh8keedit',
+        path: 'sh8ke/genralsh8keedit/:id/:name',
         component: GenralSh8keEditComponent
       },
       {
         path: 'sh8ke/globalSh8ke',
         component: GlobalSh8keComponent
       },{
-        path: 'sh8ke/globalsh8keedit',
+        path: 'sh8ke/globalsh8keedit/:id/:name',
         component: GlobalSh8keEditComponent
       },
       {
@@ -110,13 +114,29 @@ const adminRoutes: Routes = [
       },
       {
         path: 'sh8ke/generalAnswer/:id',
-        component: GlobalCreatorComponent
+        component: GeneralAnswerComponent
       },
       {
         path: 'sh8ke/globalAnswer/:id',
         component: GlobalAnswerComponent
+      },
+      {
+        path: 'sh8ke/generalstatics/:id/:name',
+        component: GeneralStaticsComponent
+      },
+      {
+        path: 'sh8ke/globalstatics/:id/:name',
+        component: GlobalStaticsComponent
+      },
+      {
+        path: 'sh8ke/exampleAnswer/:id',
+        component: ExampleAnswerComponent
+      },
+      {
+        path: 'sh8ke/examplestatics/:id/:name',
+        component: ExampleStaticsComponent
       }
-
+      
     ]
   }
 ];

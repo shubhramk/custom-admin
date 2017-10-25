@@ -25,8 +25,8 @@ export class ExampleSh8keComponent implements OnInit {
             var template = '';
             let val = data;
             template = '<div class="sh8ke-title">' +
-                '<div>'+'<a href="javascript:void(0);" data-name="title" data-custom="">'+data+'</a>' +'</div>'+
-                '<a href="javascript:void(0);" data-name="global-answers" data-custom="' + full['rowId'] + '">Answers('+full['count']+')</a>' +
+                '<div>'+'<a href="javascript:void(0);" data-name="title" data-custom="' + full['rowId'] + '"data-creator="' + data + '">'+data+'</a>' +'</div>'+
+                '<a href="javascript:void(0);" data-name="example-answers" data-custom="' + full['rowId'] + '">Answers('+full['total']+')</a>' +
               '</div>';
             return template;
           }
@@ -72,7 +72,11 @@ export class ExampleSh8keComponent implements OnInit {
   onMenuSelect(data: any) {
     if (data['clickedOn'] == 'edit') {
       let customData = data['value'];
-        this.navigateTo('sh8ke/examplesh8keedit');
+        
+    }else if(data['clickedOn'] == 'example-answers'){
+      this.navigateTo('sh8ke/exampleAnswer/'+data['value']);
+    }else if(data['clickedOn'] == 'title'){
+        this.navigateTo('sh8ke/examplestatics/'+data['value']+"/"+data['creatorName']);
     }
   }
   //navigate to page

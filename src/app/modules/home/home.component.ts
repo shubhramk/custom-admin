@@ -20,39 +20,29 @@ export class HomeComponent implements OnInit,AfterViewInit{
   dtConfigGeneral:Object = {};
   keysLength:number = 0;
   cardStatistcs = {};
-  /*cardStatistcs = {
-    "totalusers":"0",
-    "prousers":"0",
-    "generalsha8ke":"0",
-    "globalsha8ke":"0",
-    "uniquevisitscurrent":"0",
-    "uniquevisitsprevious":"0",
-    "deviation":0
-  };*/
-
+  
+  configLabel = [];
+  configLinecolor = [];
+  configYKeys = [];
   constructor(
     private router:Router,
     private http:HttpService
   ) {}
 
   ngOnInit(){
-
     //global data table
     this.dtConfigGlobal = {
       "columnDefs": [
-
         {
           "targets": 0,
           "orderable": false,
           "render": function (data, type, full, meta) {
             var template = '';
-
             let val = data;
             template = '<div class="sh8ke-title">' +
                 '<div>'+data+'</div>' +
                 '<a href="javascript:void(0);" data-name="global-answers" data-custom="' + full['rowId'] + '">Answers('+full['count']+')</a>' +
               '</div>';
-
             return template;
           }
         },
@@ -76,8 +66,8 @@ export class HomeComponent implements OnInit,AfterViewInit{
 
             let val = data;
             template = '<div class="dt-menu-icons">' +
-              '<a href="javascript:void(0);" data-name="edit" data-custom="' + val + '"><span class="fa fa-pencil" aria-hidden="true"></span></a>' +
-              '<a href="javascript:void(0);" data-name="delete" data-custom="' + val + '"><span class="fa fa-trash-o" aria-hidden="true"></span></a>' +
+              '<a href="javascript:void(0);" data-name="global-edit" data-custom="' + full['rowId'] + '" data-creator="' + full['title'] + '"><span class="fa fa-pencil" aria-hidden="true"></span></a>' +
+              '<a href="javascript:void(0);" data-name="global-delete" data-custom="' + full['rowId'] + '"><span class="fa fa-trash-o" aria-hidden="true"></span></a>' +
               '</div>';
 
             return template;
@@ -129,11 +119,10 @@ export class HomeComponent implements OnInit,AfterViewInit{
           "className": "noPadding",
           "render": function (data, type, full, meta) {
             var template = '';
-
             let val = data;
             template = '<div class="dt-menu-icons">' +
-              '<a href="javascript:void(0);" data-name="edit" data-custom="' + val + '"><span class="fa fa-pencil" aria-hidden="true"></span></a>' +
-              '<a href="javascript:void(0);" data-name="delete" data-custom="' + val + '"><span class="fa fa-trash-o" aria-hidden="true"></span></a>' +
+              '<a href="javascript:void(0);" data-name="general-edit" data-custom="' + full['rowId']  + '" data-creator="' + full['title'] + '"><span class="fa fa-pencil" aria-hidden="true"></span></a>' +
+              '<a href="javascript:void(0);" data-name="general-delete" data-custom="' + full['rowId']  + '"><span class="fa fa-trash-o" aria-hidden="true"></span></a>' +
               '</div>';
 
             return template;
@@ -226,6 +215,9 @@ export class HomeComponent implements OnInit,AfterViewInit{
 
   //get month report
   getCurrentMonthReport(){
+    this.configLabel = ['Total Users','Sh8ke Shared','Sh8ke Created'];
+    this.configLinecolor = ['#009efb','#617381','#4DA74D'];
+    this.configYKeys = ['a', 'b','c'];
     this.http.get(PathConfig.GET_MONTHLY_REPORT)
       .subscribe((response)=> {
           let monthStr = response['data']['monthStr'];
@@ -250,9 +242,16 @@ export class HomeComponent implements OnInit,AfterViewInit{
 
   //on Menu Icon selected
   onMenuSelect(data: any) {
-    if (data['clickedOn'] == 'edit') {
+    if (data['clickedOn'] == 'general-edit') {
       let customData = data['value'];
-      this.navigateTo("sh8ke/genralsh8keedit");
+      this.navigateTo("sh8ke/genralsh8keedit/"+data['value']+"/"+data['creatorName']);
+    }else if (data['clickedOn'] == 'general-delete') {
+      this.deleteRowFromTop20Trending(data['value'], PathConfig.DELETE_GENERAL_SH8KE, 'generalSh8ke')
+    }else if (data['clickedOn'] == 'global-edit') {
+      let customData = data['value'];
+      this.navigateTo("sh8ke/globalsh8keedit/"+data['value']+"/"+data['creatorName']);
+    }else if (data['clickedOn'] == 'global-delete') {
+      this.deleteRowFromTop20Trending(data['value'], PathConfig.DELETE_GLOBAL_SH8KE, 'globalSh8ke')
     }else if(data['clickedOn'] == 'general-answers'){
         this.navigateTo('sh8ke/generalAnswer/'+data['value']);
     }else if(data['clickedOn'] == 'general-creator'){
@@ -264,6 +263,25 @@ export class HomeComponent implements OnInit,AfterViewInit{
     }
   }
 
+  deleteRowFromTop20Trending(id:string, serviceUrl:string, type:string){
+      let confirmElem = confirm("Are you sure to delete!");
+      if (confirmElem == true) {
+         this.http.post(serviceUrl, {'id':id}).subscribe((response)=> {
+            if(response.Status == "Success"){
+              if(type == "generalSh8ke"){
+                this.getTopGeneralShakes();
+              }else if(type == "globalSh8ke"){
+                this.getTopGlobalShakes();
+              }
+              
+            }
+          },
+          err => {
+          }
+        );
+      } 
+      
+  } 
   //navigate to page
   navigateTo(url:string){
     this.router.navigate([url]);

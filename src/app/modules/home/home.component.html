@@ -132,7 +132,7 @@
           <div class="card">
             <div class="card-body">
               <h4 class="card-title">Current Week Report</h4>
-              <app-line-chart [data]= "currentWeekReport"></app-line-chart>
+              <app-line-chart [data]= "currentWeekReport"  ></app-line-chart>
             </div>
           </div>
         </div>
@@ -159,51 +159,10 @@
           </ul>
           <h4 class="card-title">Monthly Report</h4>
           <div class="clear"></div>
-          <app-line-multi-chart [data]= "monthlyReport"></app-line-multi-chart>
+          <app-line-multi-chart [data]= "monthlyReport" [configLabel]="configLabel" [configLinecolor]="configLinecolor" [configYKeys]="configYKeys"></app-line-multi-chart>
         </div>
       </div>
-
     </div>
-    <!-- Column -->
-    <!--<div class="col-lg-4">-->
-    <!--<div class="row">-->
-      <!--<div class="col-12">-->
-        <!--<div class="card">-->
-          <!--<div class="card-body">-->
-            <!--<h4 class="card-title">Sales Prediction</h4>-->
-            <!--<div class="d-flex flex-row">-->
-              <!--<div class="align-self-center">-->
-                <!--<span class="display-6 text-primary">$3528</span>-->
-                <!--<h6 class="text-muted">10% Increased</h6>-->
-                <!--<h5>(150-165 Sales)</h5>-->
-              <!--</div>-->
-              <!--<div class="ml-auto">-->
-                <!--<div id="gauge-chart" style=" width:150px; height:150px;"></div>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-      <!--<div class="col-12">-->
-        <!--<div class="card">-->
-          <!--<div class="card-body">-->
-            <!--<h4 class="card-title">Sales Difference</h4>-->
-            <!--<div class="d-flex flex-row">-->
-              <!--<div class="align-self-center">-->
-                <!--<span class="display-6 text-success">$4316</span>-->
-                <!--<h6 class="text-muted">10% Increased</h6>-->
-                <!--<h5>(150-165 Sales)</h5>-->
-              <!--</div>-->
-              <!--<div class="ml-auto">-->
-                <!--<div class="ct-chart" style="width:120px; height: 120px;"></div>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
-    <!-- Column -->
   </div>
   <!-- Row -->
   <div class="row">

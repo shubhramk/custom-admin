@@ -11,7 +11,7 @@ import * as _ from 'lodash';
   selector: 'app-datatable',
   template: `
        <div class="custom-dt-table">
-          <table [attr.id]="elemID" class="dt-table table table-bordered table-striped" style="width:100%;"></table>
+          <table [attr.id]="elemID" class="dt-table table table-bordered table-striped table-responsive" style="width:100%;"></table>
         </div>
     `
 })
@@ -103,14 +103,14 @@ export class DatatableComponent implements OnChanges, AfterViewInit, OnInit {
       this.COMMON_CONFIG,
       this.config,
       { "data": this.data || [] }
-    );
+    );    
     this.initDT(options);
   }
 
   //init data Table common config
   initConfig() {
     this.COMMON_CONFIG = {
-       displayLength: 10,
+       displayLength: 20,
        destroy: false,
        order: [],
        lengthMenu: [[10, 20, 25], [10, 20, 25]],
@@ -128,7 +128,10 @@ export class DatatableComponent implements OnChanges, AfterViewInit, OnInit {
     $('#' + self.elemID + "_wrapper .dt-table").on('click', 'a', function () {
       self.onMenuClicked({ 'clickedOn': $(this).attr('data-name'), "value": $(this).attr('data-custom'), creatorName:$(this).attr('data-creator') });
     });
-
+  }
+  //on no data
+  onNoData(options:object) {  
+    $('#' + this.elemID).DataTable(options);
   }
 
   //on menu event bind ie. edit/add/delete icons

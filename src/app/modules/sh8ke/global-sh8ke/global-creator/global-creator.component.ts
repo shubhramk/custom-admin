@@ -30,15 +30,24 @@ export class GlobalCreatorComponent implements OnInit {
       ]
      }
      this.getgeneralSh8keList(this.activateroute.snapshot.params['id']);
+     this.getglobalSh8keList(this.activateroute.snapshot.params['id']);
   }
   getgeneralSh8keList(id:string){
-    this.http.get(PathConfig.GET_GLOBAL_SH8KE_CREATOR+id).subscribe((response)=>{
+    this.http.post(PathConfig.GET_GLOBAL_SH8KE_CREATOR+id, {"type" : "general"}).subscribe((response)=>{
       this.generalSh8keList = response.data;
-      //this.generalSh8keList = [{}];
     },
     err => {
     });
-
+  }
+  getglobalSh8keList(id:string){
+    this.http.post(PathConfig.GET_GLOBAL_SH8KE_CREATOR+id, {"type" : "global"}).subscribe((response)=>{
+      this.globalSh8keList = response.data;
+      console.log(this.globalSh8keList);
+    },
+    err => {
+    });
+  }
+  onMenuSelect(data: any) {
   }
 
 }

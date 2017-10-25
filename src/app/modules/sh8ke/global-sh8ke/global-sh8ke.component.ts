@@ -26,7 +26,7 @@ export class GlobalSh8keComponent implements OnInit {
 
             let val = data;
             template = '<div class="sh8ke-title">' +
-                '<div>'+'<a href="javascript:void(0);" data-name="title" data-custom="">'+data+'</a>' +'</div>'+
+                '<div>'+'<a href="javascript:void(0);" data-name="title" data-custom="' + full['rowId'] + '"data-creator="' + data + '">'+data+'</a>' +'</div>'+
                 '<a href="javascript:void(0);" data-name="global-answers" data-custom="' + full['rowId'] + '">Answers('+full['count']+')</a>' +
               '</div>';
 
@@ -38,7 +38,7 @@ export class GlobalSh8keComponent implements OnInit {
           "render": function (data, type, full, meta) {
             var template = '';
             template =
-              '<a href="javascript:void(0);" data-name="global-creator" data-custom="' + full['creator_id'] + '">'+data+'</a>';
+              '<a href="javascript:void(0);" data-name="global-creator" data-custom="' + full['creator_id'] + '" data-creator="' + data + '">'+data+'</a>';
 
             return template;
           }
@@ -79,6 +79,7 @@ getTopGlobalShakes(){
     this.http.post(PathConfig.GET_SHAKES_LIST, { "trending_type": "global","limit": "","user_type": "","user_id": 1})
       .subscribe((response)=> {
           this.topGlobalSh8ke =  response.data;
+          console.log(this.topGlobalSh8ke);
         },
         err => {
         }
@@ -89,6 +90,12 @@ getTopGlobalShakes(){
     if (data['clickedOn'] == 'edit') {
       let customData = data['value'];
       this.navigateTo('sh8ke/globalsh8keedit');
+    }else if(data['clickedOn'] == 'global-answers'){
+      this.navigateTo('sh8ke/globalAnswer/'+data['value']);
+    }else if(data['clickedOn'] == 'global-creator'){
+      this.navigateTo('user/globalCreator/'+data['value']+"/"+data['creatorName']);
+    }else if(data['clickedOn'] == 'title'){
+        this.navigateTo('sh8ke/globalstatics/'+data['value']+"/"+data['creatorName']);
     }
   }
   //navigate to page

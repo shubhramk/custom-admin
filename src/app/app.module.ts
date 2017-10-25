@@ -35,6 +35,10 @@ import {LineChartMultiComponent} from "./common/component/line-chart-multi/line-
 import { GeneralAnswerComponent } from './modules/sh8ke/general-sh8ke/general-answer/general-answer.component';
 import { GlobalAnswerComponent } from './modules/sh8ke/global-sh8ke/global-answer/global-answer.component';
 import { GlobalCreatorComponent } from './modules/sh8ke/global-sh8ke/global-creator/global-creator.component';
+import { GeneralStaticsComponent } from './modules/sh8ke/general-sh8ke/general-statics/general-statics.component';
+import { GlobalStaticsComponent } from './modules/sh8ke/global-sh8ke/global-statics/global-statics.component';
+import { ExampleAnswerComponent } from './modules/sh8ke/example-sh8ke/example-answer/example-answer.component';
+import { ExampleStaticsComponent } from './modules/sh8ke/example-sh8ke/example-statics/example-statics.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +68,11 @@ import { GlobalCreatorComponent } from './modules/sh8ke/global-sh8ke/global-crea
     GeneralCreatorComponent,
     GeneralAnswerComponent,
     GlobalAnswerComponent,
-    GlobalCreatorComponent
+    GlobalCreatorComponent,
+    GeneralStaticsComponent,
+    GlobalStaticsComponent,
+    ExampleAnswerComponent,
+    ExampleStaticsComponent
   ],
   imports: [
     BrowserModule,

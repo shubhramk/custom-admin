@@ -46,7 +46,6 @@ export class GeneralCreatorComponent implements OnInit {
     this.getGeneralCreator(this.activateroute.snapshot.params['id'], this.startDate, this.endDate);
   }
    getGeneralCreator(id:string, startDate, endDate){
-     console.log(this.startDate, this.endDate);
     this.http.post(PathConfig.GET_GENERAL_SH8KE_CREATOR+id, {"startDate" : startDate,	"endDate" : endDate})
       .subscribe((response)=> {
           this.generalCreator =  response.data;
