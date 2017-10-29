@@ -18,8 +18,14 @@
   </div>
   <div class="row">
     <div class="col-md-12 marB">
-      <a href="javascript:void(0)" *ngIf ="!visibleElement" (click)=" this.visibleElement = !this.visibleElement;">Add New</a>
-      <a href="javascript:void(0)" *ngIf="visibleElement" (click)=" this.visibleElement = !this.visibleElement;">Back</a>
+      <a href="javascript:void(0)" *ngIf ="!visibleElement" (click)=" this.visibleElement = !this.visibleElement;showSuccess=false;showError= false;">Add New</a>
+      <a href="javascript:void(0)" *ngIf="visibleElement" (click)=" this.visibleElement = !this.visibleElement;showSuccess=false;showError= false;">Back</a>
+        <div class="alert alert-success" *ngIf = "showSuccess">
+              <strong>Success!</strong> {{message}}
+        </div>
+        <div class="alert alert-danger" *ngIf = "showError">
+            <strong>Error!</strong> {{message}}
+        </div>
     </div>
   </div>
   <div class="row" *ngIf = "visibleElement">
@@ -32,7 +38,7 @@
                         <div class="col-sm-9 marginCenter ">
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="ti-user"></i></div>
-                                <input type="text" class="form-control" id="uname" placeholder="English Name">
+                                <input type="text" class="form-control" name = 'englishName' [(ngModel)]='englishName' id="uname" placeholder="English Name">
                                 
                             </div>
                         </div>
@@ -41,7 +47,7 @@
                         <div class="col-sm-9 marginCenter">
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="ti-email"></i></div>
-                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="French Name">
+                                <input type="text" class="form-control" name="frenchName" [(ngModel)]="frenchName" id="exampleInputEmail1" placeholder="French Name">
                                 
                             </div>
                         </div>
@@ -59,15 +65,15 @@
                         <div class="col-sm-9 marginCenter">
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="ti-lock"></i></div>
-                                <input type="password" class="form-control" id="pass3" placeholder="Sorting Order">
+                                <input type="text" name = "sorting" [(ngModel)]="sorting" class="form-control" id="pass3" placeholder="Sorting Order">
                                 
                             </div>
                         </div>
                     </div>
                     <div class="form-group row m-b-0">
                         <div class="offset-sm-3 col-sm-9 marginCenter ">
-                            <button type="submit" class="btn btn-info waves-effect waves-light">Save</button>
-                            <button type="button" class="btn btn-info waves-effect waves-light">Cancel</button>
+                            <button type="submit" class="btn btn-success waves-effect waves-light m-r-10t" (click)="addCategoryData()" >Save</button>
+                            <button type="button" class="btn btn-inverse waves-effect waves-light" (click)="this.visibleElement = !this.visibleElement">Cancel</button>
                         </div>
                     </div>
                 </form>

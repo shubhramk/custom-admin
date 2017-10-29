@@ -1,6 +1,7 @@
 import { Component, AfterViewInit, ElementRef, Input} from '@angular/core';
 
-import * as Chartist from 'chartist';
+//import * as Chartist from 'chartist';
+declare var Chartist:any;
 
 
 @Component({

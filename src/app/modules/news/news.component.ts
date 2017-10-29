@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpService} from '../../common//services/http.service';
 import {PathConfig} from "../../common/config/path.config";
+declare var $:any
 @Component({
   selector: 'app-news',
   templateUrl: './news.component.html',
@@ -12,6 +13,12 @@ export class NewsComponent implements OnInit {
   visibleElement:boolean = false;
    newsList = [];
    dtConfig:Object = {}; 
+
+   newsTitle:string = "";
+   expireDate:string = "";
+   description = "";
+   showSuccess:boolean = false;
+   showError:boolean= false;
   constructor(private router:Router, private http:HttpService) { }
 
   ngOnInit(){
@@ -73,11 +80,11 @@ export class NewsComponent implements OnInit {
             "className": "noPadding",
             "render": function (data, type, full, meta) {
               var template = '';
-
+              console.log(full['publish']=='Yes');
               let val = data;
               template = '<div class="dt-menu-icons">' +
-                '<span class="fa fa-check-circle" aria-hidden="true" *ngIf="Yes">'+'</span>' +
-                '</div>';
+              '<span class="fa fa-check-circle" aria-hidden="true" *ngIf="'+full['publish']+'==Yes'+'">'+'</span>' +
+              '</div>';
 
               return template;
             }
@@ -92,6 +99,16 @@ export class NewsComponent implements OnInit {
       ]
      }
      this.getNewsList();
+     
+    }
+    setDatepicker(){
+      setTimeout(()=>{
+        $('#datepicker-autoclose').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        format:'yyyy-mm-dd'
+      });
+    },200);
     }
     getNewsList(){
       this.http.get(PathConfig.GET_NEWS)
@@ -115,5 +132,26 @@ export class NewsComponent implements OnInit {
   navigateTo(url:string){
     this.router.navigate([url]);
   }
-
+  addNews(){
+    let currentTime = new Date().toLocaleTimeString();
+    currentTime = currentTime.split(" ")[0];
+    this.http.post(PathConfig.ADD_NEWS, {
+      "title": this.newsTitle,
+      "description": this.description,
+      "image": "",
+      "size": "",
+      "expire_on":this.expireDate 
+    }).subscribe((response)=>{
+      if(response.Status == "Success"){
+        this.getNewsList();
+        this.showSuccess = true;
+        this.showError = false;
+      }else if(response.Status == "Error"){
+        this.showSuccess = false;
+        this.showError = true;
+      }
+    }, err=>{
+      
+    })
+  }
 }

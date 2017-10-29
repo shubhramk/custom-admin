@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, Input} from '@angular/core';
 
-import Chartist from 'chartist';
+//import Chartist from 'chartist';
+declare var Chartist:any;
 @Component({
   selector: 'app-total-view',
   template: `<div [attr.id]= "elemID" class="sparkline {{barColor}}"></div>`,

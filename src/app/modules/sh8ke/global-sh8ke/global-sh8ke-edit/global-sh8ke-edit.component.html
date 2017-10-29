@@ -24,7 +24,7 @@
                     <div class="form-group row">
                         <div class="col-sm-9 marginCenter ">
                             <div class="input-group">
-                                <input type="text" class="form-control" id="uname" placeholder="Title" [value]="titleName">
+                                    <input type="text" class="form-control" name="title" id="uname" placeholder="Title" [(ngModel)] ="titleName">
                                 <!--<div class="input-group-addon"><i class="ti-user"></i></div>-->
                             </div>
                         </div>
@@ -33,27 +33,27 @@
                     <div class="form-group row">
                         <div class="col-sm-9 marginCenter">
                             <div class="input-group">
-                                <select  class="form-control" id="pass3" placeholder="Select Category">
-                                   <option *ngFor = "let category of categoryItems; let i= index;" [value]="category['id']">{{category['CategoryName']}}</option>
+                                <select  class="form-control" id="pass3" placeholder="Select Category" name="category" [ngModel]="selectedDevice" (ngModelChange)="valueChange($event)">
+                                    <option *ngFor = "let category of categoryItems; let i= index;" [attr.value]="category['id']" [attr.selected]="category['id'] == selectedCategory ? true : null">{{category['CategoryName']}}</option>
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="form-group row">  
                         <div class="col-sm-9 marginCenter" >
-                            <div class="form-check checkBoxContainer col-md-6" *ngFor = "let checkData of options; let i= index;">
-                                  <label class="custom-control custom-checkbox">
-                                      <input type="checkbox" class="custom-control-input">
-                                      <span class="custom-control-indicator"></span>
-                                      <span class="custom-control-description">{{checkData}}</span>
-                                  </label>
-                              </div>
+                            <div class="form-check checkBoxContainer col-md-6" *ngFor = "let checkData of options ; let i= index;">
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" (change)="checkData['selected'] = !checkData['selected']"  [checked]="checkData['selected']">
+                                        <span class="custom-control-indicator"></span>
+                                        <span class="custom-control-description">{{checkData['name']}}</span>
+                                    </label>
+                                </div>
                             
                         </div>
                     </div>
                     <div class="form-group row m-b-0">
                         <div class="offset-sm-3 col-sm-9 marginCenter ">
-                            <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Save</button>
+                            <button type="submit" class="btn btn-success waves-effect waves-light m-r-10" (click)="saveGlobalSh8keEditableData()">Save</button>
                           <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
                         </div>
                     </div>

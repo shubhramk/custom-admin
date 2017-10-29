@@ -5,6 +5,7 @@ import {
 
 import 'datatables.net';
 import $ from 'jquery';
+//declare var $:any;
 import * as _ from 'lodash';
 
 @Component({

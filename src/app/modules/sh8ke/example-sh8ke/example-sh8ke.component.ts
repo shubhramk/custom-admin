@@ -9,10 +9,16 @@ import {PathConfig} from "../../../common/config/path.config";
   styleUrls: ['./example-sh8ke.component.css']
 })
 export class ExampleSh8keComponent implements OnInit {
-  categoryItems = ["Daily", "Shakedown", "Private", "Share", "Explode", "Socialize", "Password", "Adult Material"];
+  categoryItems = [];
   visibleElement:boolean = false;
    exampleSh8keList = [];
    dtConfig:Object = {};
+
+   exampleTitle:string = "";
+   description:string = "";
+   selectedCategory:string = "";
+   showSuccess:boolean = false;
+   showError:boolean = false;
   constructor(private router:Router, private http:HttpService) { }
 
   ngOnInit(){
@@ -56,6 +62,7 @@ export class ExampleSh8keComponent implements OnInit {
       ]
      }
      this.getExampleSh8keList();
+     this.getCategoryList();
 }
 
   getExampleSh8keList(){
@@ -67,6 +74,38 @@ export class ExampleSh8keComponent implements OnInit {
         err => {
         }
       );
+  }
+
+  //to get category drop down value
+  getCategoryList(){
+    this.http.get(PathConfig.GET_GENERAL_SH8KE_EDITABLE_DATA).subscribe((response) =>{
+      console.log(response);
+      this.categoryItems = response.data["Category"];
+      console.log(this.categoryItems);
+    }, err=>{
+    })
+  }
+  updatedCategory( event){
+    this.selectedCategory = event;
+  }
+  addExampleSh8ke(){
+    this.http.post(PathConfig.ADD_NEW_EXAMPLE_SH8KE, {
+      "title": this.exampleTitle,
+      "description": this.description,
+      "category_id": this.selectedCategory,
+      "admin_id": "1"
+    }).subscribe((response)=>{
+      if(response.Status == "Success"){
+        this.getExampleSh8keList();
+        this.showSuccess = true;
+        this.showError = false;
+      }else if(response.Status == "Error"){
+        this.showSuccess = false;
+        this.showError = true;
+      }
+    }, err =>{
+
+    })
   }
   //on Menu Icon selected
   onMenuSelect(data: any) {

@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {ConstantConfig} from "../../common/config/constant.config";
 
 import chartist from 'chartist';
+//declare var Chartist:any;
 declare var $:any;
 
 @Component({

@@ -20,8 +20,14 @@
   </div>
   <div class="row">
     <div class="col-md-12 marB">
-      <a href="javascript:void(0)" *ngIf ="!visibleElement" (click)="handleVisiblity()">Add New User</a>
-      <a href="javascript:void(0)" *ngIf="visibleElement" (click)="handleVisiblity()">Back</a>
+      <a href="javascript:void(0)" *ngIf ="!visibleElement" (click)="handleVisiblity(); showSuccess = false;showError = false;">Add New User</a>
+      <a href="javascript:void(0)" *ngIf="visibleElement" (click)="handleVisiblity(); showSuccess = false;showError = false;">Back</a>
+      <div class="alert alert-success" *ngIf = "showSuccess">
+          <strong>Success!  </strong> {{message}}
+        </div>
+        <div class="alert alert-danger" *ngIf = "showError">
+          <strong>Error!  </strong>{{message}}
+        </div>
     </div>
   </div>
   <div class="row" *ngIf = "visibleElement">
@@ -39,7 +45,7 @@
                           <label for="exampleInputuname2">Name</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
-                              <input type="text" class="form-control" id="exampleInputuname2" placeholder="Name">                             
+                              <input type="text" name="fName" [(ngModel)]="fName" class="form-control" id="exampleInputuname2" placeholder="Name">                             
                           </div>
                         </div>
                       </div>
@@ -48,7 +54,7 @@
                           <label for="exampleInputuname2">Surname</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
-                              <input type="text" class="form-control" id="exampleInputuname2" placeholder="surname">
+                              <input type="text" name="surName" [(ngModel)]="surName" class="form-control" id="exampleInputuname2" placeholder="surname">
                           </div>
                         </div>
                       </div>
@@ -57,7 +63,7 @@
                           <label for="exampleInputuname2">Phone</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
-                              <input type="text" class="form-control" id="exampleInputuname2" placeholder="Phone">
+                              <input type="number" name="phone" [(ngModel)]="phoneNo" class="form-control" id="exampleInputuname2" placeholder="Phone">
                              
                           </div>
                         </div>
@@ -67,7 +73,7 @@
                           <label for="exampleInputEmail2">Email address</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-email"></i></div>
-                              <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
+                              <input type="email" name="email" required [(ngModel)]="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
                               
                           </div>
                         </div>
@@ -77,7 +83,7 @@
                           <label for="exampleInputpwd2">User Name</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
-                              <input type="text" class="form-control" id="exampleInputpwd2" placeholder="Username">
+                              <input type="text" name="userName" [(ngModel)]="userName" class="form-control" id="exampleInputpwd2" placeholder="Username">
                               
                           </div>
                         </div>
@@ -87,7 +93,7 @@
                           <label for="exampleInputpwd2">Password</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-lock"></i></div>
-                              <input type="password" class="form-control" id="exampleInputpwd2" placeholder="Enter pwd">
+                              <input type="password" name="password" [(ngModel)]="password" class="form-control" id="exampleInputpwd2" placeholder="Enter pwd">
                               
                           </div>
                       </div>
@@ -104,10 +110,10 @@
                         <div class="col-sm-9 marginCenter">
                           <label for="exampleInputpwd3">Select Gender</label>
                           <div class="input-group">
-                            <select class="form-control" id="user_type" name="user_type" aria-required="true" aria-invalid="false">
-                              <option value="">Select Gender</option>
-                              <option value="Super Administrator">Male</option>
-                              <option value="Administrator">Female</option>                        
+                            <select class="form-control" id="user_type"  [ngModel]="selectedGender" (ngModelChange)="selectFromDropdown($event,'gender')" name="user_type" aria-required="true" aria-invalid="false">
+                              <option value="-1">Select Gender</option>
+                              <option value="1">Male</option>
+                              <option value="2">Female</option>                        
                             </select>
                           </div>
                         </div>
@@ -116,12 +122,12 @@
                         <div class="col-sm-9 marginCenter">
                           <label for="exampleInputpwd3">Select Status</label>
                           <div class="input-group">
-                            <select class="form-control" id="user_status" name="user_type" aria-required="true" aria-invalid="false">
-                              <option value="">Select Status</option>
-                              <option value="Super Administrator">Single</option>
-                              <option value="Administrator">Married</option> 
-                              <option value="Administrator">Divorced</option>  
-                              <option value="Administrator">Open</option>                        
+                            <select class="form-control" id="user_status"  [ngModel]="selectStatus" (ngModelChange)="selectFromDropdown($event, 'status')" name="user_type" aria-required="true" aria-invalid="false">
+                              <option value="-1">Select Status</option>
+                              <option value="1">Single</option>
+                              <option value="2">Married</option> 
+                              <option value="2">Divorced</option>  
+                              <option value="3">Open</option>                        
                             </select>
                           </div>
                         </div>
@@ -130,10 +136,10 @@
                         <div class="col-sm-9 marginCenter">
                           <label for="user_status">Intrest</label>
                           <div class="input-group">
-                            <select class="form-control" id="user_status" name="user_interest" aria-required="true" aria-invalid="false">
-                              <option value="">Intrested In</option>
-                              <option value="Super Administrator">Male</option>
-                              <option value="Administrator">Female</option>                    
+                            <select class="form-control"  [ngModel]="selectIntrest" (ngModelChange)="selectFromDropdown($event, 'intrest')" id="user_intrst" name="user_interest" aria-required="true" aria-invalid="false">
+                              <option value="-1" selected>Intrested In</option>
+                              <option value="1">Male</option>
+                              <option value="2">Female</option>                    
                             </select>
                           </div>
                         </div>
@@ -156,13 +162,13 @@
                       <div class="form-group row">
                           <div class="col-sm-9 marginCenter">
                           <div class="input-group">
-                              <input type="text" class="form-control" id="datepicker-autoclose" placeholder="mm/dd/yyyy">
+                              <input type="text" class="form-control" name = "date" id="datepicker-autoclose" placeholder="mm/dd/yyyy">
                               <span class="input-group-addon"><i class="icon-calender"></i></span> </div>
                           </div>
                       </div>
                       <div class="text-left row">
                         <div class="col-sm-9 marginCenter">
-                          <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
+                          <button type="submit" class="btn btn-success waves-effect waves-light m-r-10" (click)="addNewGenralUser()">Submit</button>
                           <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
                         </div>
                       </div>

@@ -13,6 +13,9 @@ export class CategoryComponent implements OnInit {
  categoryList = [];
  dtConfig:Object = {};
  visibleElement:boolean = false;
+ showError:boolean = false;
+ showSuccess:boolean = false;
+ message:string = "";
   constructor(private router:Router, private http:HttpService) {
      
    }
@@ -76,16 +79,44 @@ getCategoryList(){
       )
 };
   //on Menu Icon selected
+  englishName:string = "";
+  frenchName:string = "";
+  sorting:string = "";
+  
   onMenuSelect(data: any) {
     if (data['clickedOn'] == 'edit') {
       let customData = data['value'];
       this.navigateTo('sh8ke/categoryEdit');
     }
   }
-  
   //navigate to page
   navigateTo(url:string){
     this.router.navigate([url]);
   }
-
+  addCategoryData(){
+    this.http.post(PathConfig.ADD_NEW_CATEGORY, 
+      {
+        "title_english": this.englishName,
+        "title_french": this.frenchName,
+        "order": this.sorting
+      })
+      .subscribe((response)=> {
+        console.log(response);
+        if(response.Status == "Error"){
+          this.showError = true;
+          this.showSuccess = false;
+          this.message  = response.ErrorMessage;
+        }else if(response.Status == "Success"){
+          this.message = response.SucessMessage;
+          this.showError = false;
+          this.showSuccess = true;
+          this.getCategoryList();
+        }
+      },
+      err => {
+        
+          // Log errors if any
+      }
+      )
+  }
 }

@@ -33,4 +33,16 @@ export class PathConfig {
     public static GET_GLOBAL_SH8KE_EDITABLE_DATA :string = PathConfig.BASE_URL_API + 'api/api.php?action=EditSh8keGlobal&id=';
     public static POST_GLOBAL_SH8KE_EDITABLE_DATA :string = PathConfig.BASE_URL_API + '/api/api.php?action=UpdateSh8keGlobal';    
 
+    public static ADD_NEW_CATEGORY:string = PathConfig.BASE_URL_API +'api/api.php?action=AddCategory';
+    public static ADD_NEW_GENERAL_USER:string = PathConfig.BASE_URL_API +'api/api.php?action=AddShk8eGeneral';
+    
+    public static ADD_NEW_GENERAL_SH8KE:string = PathConfig.BASE_URL_API +'api/api.php?action=AddShk8eGeneral';
+    public static ADD_NEW_GLOBAL_SH8KE:string = PathConfig.BASE_URL_API +'api/api.php?action=AddShk8eGlobal';
+    public static ADD_NEWS:string = PathConfig.BASE_URL_API +'api/api.php?action=AddNews';
+    public static ADD_NEW_EXAMPLE_SH8KE:string = PathConfig.BASE_URL_API +'api/api.php?action=AddShk8eExample';
+
+    public static ADD_GENERAL_USER:string = PathConfig.BASE_URL_API + "api/api.php?action=AddUser";
+
+    
+    
 }

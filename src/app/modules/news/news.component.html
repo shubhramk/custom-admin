@@ -19,8 +19,14 @@
   </div>
   <div class="row">
     <div class="col-md-12 marB">
-      <a href="javascript:void(0)" *ngIf ="!visibleElement" (click)="visibleElement = !visibleElement">Add New News</a>
-      <a href="javascript:void(0)" *ngIf="visibleElement" (click)="visibleElement = !visibleElement">Back</a>
+      <a href="javascript:void(0)" *ngIf ="!visibleElement" (click)="visibleElement = !visibleElement; setDatepicker();showSuccess=false;showError= false;">Add New News</a>
+      <a href="javascript:void(0)" *ngIf="visibleElement" (click)="visibleElement = !visibleElement;showSuccess=false;showError= false;">Back</a>
+      <div class="alert alert-success" *ngIf = "showSuccess">
+        <strong>Success!</strong> Record Added Successfully !
+        </div>
+        <div class="alert alert-danger" *ngIf = "showError">
+            <strong>Error!</strong> This Record is Already Available.
+        </div>
     </div>
   </div>
   <div class="row" *ngIf = "visibleElement">
@@ -30,39 +36,42 @@
                 <h4 class="card-title"> Add News</h4>
                  <form class="form-horizontal p-t-20">
                     <div class="form-group row">
+                            <div class="col-sm-9 marginCenter ">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="title" [(ngModel)]= "newsTitle" placeholder="Title" name="newsTitle">
+                                    <!--<div class="input-group-addon"><i class="ti-user"></i></div>-->
+                                </div>
+                            </div>
+                        </div>
+                        
+                    <div class="form-group row">
                         <div class="col-sm-9 marginCenter ">
                             <div class="input-group">
-                                <input type="text" class="form-control" id="uname" placeholder="Title">
+                                <textarea class="form-control" id="Description" placeholder="Description" name = "description" [(ngModel)]='description'></textarea>
                                 <!--<div class="input-group-addon"><i class="ti-user"></i></div>-->
                             </div>
                         </div>
                     </div>
-                    
                     <div class="form-group row">
-                        <div class="col-sm-9 marginCenter">
+                        <div class="col-sm-9 marginCenter ">
                             <div class="input-group">
-                                <select  class="form-control" id="pass3" placeholder="Select Category">
-                                  <option *ngFor = "let options of categoryItems; let i= index;" value={{i+1}}>{{options}}</option>
-                                </select>
+                                <input type="text" class="form-control" name = "expireDate" [(ngModel)]='expireDate' id="datepicker-autoclose" placeholder="Expire Date">
+                                <!--<div class="input-group-addon"><i class="ti-user"></i></div>-->
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row">  
-                        <div class="col-sm-9 marginCenter" >
-                            <div class="form-check" *ngFor = "let checkData of categoryItems; let i= index;">
-                                  <label class="custom-control custom-checkbox">
-                                      <input type="checkbox" class="custom-control-input">
-                                      <span class="custom-control-indicator"></span>
-                                      <span class="custom-control-description">{{checkData}}</span>
-                                  </label>
-                              </div>
-                            
+                    <div class="form-group row">
+                        <div class="col-sm-9 marginCenter ">
+                            <div class="input-group">
+                                <input type="file" class="form-control" accept="image/png, image/jpeg" id="inputFile" placeholder="Title">
+                                <!--<div class="input-group-addon"><i class="ti-user"></i></div>-->
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row m-b-0">
                         <div class="offset-sm-3 col-sm-9 marginCenter ">
-                            <button type="submit" class="btn btn-info waves-effect waves-light">Save</button>
-                            <button type="button" class="btn btn-info waves-effect waves-light">Cancel</button>
+                            <button type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="addNews()">Save</button>
+                            <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
                         </div>
                     </div>
                 </form>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren} from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpService} from "../../../common/services/http.service";
 import {PathConfig} from "../../../common/config/path.config";
@@ -9,10 +9,18 @@ import {PathConfig} from "../../../common/config/path.config";
   styleUrls: ['./general-sh8ke.component.css']
 })
 export class GeneralSh8keComponent implements OnInit {
-  categoryItems = ["Daily", "Shakedown", "Private", "Share", "Explode", "Socialize", "Password", "Adult Material"];
+  categoryItems = [];
+  options = [];
+  generalSh8keEditableData  = [];
+  titleName:string = "";
+  selectedCategory:string = "";
+
   visibleElement:boolean = false;
   topGeneralSh8ke = [];
   dtConfigGeneral:Object = {};
+
+  showSuccess:boolean = false;
+  showError:boolean= false;
   constructor(private router:Router, private http:HttpService) { }
 
   ngOnInit(){
@@ -54,8 +62,8 @@ export class GeneralSh8keComponent implements OnInit {
 
             let val = data;
             template = '<div class="dt-menu-icons">' +
-              '<a href="javascript:void(0);" data-name="edit" data-custom="' + val + '"><span class="fa fa-pencil" aria-hidden="true"></span></a>' +
-              '<a href="javascript:void(0);" data-name="delete" data-custom="' + val + '"><span class="fa fa-trash-o" aria-hidden="true"></span></a>' +
+              '<a href="javascript:void(0);" data-name="general-edit" data-custom="' + full['rowId']  + '" data-creator="' + full['title'] + '"><span class="fa fa-pencil" aria-hidden="true"></span></a>' +
+              '<a href="javascript:void(0);" data-name="delete" data-custom="' + full['rowId'] + '"><span class="fa fa-trash-o" aria-hidden="true"></span></a>' +
               '</div>';
 
             return template;
@@ -72,6 +80,7 @@ export class GeneralSh8keComponent implements OnInit {
       ]
     }
     this.getTopGeneralShakes();
+    this.getGeneralSh8keEditableData();
   }
 
    //get top20 generalShakes
@@ -86,20 +95,95 @@ export class GeneralSh8keComponent implements OnInit {
   }
    //on Menu Icon selected
   onMenuSelect(data: any) {
-    if (data['clickedOn'] == 'edit') {
-      let customData = data['value'];
-      this.navigateTo('sh8ke/genralsh8keedit');
+    if (data['clickedOn'] == 'general-edit') {
+      this.navigateTo("sh8ke/genralsh8keedit/"+data['value']+"/"+data['creatorName']);
     }else if(data['clickedOn'] == 'general-answers'){
         this.navigateTo('sh8ke/generalAnswer/'+data['value']);
     }else if(data['clickedOn'] == 'title'){
         this.navigateTo('sh8ke/generalstatics/'+data['value']+"/"+data['creatorName']);
     }else if(data['clickedOn'] == 'general-creator'){
       this.navigateTo('user/generalCreator/'+data['value']+"/"+data['creatorName']);
+    }else if(data['clickedOn'] == 'delete'){
+      this.deleteRowFromTop20Trending(data['value'], PathConfig.DELETE_GENERAL_SH8KE)
     }
   }
   //navigate to page
   navigateTo(url:string){
     this.router.navigate([url]);
   }
+  getGeneralSh8keEditableData(){
+    this.options = [];
+    this.http.get(PathConfig.GET_GENERAL_SH8KE_EDITABLE_DATA)
+      .subscribe((response)=> {
+        this.generalSh8keEditableData = response.data;
+        console.log(this.generalSh8keEditableData);
+        this.titleName = this.generalSh8keEditableData['title'];
+        this.categoryItems = (this.generalSh8keEditableData['Category']);
+        //this.selectedCategory = this.generalSh8keEditableData["category_id"];
+        for(let obj in this.generalSh8keEditableData){
+          if(obj != "Category" && obj !="title" && obj != "category_id" && obj != "id"){
+            let key = obj;
+            let data:object ={}// {[key]:this.generalSh8keEditableData[obj]};
+            if(this.generalSh8keEditableData[obj] === null){
+              data = {"name":key, "selected":false}
+            }else{
+              data = {"name":key, "selected":true}
+            }            
+            this.options.push(data);
+          }          
+        }
+        //this.options.push[this.generalSh8keEditableData[]];
+      },
+      err => {
+          // Log errors if any
+      }
+    );
+  }
+  deleteRowFromTop20Trending(id:string, serviceUrl:string){
+    let confirmElem = confirm("Are you sure to delete!");
+    if (confirmElem == true) {
+       this.http.post(serviceUrl, {'id':id}).subscribe((response)=> {
+          if(response.Status == "Success"){
+            this.getTopGeneralShakes();
+          }
+        },
+        err => {
+        }
+      );
+    }       
+}
+selectedList=[];
+//@ViewChildren('myItem') checkBoxItem;
+updateCheckedOptions(data,event){  
+}
+submitData(){
+    let postData = {};
+    this.options.forEach((key,val) =>{
+      //let setvalue = 
+      postData[key.name] = (key.selected == true ? 1 : 0);
+      console.log(postData[key.name] + "   postData[key.name]")
+    
+    });
+    postData["userID"] = "1";
+    postData["category_id"]= this.selectedCategory;
+    postData["title"] = this.titleName;
 
+    console.log(postData);
+    this.http.post(PathConfig.ADD_NEW_GENERAL_SH8KE, postData).subscribe( (response)=>{
+      console.log(response);
+          if(response.Status == "Success"){
+            this.getTopGeneralShakes();
+            this.showSuccess = true;
+            this.showError = false;
+          }else if(response.Status == "Error"){
+            this.showSuccess = false;
+            this.showError = true;
+          }
+    },err =>{
+      console.log(err);
+    })
+  }
+  updatedCategory( event){
+    this.selectedCategory = event;
+  }
 }

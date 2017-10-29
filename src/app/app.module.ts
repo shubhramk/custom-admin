@@ -39,6 +39,7 @@ import { GeneralStaticsComponent } from './modules/sh8ke/general-sh8ke/general-s
 import { GlobalStaticsComponent } from './modules/sh8ke/global-sh8ke/global-statics/global-statics.component';
 import { ExampleAnswerComponent } from './modules/sh8ke/example-sh8ke/example-answer/example-answer.component';
 import { ExampleStaticsComponent } from './modules/sh8ke/example-sh8ke/example-statics/example-statics.component';
+import { ObjectKeyPipe } from './common/pipes/object-key.pipe';
 
 @NgModule({
   declarations: [
@@ -72,13 +73,15 @@ import { ExampleStaticsComponent } from './modules/sh8ke/example-sh8ke/example-s
     GeneralStaticsComponent,
     GlobalStaticsComponent,
     ExampleAnswerComponent,
-    ExampleStaticsComponent
+    ExampleStaticsComponent,
+    ObjectKeyPipe,
   ],
   imports: [
     BrowserModule,
     HttpModule,
     RoutingModule, 
-    FormsModule 
+    FormsModule,
+    
   ],
   providers: [
     HttpService,
