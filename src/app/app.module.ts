@@ -40,6 +40,8 @@ import { GlobalStaticsComponent } from './modules/sh8ke/global-sh8ke/global-stat
 import { ExampleAnswerComponent } from './modules/sh8ke/example-sh8ke/example-answer/example-answer.component';
 import { ExampleStaticsComponent } from './modules/sh8ke/example-sh8ke/example-statics/example-statics.component';
 import { ObjectKeyPipe } from './common/pipes/object-key.pipe';
+import { WorldMapComponent } from './common/component/world-map/world-map.component';
+import { CalendarComponent } from './common/component/calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +77,8 @@ import { ObjectKeyPipe } from './common/pipes/object-key.pipe';
     ExampleAnswerComponent,
     ExampleStaticsComponent,
     ObjectKeyPipe,
+    WorldMapComponent,
+    CalendarComponent,
   ],
   imports: [
     BrowserModule,

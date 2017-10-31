@@ -1,6 +1,5 @@
 
-!function($) {
-    "use strict";
+$(document).ready(function(){
 
     var CalendarApp = function() {
         this.$body = $("body")
@@ -10,7 +9,7 @@
         this.$extEvents = $('#calendar-events'),
         this.$modal = $('#my-event'),
         this.$saveCategoryBtn = $('.save-category'),
-        this.$calendarObj = null
+        this.$calendarObj = null;        
     };
 
 
@@ -121,6 +120,7 @@
     }
     /* Initializing */
     CalendarApp.prototype.init = function() {
+        
         this.enableDrag();
         /*  Initialize the calendar  */
         var date = new Date();
@@ -206,12 +206,7 @@
     },
 
    //init CalendarApp
-    $.CalendarApp = new CalendarApp, $.CalendarApp.Constructor = CalendarApp
+    $.CalendarApp = new CalendarApp, $.CalendarApp.Constructor = CalendarApp;
+    $.CalendarApp.init();
     
-}(window.jQuery),
-
-//initializing CalendarApp
-function($) {
-    "use strict";
-    $.CalendarApp.init()
-}(window.jQuery);
+})

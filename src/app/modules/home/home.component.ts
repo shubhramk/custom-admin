@@ -207,6 +207,7 @@ export class HomeComponent implements OnInit,AfterViewInit{
         })
 
         this.currentWeekReport =  data;
+        console.log(this.currentWeekReport);
         },
         err => {
         }
@@ -279,8 +280,7 @@ export class HomeComponent implements OnInit,AfterViewInit{
           err => {
           }
         );
-      } 
-      
+      }       
   } 
   //navigate to page
   navigateTo(url:string){
