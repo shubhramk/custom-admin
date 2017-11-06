@@ -100,20 +100,19 @@ deleteAdminUser(id){
   err=>{
 
   })
-  }
-  
+  }  
 }
-  getAdminUsers(){
-    
-    this.http.get(PathConfig.GET_ADMIN_USER)
-      .subscribe((response)=> {
-          this.adminUserList =  response.data;
-          console.log(this.adminUserList);
-        },
-        err => {
-        }
-      );
-  }
+getAdminUsers(){
+  
+  this.http.get(PathConfig.GET_ADMIN_USER)
+    .subscribe((response)=> {
+        this.adminUserList =  response.data;
+        console.log(this.adminUserList);
+      },
+      err => {
+      }
+    );
+}
   //navigate to page
   navigateTo(url:string){
     this.router.navigate([url]);
