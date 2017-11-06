@@ -1,0 +1,132 @@
+
+<!-- ============================================================== -->
+<!-- Container fluid  -->
+<!-- ============================================================== -->
+<div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <div class="row page-titles">
+      <div class="col-md-6 col-8 align-self-center">
+        <h3 class="text-themecolor m-b-0 m-t-0">SH8KE</h3>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+          <li class="breadcrumb-item active">sh8ke</li>
+          <li class="breadcrumb-item active">Global sh8ke</li>
+          <li class="breadcrumb-item active" *ngIf="visibleElement">Add Global User</li>
+          <li class="breadcrumb-item active" *ngIf="!visibleElement">Answer</li>
+        </ol>
+      </div>
+      
+    </div>
+    <div class="row">
+      <div class="col-md-12 marB">        
+        <a href="javascript:void(0)" (click)="navigateTo('/sh8ke/globalSh8ke')">Back</a>
+        <div class="alert alert-success" *ngIf = "showSuccess">
+            <strong>Success!</strong> {{message}}
+      </div>
+      <div class="alert alert-danger" *ngIf = "showError">
+          <strong>Error!</strong> {{message}}
+      </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+          <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-9 marginCenter">
+                     <h4 class="card-title"> Edit Answer</h4>
+                  </div>
+                </div>
+                  <form class="form p-t-20">
+                        
+                        <div class="form-group row">
+                          <div class="col-sm-9 marginCenter">
+                            <label for="exampleInputpwd3">Select Gender</label>
+                            <div class="input-group">
+                              <select class="form-control" id="main_type" [ngModel]="selectedDevice" (ngModelChange)="valueChange($event, 'mainType')" name="main_type" aria-required="true" aria-invalid="false">
+                                
+                                <option [attr.selected]="selectedDevice == i ? true:null"  *ngFor="let type of text_mainType; let i = index;" [attr.value]="i">{{type}}</option>                        
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+  
+                        <div class="form-group row" *ngIf= "bool_answerType">
+                            <div class="col-sm-9 marginCenter">
+                              <label for="exampleInputpwd3">Select Answer Type</label>
+                              <div class="input-group">
+                                <select class="form-control" id="answer_type" name="answer_type" [(ngModel)]="answer_type" (ngModelChange)="valueChange($event, 'answerType')" aria-required="true" aria-invalid="false">
+                                    <option value="-1" selected>Select Type</option>
+                                    <option *ngFor="let answerType of text_AnswerType; let i = index;" [attr.value]="answerType">{{answerType}}</option>                        
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group row" *ngIf= "bool_answer">
+                              <div class="col-sm-9 marginCenter">
+                                <label for="exampleInputpwd3">{{answerValue}}</label>
+                                <div class="input-group">
+                                     
+                                  <select class="form-control" id="answer" name="answer" [ngModel]="answerValue" (ngModelChange)="valueChange($event, 'answer')" aria-required="true" aria-invalid="false">
+                                     
+                                    <option value="-1" selected>Select Type</option>
+                                      <option [attr.selected]="answerValue == answer['value'] ? true:null" *ngFor="let answer of text_Answers; let i = index;" [attr.value]="answer['value']">{{answer["text"]}}</option>                       
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div class="form-group row" *ngIf = "bool_fileType">
+                                <div class="col-sm-9 marginCenter">
+                                  <div class="input-group">
+                                     <!--  <input type="file" class="form-control" id="avatar" (change)="onFileChange($event)" #fileInput placeholder="No File Selected"> -->
+                                     <input type="file" ng2FileSelect [uploader]="uploader" id="avatar" name="uploadedAnswer"/>
+                                     
+                                  </div>
+                                </div>
+                              </div>
+                              
+                          <div class="form-group row" *ngIf = "bool_answerOther">
+                              <div class="col-sm-9 marginCenter">
+                                <label for="exampleInputpwd3">Select Gender</label>
+                                <div class="input-group">
+                                  <textarea class="form-control" rows="4" [(ngModel)]="otherTextAnswer" name="otherTextAnswer"></textarea> 
+                                </div>
+                              </div>
+                            </div>
+  
+                            
+                              <div class="form-group row">
+                                  <div class="col-sm-9 marginCenter">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" [(ngModel)] = "link_url" name="link_url" placeholder="Link"/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-9 marginCenter">
+                                        <div class="form-check checkBoxContainer col-md-4 col-sm-6">                                          
+                                                <label class="custom-control custom-checkbox">
+                                                    <input type="checkbox" [checked]="finalAnswer" (change)="finalAnswer = !finalAnswer" class="custom-control-input">
+                                                    <span class="custom-control-indicator"></span>
+                                                    <span class="custom-control-description">Final Answer</span>
+                                                </label>
+                                            </div>
+                                    </div>
+                                  </div>
+                        
+                        <div class="text-left row">
+                          <div class="col-sm-9 marginCenter">
+                            <button type="submit" (click)="submitAnswer()" class="btn btn-success waves-effect waves-light m-r-10" >Submit</button>
+                            <button type="submit" class="btn btn-inverse waves-effect waves-light" (click) = "navigateTo('/sh8ke/globalSh8ke')">Cancel</button>
+                          </div>
+                        </div>
+                    </form>
+              </div>
+          </div>
+      </div>
+    </div>
+    
+  </div>

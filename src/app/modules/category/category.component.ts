@@ -1,8 +1,10 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
 import {ConstantConfig} from "../../common/config/constant.config";
 import {HttpService} from "../../common/services/http.service";
 import {PathConfig} from "../../common/config/path.config";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+declare var $:any;
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -16,10 +18,13 @@ export class CategoryComponent implements OnInit {
  showError:boolean = false;
  showSuccess:boolean = false;
  message:string = "";
-  constructor(private router:Router, private http:HttpService) {
-     
-   }
+ imageBase64:string = "";
 
+ form: FormGroup;
+ 
+  constructor(private router:Router, private http:HttpService) {
+   }
+   
   ngOnInit(){
     this.visibleElement = ConstantConfig.visibleElement;
     this.dtConfig = { 
@@ -35,7 +40,7 @@ export class CategoryComponent implements OnInit {
             let val = data;
             template = '<div class="dt-menu-icons">' +
               '<a href="javascript:void(0);" data-name="edit" data-custom="' + val + '"><span class="fa fa-pencil" aria-hidden="true"></span></a>' +
-              '<a href="javascript:void(0);" data-name="delete" data-custom="' + val + '"><span class="fa fa-trash-o" aria-hidden="true"></span></a>' +
+              '<a href="javascript:void(0);" data-name="delete" data-custom="' + full['rowId'] + '"><span class="fa fa-trash-o" aria-hidden="true"></span></a>' +
               '</div>';
 
             return template;
@@ -87,13 +92,42 @@ getCategoryList(){
     if (data['clickedOn'] == 'edit') {
       let customData = data['value'];
       this.navigateTo('sh8ke/categoryEdit');
+    }else if(data['clickedOn'] == 'delete'){
+      this.deleteCategory(data['value']);
     }
+  }
+
+  deleteCategory(id:string){
+    console.log(id);
+    let confirmElem = confirm("Are you sure to delete!");
+    if (confirmElem == true) {
+      this.http.get(PathConfig.DELETE_CATEGORY+id).subscribe((response)=>{
+        console.log(response);
+        this.getCategoryList();
+      }, err=>{
+  
+      });
+    }
+    
   }
   //navigate to page
   navigateTo(url:string){
     this.router.navigate([url]);
   }
+  onFileChange(event){
+  event = document.getElementById("avatar");
+    //console.log(event);
+    if (event.files[0]) {
+      var fileReader = new FileReader();
+      fileReader.onload = function (e) {
+          console.log(e.target);   
+          $("#targetLayer").html('<img src="'+e.target['result']+'" width="50px" height="50px" class="upload-preview" />'); 
+      }
+    fileReader.readAsDataURL(event.files[0]);
+  }
+  }
   addCategoryData(){
+    
     this.http.post(PathConfig.ADD_NEW_CATEGORY, 
       {
         "title_english": this.englishName,
@@ -119,4 +153,6 @@ getCategoryList(){
       }
       )
   }
+  
+
 }

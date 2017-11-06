@@ -27,10 +27,10 @@
                 <form class="form p-t-20">
                       <div class="form-group row">
                         <div class="col-sm-9 marginCenter">
-                          <label for="exampleInputuname2">Name</label>
+                          <label for="fName">Name</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
-                              <input type="text" class="form-control" id="exampleInputuname2" placeholder="Name">                             
+                              <input type="text" class="form-control" name="fname" [(ngModel)]="fName" id="fName" placeholder="Name">                             
                           </div>
                         </div>
                       </div>
@@ -39,7 +39,7 @@
                           <label for="exampleInputuname2">Surname</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
-                              <input type="text" class="form-control" id="exampleInputuname2" placeholder="surname">
+                              <input type="text" class="form-control" id="exampleInputuname2" name="surName" [(ngModel)]="surName" placeholder="surname">
                           </div>
                         </div>
                       </div>
@@ -48,7 +48,7 @@
                           <label for="exampleInputuname2">Phone</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
-                              <input type="text" class="form-control" id="exampleInputuname2" placeholder="Phone">
+                              <input type="text" class="form-control" id="exampleInputuname2" name="phoneNo" [(ngModel)]="phoneNo" placeholder="Phone">
                              
                           </div>
                         </div>
@@ -58,36 +58,36 @@
                           <label for="exampleInputEmail2">Email address</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-email"></i></div>
-                              <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
+                              <input type="email" class="form-control" id="exampleInputEmail2" name="email" [(ngModel)]="email" placeholder="Enter email">
                               
                           </div>
                         </div>
                       </div>
                       <div class="form-group row">
                         <div class="col-sm-9 marginCenter">
-                          <label for="exampleInputpwd2">User Name</label>
+                          <label for="username">User Name</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
-                              <input type="text" class="form-control" id="exampleInputpwd2" placeholder="Username">
+                              <input type="text" class="form-control" id="username" name="userName" [(ngModel)]="userName" autocomplete="off" placeholder="Username">
                               
                           </div>
                         </div>
                       </div>
                       <div class="form-group row">
                         <div class="col-sm-9 marginCenter">
-                          <label for="exampleInputpwd2">Password</label>
+                          <label for="password">Password</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-lock"></i></div>
-                              <input type="password" class="form-control" id="exampleInputpwd2" placeholder="Enter pwd">
+                              <input type="password" class="form-control" id="datepicker" name="password" [(ngModel)]="password" autocomplete="off" placeholder="Enter pwd">
                               
                           </div>
                       </div>
                       </div>
                       <div class="form-group row">
                         <div class="col-sm-9 marginCenter">
-                          <label for="exampleInputpwd3">Upload Photo</label>
+                          <label for="imageUrl">Upload Photo</label>
                           <div class="input-group">
-                              <input type="file" class="form-control" id="exampleInputpwd3" placeholder="Upload Photo">
+                              <input type="file" class="form-control" id="imageUrl" name ="imageUrl" [(ngModel)]="imageUrl" placeholder="Upload Photo">
                           </div>
                         </div>
                       </div>
@@ -95,10 +95,10 @@
                         <div class="col-sm-9 marginCenter">
                           <label for="exampleInputpwd3">Select Gender</label>
                           <div class="input-group">
-                            <select class="form-control" id="user_type" name="user_type" aria-required="true" aria-invalid="false">
+                            <select class="form-control" id="user_type" [ngModel]="selectedGender" (ngModelChange)="updateCheckedOptions($event, 'gender')" name="user_type" aria-required="true" aria-invalid="false">
                               <option value="">Select Gender</option>
-                              <option value="Super Administrator">Male</option>
-                              <option value="Administrator">Female</option>                        
+                              <option value="1">Male</option>
+                              <option value="2">Female</option>                        
                             </select>
                           </div>
                         </div>
@@ -107,12 +107,12 @@
                         <div class="col-sm-9 marginCenter">
                           <label for="exampleInputpwd3">Select Status</label>
                           <div class="input-group">
-                            <select class="form-control" id="user_status" name="user_type" aria-required="true" aria-invalid="false">
-                              <option value="">Select Status</option>
-                              <option value="Super Administrator">Single</option>
-                              <option value="Administrator">Married</option> 
-                              <option value="Administrator">Divorced</option>  
-                              <option value="Administrator">Open</option>                        
+                            <select class="form-control" id="user_status" name="user_status" [ngModel]="selectStatus" (ngModelChange)="updateCheckedOptions($event, 'status')" aria-required="true" aria-invalid="false">
+                              <option value="-1" selected>Select Status</option>
+                              <option value="1">Single</option>
+                              <option value="2">Married</option> 
+                              <option value="3">Divorced</option>  
+                              <option value="3">Open</option>                        
                             </select>
                           </div>
                         </div>
@@ -121,10 +121,10 @@
                         <div class="col-sm-9 marginCenter">
                           <label for="user_status">Intrest</label>
                           <div class="input-group">
-                            <select class="form-control" id="user_status" name="user_interest" aria-required="true" aria-invalid="false">
-                              <option value="">Intrested In</option>
-                              <option value="Super Administrator">Male</option>
-                              <option value="Administrator">Female</option>                    
+                            <select class="form-control" [ngModel]="selectIntrest" (ngModelChange)="updateCheckedOptions($event, 'intrest')" id="user_status" name="user_interest" aria-required="true" aria-invalid="false">
+                              <option value="-1" selected>Intrested In</option>
+                              <option value="1">Male</option>
+                              <option value="2">Female</option>                    
                             </select>
                           </div>
                         </div>
@@ -153,7 +153,7 @@
                       </div>
                       <div class="text-left row">
                         <div class="col-sm-9 marginCenter">
-                          <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
+                          <button type="submit" class="btn btn-success waves-effect waves-light m-r-10" (click)="submitEditableData">Submit</button>
                           <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
                         </div>
                       </div>

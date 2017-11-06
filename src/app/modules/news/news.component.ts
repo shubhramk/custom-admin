@@ -80,12 +80,16 @@ export class NewsComponent implements OnInit {
             "className": "noPadding",
             "render": function (data, type, full, meta) {
               var template = '';
-              console.log(full['publish']=='Yes');
               let val = data;
-              template = '<div class="dt-menu-icons">' +
-              '<span class="fa fa-check-circle" aria-hidden="true" *ngIf="'+full['publish']+'==Yes'+'">'+'</span>' +
-              '</div>';
-
+              if(full['publiash'] == 'Yes'){
+                template = '<div class="dt-menu-icons">' +
+                '<a href="javascript:void(0);" data-name="delete" data-custom="' + val + '"><span class="fa fa-check-circle" aria-hidden="true">'+'</span></a>' +
+                '</div>';
+              }else{
+                template = '<div class="dt-menu-icons">' +
+                '<a href="javascript:void(0);" data-name="delete" data-custom="' + val + '"><span class="fa fa-times-circle" aria-hidden="true">'+'</span></a>' +
+                '</div>';
+              }
               return template;
             }
         }
@@ -102,11 +106,18 @@ export class NewsComponent implements OnInit {
      
     }
     setDatepicker(){
+      var self = this;
       setTimeout(()=>{
         $('#datepicker-autoclose').datepicker({
         autoclose: true,
         todayHighlight: true,
         format:'yyyy-mm-dd'
+      }).on('changeDate', function(e) {
+        console.log(e.date);
+        let date = new Date(e.date);
+        console.log(String(date.getDate()) +"-"+String(date.getMonth())+"-"+String(date.getFullYear()));
+        self.expireDate = String(String(date.getFullYear() +"-"+String(date.getMonth()+1)+"-"+ date.getDate()));
+        
       });
     },200);
     }
@@ -135,12 +146,13 @@ export class NewsComponent implements OnInit {
   addNews(){
     let currentTime = new Date().toLocaleTimeString();
     currentTime = currentTime.split(" ")[0];
+    console.log(this.expireDate +" "+ currentTime );
     this.http.post(PathConfig.ADD_NEWS, {
       "title": this.newsTitle,
       "description": this.description,
       "image": "",
       "size": "",
-      "expire_on":this.expireDate 
+      "expire_on":this.expireDate
     }).subscribe((response)=>{
       if(response.Status == "Success"){
         this.getNewsList();

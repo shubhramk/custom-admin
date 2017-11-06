@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FileSelectDirective  } from 'ng2-file-upload';
+import {FileDropDirective} from 'ng2-file-upload';
 
 import { AppComponent } from './app.component';
 import { RoutingModule} from "./common/routing/app.routing";
@@ -42,6 +44,9 @@ import { ExampleStaticsComponent } from './modules/sh8ke/example-sh8ke/example-s
 import { ObjectKeyPipe } from './common/pipes/object-key.pipe';
 import { WorldMapComponent } from './common/component/world-map/world-map.component';
 import { CalendarComponent } from './common/component/calendar/calendar.component';
+import { GeneralAnswerEditComponent } from './modules/sh8ke/general-sh8ke/general-answer-edit/general-answer-edit.component';
+import { GlobalAnswerEditComponent } from './modules/sh8ke/global-sh8ke/global-answer-edit/global-answer-edit.component';
+import { ExampleAnswerEditComponent } from './modules/sh8ke/example-sh8ke/example-answer-edit/example-answer-edit.component';
 
 @NgModule({
   declarations: [
@@ -79,13 +84,17 @@ import { CalendarComponent } from './common/component/calendar/calendar.componen
     ObjectKeyPipe,
     WorldMapComponent,
     CalendarComponent,
+    GeneralAnswerEditComponent,
+    GlobalAnswerEditComponent,
+    FileSelectDirective , 
+    FileDropDirective, ExampleAnswerEditComponent 
   ],
   imports: [
     BrowserModule,
     HttpModule,
     RoutingModule, 
     FormsModule,
-    
+    ReactiveFormsModule,
   ],
   providers: [
     HttpService,

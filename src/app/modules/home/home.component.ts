@@ -185,6 +185,7 @@ export class HomeComponent implements OnInit,AfterViewInit{
     this.http.post(PathConfig.GET_SHAKES_LIST, { "trending_type": "general","limit": "20","user_type": "","user_id": 1})
       .subscribe((response)=> {
           this.topGeneralSh8ke =  response.data;
+          console.log(this.topGeneralSh8ke);
         },
         err => {
         }

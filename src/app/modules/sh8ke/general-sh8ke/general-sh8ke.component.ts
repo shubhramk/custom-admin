@@ -36,7 +36,7 @@ export class GeneralSh8keComponent implements OnInit {
             let val = data;
             template = '<div class="sh8ke-title">' +
               '<div>'+'<a href="javascript:void(0);" data-name="title" data-custom="' + full['rowId'] + '"data-creator="' + data + '">'+data+'</a>' +'</div>'+
-              '<a href="javascript:void(0);" data-name="general-answers" data-custom="' + full['rowId'] + '">Answers('+full['count']+')</a>' +
+              '<a href="javascript:void(0);" data-name="general-answers" data-custom="' + full['rowId'] + '"data-creator="' + full['id'] + '">Answers('+full['count']+')</a>' +
               '</div>';
 
             return template;
@@ -88,6 +88,7 @@ export class GeneralSh8keComponent implements OnInit {
     this.http.post(PathConfig.GET_SHAKES_LIST, { "trending_type": "general","limit": "","user_type": "","user_id": 1})
       .subscribe((response)=> {
           this.topGeneralSh8ke =  response.data;
+          console.log(this.topGeneralSh8ke);
         },
         err => {
         }
@@ -98,7 +99,7 @@ export class GeneralSh8keComponent implements OnInit {
     if (data['clickedOn'] == 'general-edit') {
       this.navigateTo("sh8ke/genralsh8keedit/"+data['value']+"/"+data['creatorName']);
     }else if(data['clickedOn'] == 'general-answers'){
-        this.navigateTo('sh8ke/generalAnswer/'+data['value']);
+        this.navigateTo('sh8ke/generalAnswer/'+data['value']+"/"+data['creatorName']);
     }else if(data['clickedOn'] == 'title'){
         this.navigateTo('sh8ke/generalstatics/'+data['value']+"/"+data['creatorName']);
     }else if(data['clickedOn'] == 'general-creator'){

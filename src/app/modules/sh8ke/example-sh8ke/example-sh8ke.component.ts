@@ -32,7 +32,7 @@ export class ExampleSh8keComponent implements OnInit {
             let val = data;
             template = '<div class="sh8ke-title">' +
                 '<div>'+'<a href="javascript:void(0);" data-name="title" data-custom="' + full['rowId'] + '"data-creator="' + data + '">'+data+'</a>' +'</div>'+
-                '<a href="javascript:void(0);" data-name="example-answers" data-custom="' + full['rowId'] + '">Answers('+full['total']+')</a>' +
+                '<a href="javascript:void(0);" data-name="example-answers" data-custom="' + full['rowId'] + '"data-creator="' + full['id'] + '">Answers('+full['total']+')</a>' +
               '</div>';
             return template;
           }
@@ -47,8 +47,8 @@ export class ExampleSh8keComponent implements OnInit {
 
             let val = data;
             template = '<div class="dt-menu-icons">' +
-              '<a href="javascript:void(0);" data-name="edit" data-custom="' + val + '"><span class="fa fa-pencil" aria-hidden="true"></span></a>' +
-              '<a href="javascript:void(0);" data-name="delete" data-custom="' + val + '"><span class="fa fa-trash-o" aria-hidden="true"></span></a>' +
+              '<a href="javascript:void(0);" data-name="edit" data-custom="' + full['rowId'] + '"><span class="fa fa-pencil" aria-hidden="true"></span></a>' +
+              '<a href="javascript:void(0);" data-name="delete" data-custom="' + full['rowId'] + '"><span class="fa fa-trash-o" aria-hidden="true"></span></a>' +
               '</div>';
 
             return template;
@@ -110,12 +110,26 @@ export class ExampleSh8keComponent implements OnInit {
   //on Menu Icon selected
   onMenuSelect(data: any) {
     if (data['clickedOn'] == 'edit') {
-      let customData = data['value'];
-        
+      let customData = data['value'];        
     }else if(data['clickedOn'] == 'example-answers'){
-      this.navigateTo('sh8ke/exampleAnswer/'+data['value']);
+      this.navigateTo('sh8ke/exampleAnswer/'+data['value']+"/"+data['creatorName']);
     }else if(data['clickedOn'] == 'title'){
         this.navigateTo('sh8ke/examplestatics/'+data['value']+"/"+data['creatorName']);
+    }else if(data['clickedOn'] == 'delete'){
+      this.deleteExampleSh8ke(data['value'], PathConfig.DLETE_EXAMPLE_SH8KE)
+    }
+  }
+  deleteExampleSh8ke(id:string, serviceUrl:string){
+    let confirmElem = confirm("Are you sure to delete!");
+    if (confirmElem == true) {
+       this.http.get(serviceUrl+id).subscribe((response)=> {
+          if(response.Status == "Success"){
+            this.getExampleSh8keList();
+          }
+        },
+        err => {
+        }
+      );
     }
   }
   //navigate to page

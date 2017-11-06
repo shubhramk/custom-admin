@@ -12,7 +12,9 @@ export class PathConfig {
     public static GET_ADMIN_USER :string = PathConfig.BASE_URL_API + 'api/api.php?action=AdminUsers';
     public static GET_CATEGORY :string = PathConfig.BASE_URL_API + 'api/api.php?action=Category';
     public static GET_NEWS :string = PathConfig.BASE_URL_API + 'api/api.php?action=News';
+    
     public static GET_EXAMPLE_SH8KE :string = PathConfig.BASE_URL_API + 'api/api.php?action=ExampleSh8kes';
+    public static GET_EXAMPLE_ANSWER_LST:string = PathConfig.BASE_URL_API + 'api/api.php?action=ExampleSh8keAnswer&id=';
 
     public static GET_GENERAL_SH8KE_ANSWER :string = PathConfig.BASE_URL_API + 'api/api.php?action=GeneralSh8keAnswer&id=';
     
@@ -31,7 +33,7 @@ export class PathConfig {
     public static POST_GENERAL_SH8KE_EDITABLE_DATA :string = PathConfig.BASE_URL_API + 'api/api.php?action=UpdateSh8keGeneral';
     
     public static GET_GLOBAL_SH8KE_EDITABLE_DATA :string = PathConfig.BASE_URL_API + 'api/api.php?action=EditSh8keGlobal&id=';
-    public static POST_GLOBAL_SH8KE_EDITABLE_DATA :string = PathConfig.BASE_URL_API + '/api/api.php?action=UpdateSh8keGlobal';    
+    public static POST_GLOBAL_SH8KE_EDITABLE_DATA :string = PathConfig.BASE_URL_API + 'api/api.php?action=UpdateSh8keGlobal';    
 
     public static ADD_NEW_CATEGORY:string = PathConfig.BASE_URL_API +'api/api.php?action=AddCategory';
     public static ADD_NEW_GENERAL_USER:string = PathConfig.BASE_URL_API +'api/api.php?action=AddShk8eGeneral';
@@ -43,6 +45,46 @@ export class PathConfig {
 
     public static ADD_GENERAL_USER:string = PathConfig.BASE_URL_API + "api/api.php?action=AddUser";
 
+    public static GET_ADMIN_USER_EDITABLE_DATA = PathConfig.BASE_URL_API + "api/api.php?action=EditAdmin&id=";
+    public static UPDATE_ADMIN_USER_ADMIN = PathConfig.BASE_URL_API + "api/api.php?action=UpdateAdmin";
+    public static DELETE_ADMIN_USER:string = PathConfig.BASE_URL_API +"api/api.php?action=DeleteAdmin&id=";
+
+    public static DELETE_GENERAL_USER:string = PathConfig.BASE_URL_API +"api/api.php?action=DeleteUser&id=";
+    public static GET_GENERAL_USER_EDITABLE_DATA = PathConfig.BASE_URL_API + "api/api.php?action=EditUser&id=";
+
+    public static DLETE_EXAMPLE_SH8KE:string = PathConfig.BASE_URL_API + "api/api.php?action=DeleteExampleSh8ke&id=";
+
+    public static DELETE_GENERAL_ANSWER:string = PathConfig.BASE_URL_API + "api/api.php?action=DeleteGeneralAnswerSh8ke&id="
+    public static DELETE_GLOBAL_ANSWER:string = PathConfig.BASE_URL_API + "api/api.php?action=DeleteGlobalAnswerSh8ke&id="
     
+    public static GET_GLOBAL_ANSWERS_LIST:string = PathConfig.BASE_URL_API+"api/api.php?action=GetData";
+
+    public static ADD_GLOBAL_SH8KE_ANSWER:string = PathConfig.BASE_URL_API+"api/api.php?action=AddSh8keGlobalAnswer";
+    public static UPDATE_SH8KE_GLOBAL_ANSWER_UPLOADED_ITEM:string = PathConfig.BASE_URL_API+"api/api.php?action=EditSh8keGlobalAnswer";
+    public static UPDATE_SH8KE_GLOBAL_ANSWER_TEXT:string = PathConfig.BASE_URL_API + "api/api.php?action=EditSh8keGlobalAnswerTextData";
+
+    public static ADD_GLOBAL_ANSWER_UPLOADED_DATA:string = PathConfig.BASE_URL_API+"api/api.php?action=AddSh8keGlobalAnswerImage";
+
+    public static GET_EDITABLE_GLOBAL_ANSWER:string = PathConfig.BASE_URL_API + "api/api.php?action=EditSh8keGlobalAnswerData&ans_id=";
+
+    public static ADD_GENERAL_SH8KE_ANSWER:string = PathConfig.BASE_URL_API+ "api/api.php?action=AddSh8keGeneralAnswer";
+    public static ADD_GENERAL_SH8KE_ANSWER_UPLOADED_ITEM:string = PathConfig.BASE_URL_API+ "api/api.php?action=AddSh8keGeneralAnswerWithImage";
+
+    public static GET_EDITABLE_GENERAL_ANSWER:string = PathConfig.BASE_URL_API + "api/api.php?action=EditSh8keGeneralAnswerData&ans_id=";
+    public static UPDATE_SH8KE_GENERAL_ANSWER_UPLOADED_ITEM:string = PathConfig.BASE_URL_API+"api/api.php?action=UpdateSh8keGeneralAnswerWithImage";
+    public static UPDATE_SH8KE_GENERAL_ANSWER:string = PathConfig.BASE_URL_API+"api/api.php?action=UpdateSh8keGeneralAnswer";
+
+
+    public static DELETE_CATEGORY:string = PathConfig.BASE_URL_API+"api/api.php?action=DeleteCategory&id=";
+    
+    public static ADD_EXAMPLE_SH8KE_ANSWER:string = PathConfig.BASE_URL_API+ "api/api.php?action=AddSh8keExampleAnswer";
+    public static ADD_EXAMPLE_SH8KE_ANSWER_UPLOADED_ITEM:string = PathConfig.BASE_URL_API+ "api/api.php?action=AddSh8keExampleAnswerWithImage";
+
+    public static DELETE_EXAMPLE_ANSWER:string = PathConfig.BASE_URL_API+"api/api.php?action=DeleteExampleAnswerSh8ke&id="
+
+    public static GET_EDITABLE_EXAMPLE_ANSWER:string = PathConfig.BASE_URL_API + "api/api.php?action=EditSh8keExampleAnswerData&ans_id=";
+    public static UPDATE_SH8KE_EXAMPLE_ANSWER_UPLOADED_ITEM:string = PathConfig.BASE_URL_API+"api/api.php?action=UpdateSh8keExampleAnswerWithImage";
+    public static UPDATE_SH8KE_EXAMPLE_ANSWER:string = PathConfig.BASE_URL_API+"api/api.php?action=UpdateSh8keExampleAnswer";
+
     
 }

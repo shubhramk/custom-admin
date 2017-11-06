@@ -34,7 +34,7 @@ export class GlobalSh8keComponent implements OnInit {
             let val = data;
             template = '<div class="sh8ke-title">' +
                 '<div>'+'<a href="javascript:void(0);" data-name="title" data-custom="' + full['rowId'] + '"data-creator="' + data + '">'+data+'</a>' +'</div>'+
-                '<a href="javascript:void(0);" data-name="global-answers" data-custom="' + full['rowId'] + '">Answers('+full['count']+')</a>' +
+                '<a href="javascript:void(0);" data-name="global-answers" data-custom="' + full['rowId'] + '"data-creator="' + full['id'] + '">Answers('+full['count']+')</a>' +
               '</div>';
 
             return template;
@@ -51,7 +51,7 @@ export class GlobalSh8keComponent implements OnInit {
           }
         },
         {
-          "targets": 5,
+          "targets": 7,
           "width": "10%",
           "orderable": false,
           "className": "noPadding",
@@ -60,9 +60,35 @@ export class GlobalSh8keComponent implements OnInit {
 
             let val = data;
             template = '<div class="dt-menu-icons">' +
-              '<a href="javascript:void(0);" data-name="global-edit" data-custom="'+ full['rowId']  + '" data-creator="' + full['title'] + '"><span class="fa fa-pencil" aria-hidden="true"></span></a>' +
+              '<a href="javascript:void(0);" data-name="global-edit" data-custom="'+ full['rowId']  + '" data-creator="' + full['id'] + '"><span class="fa fa-pencil" aria-hidden="true"></span></a>' +
               '<a href="javascript:void(0);" data-name="delete" data-custom="' + full['rowId'] + '"><span class="fa fa-trash-o" aria-hidden="true"></span></a>' +
               '</div>';
+
+            return template;
+          }
+        },
+        {
+          "targets": 6,
+          "width": "10%",
+          "orderable": false,
+          "className": "noPadding",
+          "render": function (data, type, full, meta) {
+            var template = '';
+
+            let val = data;
+            let no = "No";
+            let yes = "Yes";
+            if(val == "No"){
+              template = '<div class="dt-menu-icons">' +
+              '<a href="javascript:void(0);" data-name="global-publish"  data-custom="'+ full['rowId']  + '" data-creator="' + full['title'] + '"><span class="fa fa-times" aria-hidden="true"></span></a>' +
+             '</div>';
+            }else if(val == "Yes"){
+              template = '<div class="dt-menu-icons">' +
+              '<a href="javascript:void(0);" data-name="global-publish"  data-custom="'+ full['rowId']  + '" data-creator="' + full['title'] + '"><span class="fa fa-check" aria-hidden="true"></span></a>' +
+              '</div>';
+
+            }
+            
 
             return template;
           }
@@ -73,7 +99,10 @@ export class GlobalSh8keComponent implements OnInit {
         { "title": 'Description', "data": "description" },
         { "title": 'Category', "data": "CategoryName" },
         { "title": 'Times sh8ken', "data": "timesSh8ken" },
-        { "title": 'Creater' , "data":"created"}
+        { "title": 'Creater' , "data":"created"},
+        { "title": 'Approved' , "data":"status_approved"},
+        { "title": 'Publish' , "data":"published"}
+        
       ]
      }
      this.getTopGlobalShakes();
@@ -96,13 +125,14 @@ getTopGlobalShakes(){
       let customData = data['value'];
       this.navigateTo("sh8ke/globalsh8keedit/"+data['value']+"/"+data['creatorName']);
     }else if(data['clickedOn'] == 'global-answers'){
-      this.navigateTo('sh8ke/globalAnswer/'+data['value']);
+      this.navigateTo('sh8ke/globalAnswer/'+data['value']+"/"+data['creatorName']);
+      
     }else if(data['clickedOn'] == 'global-creator'){
       this.navigateTo('user/globalCreator/'+data['value']+"/"+data['creatorName']);
     }else if(data['clickedOn'] == 'title'){
         this.navigateTo('sh8ke/globalstatics/'+data['value']+"/"+data['creatorName']);
     }else if(data['clickedOn']== 'delete'){
-      this.deleteRowFromTop20Trending(data['value'], PathConfig.DELETE_GLOBAL_SH8KE)
+      this.deleteGlobalSh8keQuestion(data['value'], PathConfig.DELETE_GLOBAL_SH8KE)
     }
   }
   //navigate to page
@@ -122,12 +152,13 @@ getTopGlobalShakes(){
           if(obj != "Category" && obj !="title" && obj != "category_id" && obj != "id"){
             let key = obj;
             let data:object ={}// {[key]:this.generalSh8keEditableData[obj]};
-            if(this.generalSh8keEditableData[obj] === null){
+            if(this.generalSh8keEditableData[obj] === null && obj != "share" && obj != "socialize"){
               data = {"name":key, "selected":false}
             }else{
               data = {"name":key, "selected":true}
             }            
             this.options.push(data);
+            console.log(this.options , "   Options");
           }          
         }
         //this.options.push[this.generalSh8keEditableData[]];
@@ -138,8 +169,44 @@ getTopGlobalShakes(){
     );
   }
   updateCheckedOptions(data,event){  
+    
+    console.log(data, "   DATA");
+    if(data['name'] == "share" && data['selected'] == true){
+      this.options.forEach((val,key) =>{
+        if(val['name'] == 'private'){
+          console.log("val['name']    ", val['name']);
+          val['selected'] = false; 
+        }
+      })
+    }
+    if(data['name'] == "share" && data['selected'] == false){
+      this.options.forEach((val,key) =>{
+        if(val['name'] == 'private'){
+          console.log("val['name']    ", val['name']);
+          val['selected'] = true; 
+        }
+      })
+    }
+    if(data['name'] == "private" && data['selected'] == true){
+      this.options.forEach((val,key) =>{
+        if(val['name'] == 'share'){
+          console.log("val['name']    ", val['name']);
+          val['selected'] = false; 
+        }
+      })
+    }
+    if(data['name'] == "private" && data['selected'] == false){
+      this.options.forEach((val,key) =>{
+        if(val['name'] == 'share'){
+          console.log("val['name']    ", val['name']);
+          val['selected'] = true; 
+        }
+      })
+    }
+
+    console.log(this.options);
   }
-  deleteRowFromTop20Trending(id:string, serviceUrl:string){
+  deleteGlobalSh8keQuestion(id:string, serviceUrl:string){
     let confirmElem = confirm("Are you sure to delete!");
     if (confirmElem == true) {
        this.http.post(serviceUrl, {'id':id}).subscribe((response)=> {
@@ -159,6 +226,7 @@ getTopGlobalShakes(){
       postData[key.name] = (key.selected == true ? 1 : 0);
       console.log(postData[key.name] + "   postData[key.name]");    
     });
+    console.log(this.options, "    OPTIONS");
     postData["admin_id"] = "1";
     postData["category_id"]= this.selectedCategory;
     postData["title_english"] = this.titleName;

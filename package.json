@@ -28,6 +28,9 @@
     "datatables.net-bs": "^1.10.16",
     "datatables.net-dt": "^1.10.16",
     "echarts": "^3.7.2",
+    "ng2-file-upload": "^1.2.1",
+    "ng2-uploader": "^2.0.0",
+    "ngx-uploader": "^4.1.0",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"
   },

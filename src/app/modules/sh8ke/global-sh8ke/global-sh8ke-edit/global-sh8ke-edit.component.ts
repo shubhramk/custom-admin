@@ -14,6 +14,10 @@ export class GlobalSh8keEditComponent implements OnInit {
   generalSh8keEditableData  = [];
   titleName:string = "";
   selectedCategory:string = "";
+  selectedDevice:string = "";
+  showSuccess:boolean = false;
+  showError:boolean= false;
+  message:string = "";
   constructor(private router:Router, private activateRoute:ActivatedRoute, private http:HttpService) { }
 
   ngOnInit() {
@@ -56,14 +60,25 @@ export class GlobalSh8keEditComponent implements OnInit {
       console.log(postData[key.name] + "   postData[key.name]");    
     });
 
-    postData["title"] = this.titleName;
+    postData["title_english"] = this.titleName;
     postData["category_id"]= this.selectedCategory;
-    postData["id"] = this.activateRoute.snapshot.params['id'];
-
+    postData["id"] = this.activateRoute.snapshot.params['name'];
+    postData["adult"]="1";
+    console.log(postData)
     this.http.post(PathConfig.POST_GLOBAL_SH8KE_EDITABLE_DATA, postData)
       .subscribe((response)=> {
         console.log(response);
-        this.getGlobalSh8keEditableData(this.activateRoute.snapshot.params['id']);
+        //this.getGlobalSh8keEditableData(this.activateRoute.snapshot.params['id']);
+        if(response.Status == "Success"){
+          this.showSuccess = true;
+          this.showError = false;
+          this.message = response.SucessMessage;
+        }else if(response.Status == "Error"){
+          this.showSuccess = false;
+          this.showError = true;
+          this.message = response.ErrorMessage;
+        }
+        
       },
       err => {
           // Log errors if any

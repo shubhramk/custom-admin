@@ -18,6 +18,7 @@ export class GenralSh8keEditComponent implements OnInit {
   selectedCategory:string = "";
   showSuccess:boolean = false;
   showError:boolean= false;
+  selectedDevice:string = "";
   constructor(private router:Router, private activateRoute:ActivatedRoute, private http:HttpService) { }
 
   ngOnInit() {

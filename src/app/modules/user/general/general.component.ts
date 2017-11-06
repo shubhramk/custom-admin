@@ -30,7 +30,7 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
    showSuccess:boolean = false;
    showError:boolean = false;
    message:string = "";
-    self = this;
+   self = this;
   constructor(private router:Router, private http:HttpService) {}
   ngAfterViewInit(){
     
@@ -54,8 +54,8 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
 
               let val = data;
               template = '<div class="dt-menu-icons">' +
-                '<a href="javascript:void(0);" data-name="edit" data-custom="' + val + '"><span class="fa fa-pencil" aria-hidden="true"></span></a>' +
-                '<a href="javascript:void(0);" data-name="delete" data-custom="' + val + '"><span class="fa fa-trash-o" aria-hidden="true"></span></a>' +
+                '<a href="javascript:void(0);" data-name="edit" data-custom="' + full['rowId'] + '"><span class="fa fa-pencil" aria-hidden="true"></span></a>' +
+                '<a href="javascript:void(0);" data-name="delete" data-custom="' + full['rowId'] + '"><span class="fa fa-trash-o" aria-hidden="true"></span></a>' +
                 '</div>';
 
               return template;
@@ -122,6 +122,7 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
   }
 
   selectFromDropdown(event, type){
+    debugger;
     console.log(type);
     if(type == 'gender'){
       this.selectedGender = event;
@@ -171,12 +172,27 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
   onMenuSelect(data: any) {
     if (data['clickedOn'] == 'edit') {
       let customData = data['value'];
-       this.navigateTo('users/edit-general');
+       this.navigateTo('users/edit-general/'+data['value']);
     }else if(data['clickedOn'] == 'name'){
       this.navigateTo('user/generalCreator/'+data['value']+"/"+data['creatorName']);
+    }else if(data['clickedOn'] == 'delete'){
+      this.deleteGeneralUser(data['value']);
     }
   }
-
+  deleteGeneralUser(id){
+    let confirmElem = confirm("Are you sure to delete!");
+    if (confirmElem == true){
+      this.http.get(PathConfig.DELETE_GENERAL_USER+id).subscribe((response)=>{
+        if(response.Status == "Success"){
+          this.getGeneralUsersList();
+        }
+      },
+    err=>{
+  
+    })
+    }
+    
+  }
   handleVisiblity(){    
     var self = this;
     this.visibleElement = !this.visibleElement;

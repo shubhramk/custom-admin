@@ -37,7 +37,7 @@ font-size: 25px;
 }
 
 .checkBoxContainer{
-    display: inline-block;
+    display: inline-block !important;
     padding: 0;
 }
 .custom-dt-table table tr td:first-child{
@@ -46,5 +46,15 @@ font-size: 25px;
 }
 .fa-check-circle{
     font-size: 25px;
+    color: #38ea38;
+}
+.fa-times-circle{
+    font-size: 25px;
+    color: #df4c50;
+}
+span.fa.fa-times{
+    color: #df4c50;
+}
+span.fa.fa-check, .fa.fa-pencil, .fa.fa-trash-o{
     color: #38ea38;
 }

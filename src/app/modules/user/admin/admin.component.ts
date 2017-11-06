@@ -29,8 +29,8 @@ ngOnInit(){
 
               let val = data;
               template = '<div class="dt-menu-icons">' +
-                '<a href="javascript:void(0);" data-name="edit" data-custom="' + val + '"><span class="fa fa-pencil" aria-hidden="true"></span></a>' +
-                '<a href="javascript:void(0);" data-name="delete" data-custom="' + val + '"><span class="fa fa-trash-o" aria-hidden="true"></span></a>' +
+                '<a href="javascript:void(0);" data-name="edit" data-custom="' + full['rowId'] + '"><span class="fa fa-pencil" aria-hidden="true"></span></a>' +
+                '<a href="javascript:void(0);" data-name="delete" data-custom="' + full['rowId'] + '"><span class="fa fa-trash-o" aria-hidden="true"></span></a>' +
                 '</div>';
 
               return template;
@@ -80,13 +80,29 @@ ngOnInit(){
   }      //on Menu Icon selected
   onMenuSelect(data: any) {
     if (data['clickedOn'] == 'edit') {
-      let customData = data['value'];
-      this.navigateTo('users/edit-admin');
+      
+      this.navigateTo('users/edit-admin/'+data['value']);
     }else if(data['clickedOn'] == 'name'){
       this.navigateTo('user/globalCreator/'+data['value']+"/"+data['creatorName']);
+    }else if(data['clickedOn'] == 'delete'){
+      this.deleteAdminUser(data['value']);
     }
   }
 //get top20 globalShakes
+deleteAdminUser(id){
+  let confirmElem = confirm("Are you sure to delete!");
+  if (confirmElem == true){
+    this.http.get(PathConfig.DELETE_ADMIN_USER+id).subscribe((response)=>{
+      if(response.Status == "Success"){
+        this.getAdminUsers();
+      }
+    },
+  err=>{
+
+  })
+  }
+  
+}
   getAdminUsers(){
     
     this.http.get(PathConfig.GET_ADMIN_USER)

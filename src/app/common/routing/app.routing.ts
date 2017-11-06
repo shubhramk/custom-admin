@@ -28,6 +28,9 @@ import {GeneralStaticsComponent} from "../../modules/sh8ke/general-sh8ke/general
 import {GlobalStaticsComponent} from "../../modules/sh8ke/global-sh8ke/global-statics/global-statics.component";
 import {ExampleAnswerComponent} from "../../modules/sh8ke/example-sh8ke/example-answer/example-answer.component";
 import {ExampleStaticsComponent} from "../../modules/sh8ke/example-sh8ke/example-statics/example-statics.component";
+import {GeneralAnswerEditComponent} from "../../modules/sh8ke/general-sh8ke/general-answer-edit/general-answer-edit.component";
+import {GlobalAnswerEditComponent} from "../../modules/sh8ke/global-sh8ke/global-answer-edit/global-answer-edit.component";
+import {ExampleAnswerEditComponent} from "../../modules/sh8ke/example-sh8ke/example-answer-edit/example-answer-edit.component";
 
 const adminRoutes: Routes = [
 
@@ -53,7 +56,7 @@ const adminRoutes: Routes = [
         component: AdminUserComponent
       },
       {
-        path: 'users/edit-admin',
+        path: 'users/edit-admin/:id',
         component: EditAdminComponent
       },
       {
@@ -61,7 +64,7 @@ const adminRoutes: Routes = [
         component: GeneralUserComponent
       },
       {
-        path: 'users/edit-general',
+        path: 'users/edit-general/:id',
         component: EditGeneralComponent
       },
       {
@@ -113,11 +116,11 @@ const adminRoutes: Routes = [
         component: GlobalCreatorComponent
       },
       {
-        path: 'sh8ke/generalAnswer/:id',
+        path: 'sh8ke/generalAnswer/:id/:primeNo',
         component: GeneralAnswerComponent
       },
       {
-        path: 'sh8ke/globalAnswer/:id',
+        path: 'sh8ke/globalAnswer/:id/:primeNo',
         component: GlobalAnswerComponent
       },
       {
@@ -129,12 +132,25 @@ const adminRoutes: Routes = [
         component: GlobalStaticsComponent
       },
       {
-        path: 'sh8ke/exampleAnswer/:id',
+        path: 'sh8ke/exampleAnswer/:id/:primeNo',
         component: ExampleAnswerComponent
       },
       {
         path: 'sh8ke/examplestatics/:id/:name',
         component: ExampleStaticsComponent
+      },
+      {
+        path:'sh8ke/editGeneralAnswer/:id',
+        component:GeneralAnswerEditComponent
+      },
+      {
+        path:'sh8ke/editExampleAnswer/:id',
+        component:ExampleAnswerEditComponent
+
+      },
+      {
+        path:'sh8ke/editGlobalAnswer/:id',
+        component:GlobalAnswerEditComponent
       }
       
     ]

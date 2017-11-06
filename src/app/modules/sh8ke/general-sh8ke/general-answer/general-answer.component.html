@@ -21,8 +21,14 @@
   </div>
   <div class="row">
     <div class="col-md-12 marB">
-      <a href="javascript:void(0)" *ngIf ="!visibleElement" (click)="handleVisiblity()">Add New Answer</a>
-      <a href="javascript:void(0)" *ngIf="visibleElement" (click)="handleVisiblity()">Back</a>
+      <a href="javascript:void(0)" *ngIf ="!visibleElement" (click)="handleVisiblity();showSuccess= false;showError= false;">Add New Answer</a>
+      <a href="javascript:void(0)" *ngIf="visibleElement" (click)="handleVisiblity();showSuccess= false;showError= false;">Back</a>
+      <div class="alert alert-success" *ngIf = "showSuccess">
+          <strong>Success!</strong> {{message}}
+    </div>
+    <div class="alert alert-danger" *ngIf = "showError">
+        <strong>Error!</strong> {{message}}
+    </div>
     </div>
   </div>
   <div class="row" *ngIf = "visibleElement">
@@ -38,23 +44,39 @@
                       
                       <div class="form-group row">
                         <div class="col-sm-9 marginCenter">
-                          <label for="exampleInputpwd3">Select Gender</label>
+                          <label for="exampleInputpwd3">Select Answer Type</label>
                           <div class="input-group">
-                            <select class="form-control" id="answer_type" name="answer_type" aria-required="true" aria-invalid="false">
-                              <option value="">Select Type</option>
-                              <option value="text">Text</option>
-                              <option value="image">Image</option> 
-                              <option value="audio">Audio</option>
-                              <option value="video">Video</option>                        
+                            <select class="form-control" [(ngModel)]="selectedItem" (ngModelChange)="valueChange($event)" name="main_type" aria-required="true" aria-invalid="false">
+                              <option value="-1">Select Type</option>
+                              <option value="0">Text</option>
+                              <option value="1">Image</option> 
+                              <option value="2">Audio</option>
+                              <option value="3">Video</option>                        
                             </select>
                           </div>
                         </div>
                       </div>
-                      
+                      <div class="form-group row" *ngIf = "bool_answerOther">
+                          <div class="col-sm-9 marginCenter">
+                            <label for="exampleInputpwd3">Select Gender</label>
+                            <div class="input-group">
+                              <textarea class="form-control" rows="4" [(ngModel)]="otherTextAnswer" name="otherTextAnswer"></textarea> 
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row" *ngIf = "bool_fileType">
+                            <div class="col-sm-9 marginCenter">
+                              <div class="input-group">
+                                  <!-- <input type="file" class="form-control" id="avatar" (change)="onFileChange($event)" #fileInput placeholder="No File Selected"> -->
+                                  <input type="file" ng2FileSelect [uploader]="uploader" id="avatar" name="uploadedAnswer"/>
+                                  
+                              </div>
+                            </div>
+                          </div>
                       
                       <div class="text-left row">
                         <div class="col-sm-9 marginCenter">
-                          <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
+                          <button type="submit" class="btn btn-success waves-effect waves-light m-r-10" (click) = "addGeneralAnswer()">Submit</button>
                           <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
                         </div>
                       </div>
