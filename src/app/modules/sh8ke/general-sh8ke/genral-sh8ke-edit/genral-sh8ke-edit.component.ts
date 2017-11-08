@@ -71,7 +71,7 @@ export class GenralSh8keEditComponent implements OnInit {
     postData["title"] = this.titleName;
 
     console.log(postData);
-    this.http.post(PathConfig.ADD_NEW_GENERAL_SH8KE, postData).subscribe( (response)=>{
+    this.http.post(PathConfig.POST_GENERAL_SH8KE_EDITABLE_DATA, postData).subscribe( (response)=>{
       console.log(response);
           if(response.Status == "Success"){
             this.showSuccess = true;

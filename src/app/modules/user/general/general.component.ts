@@ -187,11 +187,8 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
           this.getGeneralUsersList();
         }
       },
-    err=>{
-  
-    })
+    err=>{})
     }
-    
   }
   handleVisiblity(){    
     var self = this;

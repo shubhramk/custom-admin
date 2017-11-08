@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpService} from '../../common//services/http.service';
 import {PathConfig} from "../../common/config/path.config";
+import { FileUploader } from 'ng2-file-upload';
+import { ValidationService } from '../../common/services/validation.service';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+
 declare var $:any
 @Component({
   selector: 'app-news',
@@ -19,9 +23,37 @@ export class NewsComponent implements OnInit {
    description = "";
    showSuccess:boolean = false;
    showError:boolean= false;
-  constructor(private router:Router, private http:HttpService) { }
-
+   message:string = "";
+   uploader:FileUploader = new FileUploader({
+    url:PathConfig.ADD_NEWS_WITH_IMAGE
+  });
+  bool_fileUploaded = false;
+  userForm:any;
+  constructor(private router:Router, private http:HttpService, private formBuilder: FormBuilder) { 
+    this.userForm = this.formBuilder.group({
+      'newsTitle': ['', Validators.required],
+      'description': ['', Validators.required],
+      'expireDate': ['', Validators.required],/* 
+      'uploadedAnswer': ['', ValidationService.fileValidator], */
+      /* ,
+      'email': ['', [Validators.required, ValidationService.emailValidator]],
+      'profile': ['', [Validators.required, Validators.minLength(10)]] */
+    });
+  }
+  fileChanged(){
+    /* this.userForm = this.formBuilder.group({
+      'uploadedAnswer': ['', ValidationService.fileValidator]
+    }) */
+  }
   ngOnInit(){
+    this.uploader.onBuildItemForm = (item, form) => {
+      form.append("title", this.newsTitle);
+      form.append("description" ,this.description);
+      form.append("expire_on" ,this.expireDate);
+    };
+
+    this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+
     this.dtConfig = { 
       "columnDefs": [
         {
@@ -34,8 +66,8 @@ export class NewsComponent implements OnInit {
 
             let val = data;
             template = '<div class="dt-menu-icons">' +
-              '<a href="javascript:void(0);" data-name="edit" (click) ="alert("asas")" data-custom="' + val + '"><span class="fa fa-pencil" aria-hidden="true"></span></a>' +
-              '<a href="javascript:void(0);" data-name="delete" data-custom="' + val + '"><span class="fa fa-trash-o" aria-hidden="true"></span></a>' +
+              '<a href="javascript:void(0);" data-name="edit"  data-custom="' + full['rowId'] + '"><span class="fa fa-pencil" aria-hidden="true"></span></a>' +
+              '<a href="javascript:void(0);" data-name="delete" data-custom="' + full['rowId'] + '"><span class="fa fa-trash-o" aria-hidden="true"></span></a>' +
               '</div>';
 
             return template;
@@ -51,7 +83,7 @@ export class NewsComponent implements OnInit {
 
             let val = data;
             template = '<div class="dt-menu-icons">' +
-              '<a href="javascript:void(0);" data-name="notification" (click) ="alert("asas")" data-custom="' + val + '">Send Notifaction</a>' +
+              '<a href="javascript:void(0);" data-name="notification" (click) ="alert("asas")" data-custom="' + full['rowId'] + '">Send Notifaction</a>' +
                '</div>';
 
             return template;
@@ -66,10 +98,17 @@ export class NewsComponent implements OnInit {
             var template = '';
 
             let val = data;
-            template = '<div class="dt-menu-icons">' +
-              '<img src ="'+val+'" data-name="img" data-custom="' + val + '" style="height:40px;"/>' +
+            if(val !=""){
+              template = '<div class="dt-menu-icons">' +val +
+              '</div>';
+            }
+            if(val == ""){
+              template = '<div class="dt-menu-icons">' +"No Image Available"+
               '</div>';
 
+            }
+            
+            
             return template;
           }
         },
@@ -81,13 +120,13 @@ export class NewsComponent implements OnInit {
             "render": function (data, type, full, meta) {
               var template = '';
               let val = data;
-              if(full['publiash'] == 'Yes'){
+              if(full['publish'] == 'Yes'){
                 template = '<div class="dt-menu-icons">' +
-                '<a href="javascript:void(0);" data-name="delete" data-custom="' + val + '"><span class="fa fa-check-circle" aria-hidden="true">'+'</span></a>' +
+                '<a href="javascript:void(0);" data-name="status" data-custom="' + full['rowId']  + '"data-creator="' + full['publish'] + '"><span class="fa fa-check-circle" aria-hidden="true">'+'</span></a>' +
                 '</div>';
               }else{
                 template = '<div class="dt-menu-icons">' +
-                '<a href="javascript:void(0);" data-name="delete" data-custom="' + val + '"><span class="fa fa-times-circle" aria-hidden="true">'+'</span></a>' +
+                '<a href="javascript:void(0);" data-name="status" data-custom="' + full['rowId']  + '"data-creator="' + full['publish'] + '"><span class="fa fa-times-circle" aria-hidden="true">'+'</span></a>' +
                 '</div>';
               }
               return template;
@@ -103,8 +142,9 @@ export class NewsComponent implements OnInit {
       ]
      }
      this.getNewsList();
-     
+    
     }
+    
     setDatepicker(){
       var self = this;
       setTimeout(()=>{
@@ -135,35 +175,104 @@ export class NewsComponent implements OnInit {
   //on Menu Icon selected
   onMenuSelect(data: any) {
     if (data['clickedOn'] == 'edit') {
-      let customData = data['value'];
-      this.navigateTo('news/editNews')   
+      this.navigateTo('news/editNews/'+data['value'])   
+    }else if(data['clickedOn'] == 'delete'){
+      this.deleteNews(data['value']);
+    }else if(data['clickedOn'] == 'status'){
+      this.chnageStatus(data['value'], data['creatorName']);
+    }else if(data['clickedOn'] == 'notification'){
+      this.sendNotification(data['value']);
     }
   }
+
+  chnageStatus(id:string, status){
+    console.log(status);
+    let confirmElem  = confirm('sure to change status for this news?');
+    if(confirmElem== true){
+      this.http.post(PathConfig.NEWS_CHANGE_STATUS, {st:status, id:id}).subscribe((response)=>{
+      console.log(response);
+      this.getNewsList();
+    }, err=>{
+
+    });
+    }
+  } 
+  sendNotification(id:string){
+    this.http.get(PathConfig.NEWS_CHANGE_STATUS+id).subscribe((response)=>{
+      console.log(response);
+      this.getNewsList();
+    }, err=>{
+
+    });
+  }
+  deleteNews(id:string){
+    let confirmElem = confirm("Are you sure to delete!");
+    if(confirmElem == true){
+      this.http.get(PathConfig.DELETE_NEWS+id).subscribe((response)=>{       
+        this.getNewsList();
+      }, err=>{
+  
+      })
+    }
+    
+  }
+
    //navigate to page
   navigateTo(url:string){
     this.router.navigate([url]);
   }
+  fileSelection(){
+    if($("#avatar").val() == ""){
+      this.bool_fileUploaded = true;
+    }else{
+      this.bool_fileUploaded = false;
+    }
+  }
   addNews(){
-    let currentTime = new Date().toLocaleTimeString();
-    currentTime = currentTime.split(" ")[0];
-    console.log(this.expireDate +" "+ currentTime );
-    this.http.post(PathConfig.ADD_NEWS, {
-      "title": this.newsTitle,
-      "description": this.description,
-      "image": "",
-      "size": "",
-      "expire_on":this.expireDate
-    }).subscribe((response)=>{
-      if(response.Status == "Success"){
-        this.getNewsList();
-        this.showSuccess = true;
-        this.showError = false;
-      }else if(response.Status == "Error"){
-        this.showSuccess = false;
-        this.showError = true;
-      }
-    }, err=>{
-      
-    })
+    if($("#avatar").val() == ""){
+      this.bool_fileUploaded = true;
+      return true;
+    }else{
+      this.bool_fileUploaded = false;
+    }
+    if($("input[type =file]").val() == ""){
+      this.http.post(PathConfig.ADD_NEWS, {
+        "title": this.newsTitle,
+        "description": this.description,
+        "image": "",
+        "size": "",
+        "expire_on":this.expireDate
+      }).subscribe((response)=>{
+        if(response.Status == "Success"){
+          this.getNewsList();
+          this.showSuccess = true;
+          this.showError = false;
+        }else if(response.Status == "Error"){
+          this.showSuccess = false;
+          this.showError = true;
+        }
+      }, err=>{
+        
+      })
+    }else{
+        this.uploader.cancelAll();
+        this.uploader.uploadAll();
+        this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+          var responsePath = JSON.parse(response);
+          console.log(responsePath.Status);
+          if(responsePath.Status == "Success"){
+            this.showSuccess= true;
+            this.showError= false;
+            this.message = responsePath.SucessMessage;
+           // this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
+           }else if(responsePath.Status == "Error"){
+            this.showSuccess= true;
+            this.showError= false;
+            this.message = responsePath.ErrorMessage;
+           }
+           $("#avatar").val("");
+          };
+    }
+    
   }
 }

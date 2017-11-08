@@ -110,7 +110,8 @@ export class ExampleSh8keComponent implements OnInit {
   //on Menu Icon selected
   onMenuSelect(data: any) {
     if (data['clickedOn'] == 'edit') {
-      let customData = data['value'];        
+      let customData = data['value']; 
+      this.navigateTo('sh8ke/examplesh8keedit/'+customData);       
     }else if(data['clickedOn'] == 'example-answers'){
       this.navigateTo('sh8ke/exampleAnswer/'+data['value']+"/"+data['creatorName']);
     }else if(data['clickedOn'] == 'title'){

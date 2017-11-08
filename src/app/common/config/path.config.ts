@@ -36,11 +36,20 @@ export class PathConfig {
     public static POST_GLOBAL_SH8KE_EDITABLE_DATA :string = PathConfig.BASE_URL_API + 'api/api.php?action=UpdateSh8keGlobal';    
 
     public static ADD_NEW_CATEGORY:string = PathConfig.BASE_URL_API +'api/api.php?action=AddCategory';
+    public static ADD_NEW_CATEGORY_UPLOADED_ITEM:string = PathConfig.BASE_URL_API +'api/api.php?action=AddCategoryWithImage';
+    public static UPDATE_CATEGORY_UPLOADED_ITEM:string = PathConfig.BASE_URL_API +'api/api.php?action=UpdateCategoryWithImage';
+    public static UPDATE_CATEGORY:string = PathConfig.BASE_URL_API +'api/api.php?action=UpdateCategory';
+    public static EDIT_CATEGORY:string = PathConfig.BASE_URL_API +'api/api.php?action=EditCategory&id=';
+    
+    
     public static ADD_NEW_GENERAL_USER:string = PathConfig.BASE_URL_API +'api/api.php?action=AddShk8eGeneral';
     
     public static ADD_NEW_GENERAL_SH8KE:string = PathConfig.BASE_URL_API +'api/api.php?action=AddShk8eGeneral';
     public static ADD_NEW_GLOBAL_SH8KE:string = PathConfig.BASE_URL_API +'api/api.php?action=AddShk8eGlobal';
+    
     public static ADD_NEWS:string = PathConfig.BASE_URL_API +'api/api.php?action=AddNews';
+    public static ADD_NEWS_WITH_IMAGE:string = PathConfig.BASE_URL_API+ "api/api.php?action=AddNewsWithImage" ;
+    
     public static ADD_NEW_EXAMPLE_SH8KE:string = PathConfig.BASE_URL_API +'api/api.php?action=AddShk8eExample';
 
     public static ADD_GENERAL_USER:string = PathConfig.BASE_URL_API + "api/api.php?action=AddUser";
@@ -83,8 +92,17 @@ export class PathConfig {
     public static DELETE_EXAMPLE_ANSWER:string = PathConfig.BASE_URL_API+"api/api.php?action=DeleteExampleAnswerSh8ke&id="
 
     public static GET_EDITABLE_EXAMPLE_ANSWER:string = PathConfig.BASE_URL_API + "api/api.php?action=EditSh8keExampleAnswerData&ans_id=";
-    public static UPDATE_SH8KE_EXAMPLE_ANSWER_UPLOADED_ITEM:string = PathConfig.BASE_URL_API+"api/api.php?action=UpdateSh8keExampleAnswerWithImage";
+    public static UPDATE_SH8KE_EXAMPLE_ANSWER_UPLOADED_ITEM:string = PathConfig.BASE_URL_API+"api/api.php?action=UpdateSh8keExampleAnswerWithImage";UpdateSh8keExample
     public static UPDATE_SH8KE_EXAMPLE_ANSWER:string = PathConfig.BASE_URL_API+"api/api.php?action=UpdateSh8keExampleAnswer";
+    public static UPDATE_SH8KE_EXAMPLE:string = PathConfig.BASE_URL_API+"api/api.php?action=UpdateSh8keExample";
+    
+    public static DELETE_NEWS:string = PathConfig.BASE_URL_API+"api/api.php?action=DeleteNews&id=";
+    public static GET_EDITABLE_NEWS:string = PathConfig.BASE_URL_API+"api/api.php?action=EditNews&id=";
+    public static NEWS_CHANGE_STATUS:string = PathConfig.BASE_URL_API + "api/api.php?action=NewsStatus";
+    public static UPDATE_NEWS_ANSWER_UPLOADED_ITEM:string = PathConfig.BASE_URL_API + "api/api.php?action=UpdateNewsWithImage";
+    public static UPDATE_NEWS_ANSWER:string = PathConfig.BASE_URL_API + "api/api.php?action=UpdateNews";
+    
+    
 
     
 }

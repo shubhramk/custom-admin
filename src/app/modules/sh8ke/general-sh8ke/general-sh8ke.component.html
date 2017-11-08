@@ -20,7 +20,7 @@
   </div>
   <div class="row">
     <div class="col-md-12 marB">
-      <a href="javascript:void(0)" *ngIf ="!visibleElement" (click)="visibleElement = !visibleElement; showSuccess=false;showError= false; ">Add New Sh8kes</a>
+      <a href="javascript:void(0)" *ngIf ="!visibleElement" (click)="visibleElement = !visibleElement; showSuccess=false;showError= false; handleDropDown();">Add New Sh8kes</a>
       <a href="javascript:void(0)" *ngIf="visibleElement" (click)="visibleElement = !visibleElement; showSuccess=false;showError= false;">Back</a>
       <div class="alert alert-success" *ngIf = "showSuccess">
         <strong>Success!</strong> Record Added Successfully !
@@ -49,7 +49,7 @@
                             <div class="col-sm-9 marginCenter">
                                 <div class="input-group">
                                     <select  [ngModel]="selectedDevice" (ngModelChange)="updatedCategory($event)" class="form-control" id="pass3" name="category" placeholder="Select Category">
-                                      <option value = "0" selected>Select Category</option>
+                                      <option value = "0" selected="true" disabled>Select Category</option>
                                       <option  *ngFor = "let category of categoryItems; let i= index;"  [attr.value]="category['id']" >{{category['CategoryName']}}</option>
                                     </select>
                                 </div>
@@ -59,7 +59,7 @@
                             <div class="col-sm-9 marginCenter" >
                                 <div class="form-check checkBoxContainer col-md-6" *ngFor = "let checkData of options ; let i= index;">
                                       <label class="custom-control custom-checkbox">
-                                          <input #myItem type="checkbox" name="chkItem" class="custom-control-input"  [(ngModel)]="checkData.selected"  (ngModelChange)="updateCheckedOptions(checkData, $event)">
+                                          <input type="checkbox" name="role_{{ i }}" class="custom-control-input" id = "role_{{ i }}" [(ngModel)]="checkData.selected"  (ngModelChange)="updateCheckedOptions(checkData, $event)" [attr.checked]="checkData['selected']">
                                           <span class="custom-control-indicator"></span>
                                           <span class="custom-control-description">{{checkData['name']}}</span>
                                       </label>

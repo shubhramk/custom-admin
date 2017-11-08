@@ -72,7 +72,7 @@ const adminRoutes: Routes = [
         component: CategoryComponent
       },
       {
-        path: 'sh8ke/categoryEdit',
+        path: 'sh8ke/categoryEdit/:id',
         component: EditCategoryComponent
       }
       ,
@@ -82,7 +82,7 @@ const adminRoutes: Routes = [
       }
       ,
       {
-        path: 'sh8ke/examplesh8keedit',
+        path: 'sh8ke/examplesh8keedit/:id',
         component: ExampleSh8keEditComponent
       },
       {
@@ -104,7 +104,7 @@ const adminRoutes: Routes = [
         component: NewsComponent
       },
       {
-        path: 'news/editNews',
+        path: 'news/editNews/:id',
         component: EditNewsComponent
       },
       {

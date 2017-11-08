@@ -4,7 +4,11 @@ import {ConstantConfig} from "../../common/config/constant.config";
 import {HttpService} from "../../common/services/http.service";
 import {PathConfig} from "../../common/config/path.config";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { FileUploader } from 'ng2-file-upload';
+import { ValidationService } from '../../common/services/validation.service';
+
 declare var $:any;
+
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -20,12 +24,41 @@ export class CategoryComponent implements OnInit {
  message:string = "";
  imageBase64:string = "";
 
+ englishName:string = "";
+ frenchName:string = "";
+ sorting:string = "";
+
  form: FormGroup;
- 
-  constructor(private router:Router, private http:HttpService) {
+ userForm: any;
+
+ path= "../../assets/images/1.jpg";
+
+ uploader:FileUploader = new FileUploader({
+  url:PathConfig.ADD_NEW_CATEGORY_UPLOADED_ITEM
+});
+
+  constructor(private router:Router, private http:HttpService, private formBuilder: FormBuilder) {
+    this.userForm = this.formBuilder.group({
+      'englishName': ['', Validators.required],
+      'frenchName': ['', Validators.required],
+      'sorting': ['', Validators.required]/* ,
+      'email': ['', [Validators.required, ValidationService.emailValidator]],
+      'profile': ['', [Validators.required, Validators.minLength(10)]] */
+    });
+    console.log(this.userForm);
    }
    
   ngOnInit(){
+    
+    this.uploader.onBuildItemForm = (item, form) => {
+      form.append("title_english", this.englishName);
+      form.append("title_french" ,this.frenchName);
+      form.append("order" ,this.sorting);
+    };
+
+    this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+
+
     this.visibleElement = ConstantConfig.visibleElement;
     this.dtConfig = { 
       "columnDefs": [
@@ -39,7 +72,7 @@ export class CategoryComponent implements OnInit {
 
             let val = data;
             template = '<div class="dt-menu-icons">' +
-              '<a href="javascript:void(0);" data-name="edit" data-custom="' + val + '"><span class="fa fa-pencil" aria-hidden="true"></span></a>' +
+              '<a href="javascript:void(0);" data-name="edit" data-custom="' + full['rowId'] + '"><span class="fa fa-pencil" aria-hidden="true"></span></a>' +
               '<a href="javascript:void(0);" data-name="delete" data-custom="' + full['rowId'] + '"><span class="fa fa-trash-o" aria-hidden="true"></span></a>' +
               '</div>';
 
@@ -55,8 +88,8 @@ export class CategoryComponent implements OnInit {
             var template = '';
 
             let val = data;
-            template = '<div class="dt-menu-icons">' +
-              '<img src ="'+val+'" data-name="img" data-custom="' + val + '" style="height:40px;"/>' +
+            template = '<div class="dt-menu-icons">' +val
+              /* '<img src ="'+val+'" data-name="img" data-custom="' + val + '" style="height:40px;"/>' */ +
               '</div>';
 
             return template;
@@ -70,6 +103,14 @@ export class CategoryComponent implements OnInit {
       ]
      }
     this.getCategoryList();
+    //$("#avatar").attr('val', this.path);
+    
+}
+
+handleInput(){
+  this.sorting = "";
+  this.englishName = "";
+  this.frenchName = "";
 }
 
 getCategoryList(){
@@ -81,17 +122,16 @@ getCategoryList(){
       err => {
           // Log errors if any
       }
-      )
+      );
+      
 };
   //on Menu Icon selected
-  englishName:string = "";
-  frenchName:string = "";
-  sorting:string = "";
+ 
   
   onMenuSelect(data: any) {
     if (data['clickedOn'] == 'edit') {
       let customData = data['value'];
-      this.navigateTo('sh8ke/categoryEdit');
+      this.navigateTo('sh8ke/categoryEdit/'+customData);
     }else if(data['clickedOn'] == 'delete'){
       this.deleteCategory(data['value']);
     }
@@ -114,20 +154,9 @@ getCategoryList(){
   navigateTo(url:string){
     this.router.navigate([url]);
   }
-  onFileChange(event){
-  event = document.getElementById("avatar");
-    //console.log(event);
-    if (event.files[0]) {
-      var fileReader = new FileReader();
-      fileReader.onload = function (e) {
-          console.log(e.target);   
-          $("#targetLayer").html('<img src="'+e.target['result']+'" width="50px" height="50px" class="upload-preview" />'); 
-      }
-    fileReader.readAsDataURL(event.files[0]);
-  }
-  }
+
   addCategoryData(){
-    
+    if($("input[type =file]").val() == ""){
     this.http.post(PathConfig.ADD_NEW_CATEGORY, 
       {
         "title_english": this.englishName,
@@ -152,7 +181,29 @@ getCategoryList(){
           // Log errors if any
       }
       )
-  }
   
+    }else{
+      this.uploader.cancelAll();
+      this.uploader.uploadAll();
+      this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+        var responsePath = JSON.parse(response);
+        console.log(responsePath.Status);
+        if(responsePath.Status == "Success"){
+          this.showSuccess= true;
+          this.showError= false;
+          this.message = responsePath.SucessMessage;
+          
+          this.getCategoryList();
+         // this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
+         }else if(responsePath.Status == "Error"){
+          this.showSuccess= true;
+          this.showError= false;
+          this.message = responsePath.ErrorMessage;
+         }
+         $("#avatar").val("");
+    }
+    }
+
+  }
 
 }

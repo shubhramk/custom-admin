@@ -24,6 +24,8 @@ import {HttpService} from "./common/services/http.service";
 import {LocalStorageService} from "./common/services/local-storage.service";
 import {Broadcaster} from "./common/services/broadcaster.service";
 import {HttpModule} from "@angular/http";
+import {ValidationService} from "./common/services/validation.service"
+
 import { GenralSh8keEditComponent } from './modules/sh8ke/general-sh8ke/genral-sh8ke-edit/genral-sh8ke-edit.component';
 import { ExampleSh8keEditComponent } from './modules/sh8ke/example-sh8ke/example-sh8ke-edit/example-sh8ke-edit.component';
 import { GlobalSh8keEditComponent } from './modules/sh8ke/global-sh8ke/global-sh8ke-edit/global-sh8ke-edit.component';
@@ -47,6 +49,8 @@ import { CalendarComponent } from './common/component/calendar/calendar.componen
 import { GeneralAnswerEditComponent } from './modules/sh8ke/general-sh8ke/general-answer-edit/general-answer-edit.component';
 import { GlobalAnswerEditComponent } from './modules/sh8ke/global-sh8ke/global-answer-edit/global-answer-edit.component';
 import { ExampleAnswerEditComponent } from './modules/sh8ke/example-sh8ke/example-answer-edit/example-answer-edit.component';
+import { ControlMessageComponent } from './common/component/control-message/control-message.component';
+
 
 @NgModule({
   declarations: [
@@ -87,7 +91,10 @@ import { ExampleAnswerEditComponent } from './modules/sh8ke/example-sh8ke/exampl
     GeneralAnswerEditComponent,
     GlobalAnswerEditComponent,
     FileSelectDirective , 
-    FileDropDirective, ExampleAnswerEditComponent 
+    FileDropDirective, 
+    ExampleAnswerEditComponent, 
+    ControlMessageComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -99,7 +106,8 @@ import { ExampleAnswerEditComponent } from './modules/sh8ke/example-sh8ke/exampl
   providers: [
     HttpService,
     LocalStorageService,
-    Broadcaster
+    Broadcaster,
+    ValidationService
   ],
   bootstrap: [AppComponent]
 })

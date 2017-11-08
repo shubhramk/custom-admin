@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChildren} from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpService} from "../../../common/services/http.service";
 import {PathConfig} from "../../../common/config/path.config";
-
+declare var $:any;
 @Component({
   selector: 'app-general-sh8ke',
   templateUrl: './general-sh8ke.component.html',
@@ -125,20 +125,29 @@ export class GeneralSh8keComponent implements OnInit {
           if(obj != "Category" && obj !="title" && obj != "category_id" && obj != "id"){
             let key = obj;
             let data:object ={}// {[key]:this.generalSh8keEditableData[obj]};
-            if(this.generalSh8keEditableData[obj] === null){
+            if(this.generalSh8keEditableData[obj] === null && obj != "share" && obj != "socialize"){
               data = {"name":key, "selected":false}
             }else{
               data = {"name":key, "selected":true}
             }            
             this.options.push(data);
+            
           }          
         }
+        
         //this.options.push[this.generalSh8keEditableData[]];
       },
       err => {
           // Log errors if any
       }
     );
+  }
+
+  handleDropDown(){
+    setTimeout(function(){
+      $('#pass3').val('0');
+    }, 500)
+   
   }
   deleteRowFromTop20Trending(id:string, serviceUrl:string){
     let confirmElem = confirm("Are you sure to delete!");
@@ -154,8 +163,44 @@ export class GeneralSh8keComponent implements OnInit {
     }       
 }
 selectedList=[];
-//@ViewChildren('myItem') checkBoxItem;
+
 updateCheckedOptions(data,event){  
+  
+  console.log(data, "   DATA");
+  if(data['name'] == "share" && data['selected'] == true){
+    this.options.forEach((val,key) =>{
+      if(val['name'] == 'private'){
+        console.log("val['name']    ", val['name']);
+        val['selected'] = false; 
+      }
+    })
+  }
+  if(data['name'] == "share" && data['selected'] == false){
+    this.options.forEach((val,key) =>{
+      if(val['name'] == 'private'){
+        console.log("val['name']    ", val['name']);
+        val['selected'] = true; 
+      }
+    })
+  }
+  if(data['name'] == "private" && data['selected'] == true){
+    this.options.forEach((val,key) =>{
+      if(val['name'] == 'share'){
+        console.log("val['name']    ", val['name']);
+        val['selected'] = false; 
+      }
+    })
+  }
+  if(data['name'] == "private" && data['selected'] == false){
+    this.options.forEach((val,key) =>{
+      if(val['name'] == 'share'){
+        console.log("val['name']    ", val['name']);
+        val['selected'] = true; 
+      }
+    })
+  }
+
+  console.log(this.options);
 }
 submitData(){
     let postData = {};

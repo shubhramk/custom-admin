@@ -33,55 +33,48 @@
               <div class="card">
                   <div class="card-body">
                       <h4 class="card-title">Add new Category</h4>
-                       <form class="form-horizontal p-t-20">
+                       <form class="form-horizontal p-t-20" [formGroup]="userForm">
                           <div class="form-group row">
                               <div class="col-sm-9 marginCenter ">
                                   <div class="input-group">
                                       <div class="input-group-addon"><i class="ti-user"></i></div>
-                                      <input type="text" class="form-control" name = 'englishName' [(ngModel)]='englishName' id="uname" placeholder="English Name">
+                                      <input formControlName="englishName" required type="text" class="form-control"  [(ngModel)]='englishName' id="uname" placeholder="English Name">
                                       
                                   </div>
+                                  <control-messages [control]="userForm.controls.englishName"></control-messages>
                               </div>
                           </div>
                           <div class="form-group row">
-                              <div class="col-sm-9 marginCenter">
-                                  <div class="input-group">
-                                      <div class="input-group-addon"><i class="ti-email"></i></div>
-                                      <input type="text" class="form-control" name="frenchName" [(ngModel)]="frenchName" id="exampleInputEmail1" placeholder="French Name">
-                                      
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="form-group row">
-                              <div class="col-sm-9 marginCenter">
-                                  <div class="input-group">
-                                      <div class="input-group-addon"><i class="ti-world"></i></div>
-                                      <input type="file" class="form-control" id="avatar" (change)="onFileChange($event)" #fileInput placeholder="No File Selected">
-                                      
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="form-group row">
-                              <div class="col-sm-9 marginCenter">
-                                  <div class="input-group">
-                                      <div id="targetLayer"></div>                                    
-                                  </div>
-                              </div>
-                          </div>
-      
-      
-                          <div class="form-group row">
-                              <div class="col-sm-9 marginCenter">
-                                  <div class="input-group">
-                                      <div class="input-group-addon"><i class="ti-lock"></i></div>
-                                      <input type="text" name = "sorting" [(ngModel)]="sorting" class="form-control" id="pass3" placeholder="Sorting Order">
-                                      
-                                  </div>
-                              </div>
-                          </div>
+                                <div class="col-sm-9 marginCenter">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="ti-email"></i></div>
+                                        <input type="text" formControlName="frenchName" class="form-control" name="frenchName" [(ngModel)]="frenchName" id="exampleInputEmail1" placeholder="French Name">
+                                    </div>
+                                    <control-messages [control]="userForm.controls.frenchName"></control-messages>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-9 marginCenter">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="ti-world"></i></div>
+                                        <input type="file" ng2FileSelect [uploader]="uploader" id="avatar" name="uploadedAnswer"/>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="form-group row">
+                                <div class="col-sm-9 marginCenter">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="ti-lock"></i></div>
+                                        <input type="text" formControlName="sorting" name = "sorting" [(ngModel)]="sorting" class="form-control" id="pass3" placeholder="Sorting Order">
+                                        
+                                    </div>
+                                    <control-messages [control]="userForm.controls.sorting"></control-messages>
+                                </div>
+                            </div>
                           <div class="form-group row m-b-0">
                               <div class="offset-sm-3 col-sm-9 marginCenter ">
-                                  <button type="submit" class="btn btn-success waves-effect waves-light m-r-10t" (click)="addCategoryData()" >Save</button>
+                                  <button [disabled]="!userForm.valid" type="submit" class="btn btn-success waves-effect waves-light m-r-10t" (click)="addCategoryData()" >Save</button>
                                   <button type="button" class="btn btn-inverse waves-effect waves-light" (click)="this.visibleElement = !this.visibleElement">Cancel</button>
                               </div>
                           </div>
