@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { RoutingModule} from "./common/routing/app.routing";
@@ -39,6 +39,9 @@ import { GeneralStaticsComponent } from './modules/sh8ke/general-sh8ke/general-s
 import { GlobalStaticsComponent } from './modules/sh8ke/global-sh8ke/global-statics/global-statics.component';
 import { ExampleAnswerComponent } from './modules/sh8ke/example-sh8ke/example-answer/example-answer.component';
 import { ExampleStaticsComponent } from './modules/sh8ke/example-sh8ke/example-statics/example-statics.component';
+import {AuthService} from "./common/services/auth.service";
+import {AuthGuard} from "./common/routing/auth.guard";
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -75,13 +78,17 @@ import { ExampleStaticsComponent } from './modules/sh8ke/example-sh8ke/example-s
     ExampleStaticsComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     HttpModule,
-    RoutingModule, 
-    FormsModule 
+    RoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     HttpService,
+    AuthService,
+    AuthGuard,
     LocalStorageService,
     Broadcaster
   ],

@@ -3,6 +3,8 @@ import {Router} from "@angular/router";
 import {ConstantConfig} from "../../common/config/constant.config";
 
 import chartist from 'chartist';
+import {LocalStorageService} from "../../common/services/local-storage.service";
+import {AuthService} from "../../common/services/auth.service";
 declare var $:any;
 
 @Component({
@@ -12,11 +14,11 @@ declare var $:any;
 export class DashboardComponent implements OnInit,AfterViewInit{
   visibleElement:boolean = false;
   constructor(
-    private router:Router
+    private router:Router,
+    private authService:AuthService
   ) {}
 
   ngOnInit(){
-    console.log( "shubhram 1");
     setTimeout(()=>this.initJS(),500);
   }
   ngAfterViewInit(){}
@@ -26,6 +28,11 @@ export class DashboardComponent implements OnInit,AfterViewInit{
     this.visibleElement = false;
     ConstantConfig.visibleElement = this.visibleElement;
     this.router.navigate([url]);
+  }
+
+  //logout
+  logOut(){
+    this.authService.logout();
   }
 
   initJS(){

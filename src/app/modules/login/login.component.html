@@ -1,29 +1,28 @@
 <!-- Main wrapper - style you can find in pages.scss -->
 <!-- ============================================================== -->
 <section id="wrapper">
-  <div class="login-register" style="background-image:url(./../../../assets/images/background/login-register.jpg);">
-    <div class="login-box card">
-      <div class="card-body">
-        <form class="form-horizontal form-material">
-          <h3 class="box-title m-b-20">Sign In</h3>
-          <div class="form-group ">
-            <div class="col-xs-12">
-              <input class="form-control" type="text"  placeholder="Username"> </div>
+      <div class="login-register" style="background-image:url(./../../../assets/images/background/login-register.jpg);">
+        <div class="login-box card">
+          <div class="card-body">
+            <form novalidate (ngSubmit)="onSubmit(loginItem)" [formGroup]="loginItem" class="form-horizontal form-material">
+              <h3 class="box-title m-b-20">Sign In</h3>
+              <div class="form-group ">
+                <div class="col-xs-12">
+                  <input class="form-control" type="text" formControlName="email"  placeholder="Username"> </div>
+              </div>
+              <div class="form-group">
+                <div class="col-xs-12">
+                  <input class="form-control" type="password" formControlName="userPwd" placeholder="Password"> </div>
+              </div>
+              <div class="form-group text-center m-t-20">
+                <div class="col-xs-12">
+                  <button type="submit" class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light">Log In</button>
+                </div>
+              </div>
+            </form>
           </div>
-          <div class="form-group">
-            <div class="col-xs-12">
-              <input class="form-control" type="password" placeholder="Password"> </div>
-          </div>
-          <div class="form-group text-center m-t-20">
-            <div class="col-xs-12">
-              <button (click)="doLogin()" class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light">Log In</button>
-            </div>
-          </div>
-        </form>
+        </div>
       </div>
-    </div>
-  </div>
-
 </section>
 <!-- ============================================================== -->
 <!-- End Wrapper -->
