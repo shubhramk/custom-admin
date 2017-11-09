@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpService} from "../../../common/services/http.service";
 import {PathConfig} from "../../../common/config/path.config";
+declare var $:any;
 @Component({
   selector: 'app-global-sh8ke',
   templateUrl: './global-sh8ke.component.html',
@@ -206,6 +207,13 @@ getTopGlobalShakes(){
 
     console.log(this.options);
   }
+  
+  handleDropDown(){
+    setTimeout(function(){
+      $('#pass3').val('0');
+    }, 500);   
+  }
+
   deleteGlobalSh8keQuestion(id:string, serviceUrl:string){
     let confirmElem = confirm("Are you sure to delete!");
     if (confirmElem == true) {

@@ -16,7 +16,8 @@ export class GeneralCreatorComponent implements OnInit {
   startDate = "";
   endDate:any;
   creatorName:string="";
-
+  bool_noRecord:boolean = false;
+  noRecordMessage:string = "";
   constructor(private http:HttpService, private activateroute:ActivatedRoute) { }
 
   ngOnInit() {    
@@ -50,7 +51,10 @@ export class GeneralCreatorComponent implements OnInit {
       .subscribe((response)=> {
           this.generalCreator =  response.data;
           if(this.generalCreator.length == 0){
+            this.noRecordMessage =  response.SucessMessage;
             this.generalCreator = [];
+            this.bool_noRecord = true;
+            
           }
           console.log(this.generalCreator);
         },

@@ -21,7 +21,7 @@
   <div class="row">
     <div class="col-md-12 marB">
       <a href="javascript:void(0)" *ngIf ="!visibleElement" (click)="handleDropDown();visibleElement = !visibleElement;showSuccess= false;showError = false;">Add New Sh8kes</a>
-      <a href="javascript:void(0)" *ngIf="visibleElement" (click)="visibleElement = !visibleElement">Back</a>
+      <a href="javascript:void(0)" *ngIf="visibleElement" (click)="visibleElement = !visibleElement; showSuccess= false;showError = false;">Back</a>
       <div class="alert alert-success" *ngIf = "showSuccess">
             <strong>Success!</strong> Record Added Successfully !
           </div>

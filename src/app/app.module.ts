@@ -1,8 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+
 import {FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FileSelectDirective  } from 'ng2-file-upload';
 import {FileDropDirective} from 'ng2-file-upload';
+
 
 import { AppComponent } from './app.component';
 import { RoutingModule} from "./common/routing/app.routing";
@@ -43,6 +45,7 @@ import { GeneralStaticsComponent } from './modules/sh8ke/general-sh8ke/general-s
 import { GlobalStaticsComponent } from './modules/sh8ke/global-sh8ke/global-statics/global-statics.component';
 import { ExampleAnswerComponent } from './modules/sh8ke/example-sh8ke/example-answer/example-answer.component';
 import { ExampleStaticsComponent } from './modules/sh8ke/example-sh8ke/example-statics/example-statics.component';
+
 import { ObjectKeyPipe } from './common/pipes/object-key.pipe';
 import { WorldMapComponent } from './common/component/world-map/world-map.component';
 import { CalendarComponent } from './common/component/calendar/calendar.component';
@@ -51,6 +54,9 @@ import { GlobalAnswerEditComponent } from './modules/sh8ke/global-sh8ke/global-a
 import { ExampleAnswerEditComponent } from './modules/sh8ke/example-sh8ke/example-answer-edit/example-answer-edit.component';
 import { ControlMessageComponent } from './common/component/control-message/control-message.component';
 
+import {AuthService} from "./common/services/auth.service";
+import {AuthGuard} from "./common/routing/auth.guard";
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -97,14 +103,19 @@ import { ControlMessageComponent } from './common/component/control-message/cont
 
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     HttpModule,
     RoutingModule, 
     FormsModule,
     ReactiveFormsModule,
+    RoutingModule,
+    FormsModule
   ],
   providers: [
     HttpService,
+    AuthService,
+    AuthGuard,
     LocalStorageService,
     Broadcaster,
     ValidationService

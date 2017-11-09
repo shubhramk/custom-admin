@@ -111,7 +111,7 @@
                           <label for="exampleInputpwd3">Select Gender</label>
                           <div class="input-group">
                             <select class="form-control" id="user_type"  [ngModel]="selectedGender" (ngModelChange)="selectFromDropdown($event,'gender')" name="user_type" aria-required="true" aria-invalid="false">
-                              <option value="0" selected>Select Gender</option>
+                              <option value="0" selected disabled>Select Gender</option>
                               <option value="Male">Male</option>
                               <option value="Female">Female</option>                        
                             </select>
@@ -180,6 +180,7 @@
   <div class="row" *ngIf = "!visibleElement">
     <div class="col-md-12">
        <!--<app-datatable  [dtTableData]="topGeneralSh8ke"></app-datatable>-->
+       <div *ngIf = "noRecordFound"><h4>No Data Found</h4></div>
        <app-datatable [config]='dtConfigGeneralUser' [data]="generalUser" (onMenuSelect)="onMenuSelect($event)"></app-datatable>
     </div>
   </div>

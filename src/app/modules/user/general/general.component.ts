@@ -31,6 +31,7 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
    showError:boolean = false;
    message:string = "";
    self = this;
+   noRecordFound:boolean = false;
   constructor(private router:Router, private http:HttpService) {}
   ngAfterViewInit(){
     
@@ -113,7 +114,11 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
   getGeneralUsersList(){
     this.http.get(PathConfig.GET_GENERAL_USER)
       .subscribe((response)=> {
+        
           this.generalUser =  response.data;
+          if(this.generalUser.length < 1){
+            this.noRecordFound = true;
+          }
           console.log(this.generalUser);
         },
         err => {

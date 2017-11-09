@@ -14,6 +14,9 @@ export class GlobalCreatorComponent implements OnInit {
   generalSh8keList = [];
   globalSh8keList = [];
   dtConfig:Object = {};
+  bool_noRecordGeneral:boolean = false;
+  bool_noRecordGlobal:boolean = false;
+  noRecordMessage:string = "";
   constructor(private http:HttpService, private activateroute:ActivatedRoute) { }
 
   ngOnInit() {
@@ -35,6 +38,12 @@ export class GlobalCreatorComponent implements OnInit {
   getgeneralSh8keList(id:string){
     this.http.post(PathConfig.GET_GLOBAL_SH8KE_CREATOR+id, {"type" : "general"}).subscribe((response)=>{
       this.generalSh8keList = response.data;
+      console.log(response);
+      if(this.generalSh8keList.length == 0 || response.data == ""){
+        this.noRecordMessage =  response.SucessMessage;
+        this.generalSh8keList = [];
+        this.bool_noRecordGeneral = true;        
+      }
     },
     err => {
     });
@@ -42,6 +51,13 @@ export class GlobalCreatorComponent implements OnInit {
   getglobalSh8keList(id:string){
     this.http.post(PathConfig.GET_GLOBAL_SH8KE_CREATOR+id, {"type" : "global"}).subscribe((response)=>{
       this.globalSh8keList = response.data;
+      if(this.globalSh8keList.length == 0){
+        this.noRecordMessage =  response.SucessMessage;
+        this.globalSh8keList = [];
+        this.bool_noRecordGlobal = true;
+        
+      }
+
       console.log(this.globalSh8keList);
     },
     err => {

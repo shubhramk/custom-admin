@@ -58,9 +58,15 @@ ngOnInit(){
               var template = '';
 
               let val = data;
-              template = '<div class="dt-menu-icons">' +
-                '<span class="fa fa-check-circle" aria-hidden="true" *ngIf="'+val+'">'+'</span>' +
+              if(full['isActive'] == '1'){
+                template = '<div class="dt-menu-icons">' +
+                '<a href="javascript:void(0);" data-name="status" data-custom="' + full['rowId']  + '"data-creator="' + full['isActive'] + '"><span class="fa fa-check-circle" aria-hidden="true">'+'</span></a>' +
                 '</div>';
+              }else{
+                template = '<div class="dt-menu-icons">' +
+                '<a href="javascript:void(0);" data-name="status" data-custom="' + full['rowId']  + '"data-creator="' + full['isActive'] + '"><span class="fa fa-times-circle" aria-hidden="true">'+'</span></a>' +
+                '</div>';
+              }
 
               return template;
             }
@@ -86,8 +92,31 @@ ngOnInit(){
       this.navigateTo('user/globalCreator/'+data['value']+"/"+data['creatorName']);
     }else if(data['clickedOn'] == 'delete'){
       this.deleteAdminUser(data['value']);
-    }
+    } else if(data['clickedOn'] == 'status'){
+      this.chnageStatus(data['value'], data['creatorName']);
+    }    
   }
+
+  chnageStatus(id:string, status){
+    let confirmElem  = confirm('sure to change status for this news?');
+    
+    if(confirmElem== true){
+      if(status == "0"){
+
+        status ="1";
+      }else{
+        status = "0";
+      }
+      console.log(status);
+      //alert(status);
+      this.http.post(PathConfig.UPDATE_ADMIN_USER_ISACTIVE, {st:status, id:id}).subscribe((response)=>{
+      console.log(response);
+      this.getAdminUsers();
+    }, err=>{
+
+    });
+    }
+  } 
 //get top20 globalShakes
 deleteAdminUser(id){
   let confirmElem = confirm("Are you sure to delete!");

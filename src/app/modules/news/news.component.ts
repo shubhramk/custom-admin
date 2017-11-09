@@ -224,6 +224,7 @@ export class NewsComponent implements OnInit {
   fileSelection(){
     if($("#avatar").val() == ""){
       this.bool_fileUploaded = true;
+      return true;
     }else{
       this.bool_fileUploaded = false;
     }
@@ -264,6 +265,7 @@ export class NewsComponent implements OnInit {
             this.showSuccess= true;
             this.showError= false;
             this.message = responsePath.SucessMessage;
+            this.getNewsList();
            // this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
            }else if(responsePath.Status == "Error"){
             this.showSuccess= true;

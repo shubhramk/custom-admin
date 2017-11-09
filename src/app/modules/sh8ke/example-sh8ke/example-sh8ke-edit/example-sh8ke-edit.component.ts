@@ -20,7 +20,8 @@ export class ExampleSh8keEditComponent implements OnInit {
    selectedCategory:string = "";
    showSuccess:boolean = false;
    showError:boolean = false;
-
+   message:string = "";
+   question_id:string = ""
   constructor(private router:Router, private http:HttpService, private activated:ActivatedRoute) { }
 
   ngOnInit() {
@@ -28,17 +29,38 @@ export class ExampleSh8keEditComponent implements OnInit {
     this.getExampleSh8keEditableData(this.activated.snapshot.params['id'])
   }
   getExampleSh8keEditableData(id:string){
+   
+    console.log(id + "    ID");
 
+    this.http.get(PathConfig.EDIT_EXAMPLE_SH8KE+id).subscribe((response)=>{
+      if(response.Status == "Success"){
+        this.selectedCategory = response.data['category_id'];
+        this.exampleTitle = response.data['title'];
+        this.description = response.data['description'];
+        this.question_id = response.data["id"];
+        console.log(response.data);
+      }
+    }, err=>{
+
+    })
   }
   updateExampleSh8ke(){
     let postData= {};
     postData["title"] = this.exampleTitle;
-    postData["category_id"]  =  this.selectedCategory;
+    postData["category"]  =  this.selectedCategory;
     postData["description"] = this.description;
     postData["uid"] = "1";
-    postData["id"] = "";
+    postData["id"] = this.question_id;
     this.http.post(PathConfig.UPDATE_SH8KE_EXAMPLE, postData).subscribe((response)=>{
-
+      if(response.Status == "Success"){
+        this.showSuccess = true;
+        this.showError = false;
+        this.message = response.SucessMessage;
+      }else if(response.Status == "Error"){
+        this.showSuccess = false;
+        this.showError = true;
+        this.message = response.ErrorMessage;
+      }
     }, err=>{
 
     })
@@ -49,7 +71,6 @@ export class ExampleSh8keEditComponent implements OnInit {
 
   getCategoryList(){
     this.http.get(PathConfig.GET_GENERAL_SH8KE_EDITABLE_DATA).subscribe((response) =>{
-      console.log(response);
       this.categoryItems = response.data["Category"];
       console.log(this.categoryItems);
     }, err=>{

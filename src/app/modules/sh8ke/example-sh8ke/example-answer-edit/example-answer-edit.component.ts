@@ -35,9 +35,7 @@ export class ExampleAnswerEditComponent implements OnInit {
     //this.selectedDevice = this.answerType[0];
     
     this.uploader.onBuildItemForm = (item, form) => {
-      //form.append('key1', 'S');
-      //form.append('key2', 'K');
-      //let postData = {};
+      
       let checkBoxFinalAnswer:string;
       form.append("type", this.selectedDevice);
       form.append("ans" ,this.otherTextAnswer);

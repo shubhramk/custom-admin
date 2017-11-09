@@ -31,6 +31,7 @@ import {ExampleStaticsComponent} from "../../modules/sh8ke/example-sh8ke/example
 import {GeneralAnswerEditComponent} from "../../modules/sh8ke/general-sh8ke/general-answer-edit/general-answer-edit.component";
 import {GlobalAnswerEditComponent} from "../../modules/sh8ke/global-sh8ke/global-answer-edit/global-answer-edit.component";
 import {ExampleAnswerEditComponent} from "../../modules/sh8ke/example-sh8ke/example-answer-edit/example-answer-edit.component";
+import {AuthGuard} from "./auth.guard";
 
 const adminRoutes: Routes = [
 
@@ -42,10 +43,12 @@ const adminRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: '',
     component: DashboardComponent,
+    canActivateChild: [AuthGuard],
     children: [
       {
         path: 'home',
@@ -152,7 +155,7 @@ const adminRoutes: Routes = [
         path:'sh8ke/editGlobalAnswer/:id',
         component:GlobalAnswerEditComponent
       }
-      
+
     ]
   }
 ];

@@ -45,7 +45,6 @@ export class CategoryComponent implements OnInit {
       'email': ['', [Validators.required, ValidationService.emailValidator]],
       'profile': ['', [Validators.required, Validators.minLength(10)]] */
     });
-    console.log(this.userForm);
    }
    
   ngOnInit(){

@@ -18,7 +18,7 @@
         </div>
         <div class="row">
           <div class="col-md-12 marB">
-            <a href="javascript:void(0)" *ngIf ="!visibleElement" (click)=" this.visibleElement = !this.visibleElement;showSuccess=false;showError= false;">Add New</a>
+            <a href="javascript:void(0)" *ngIf ="!visibleElement" (click)="handleInput();this.visibleElement = !this.visibleElement;showSuccess=false;showError= false;">Add New</a>
             <a href="javascript:void(0)" *ngIf="visibleElement" (click)=" this.visibleElement = !this.visibleElement;showSuccess=false;showError= false;">Back</a>
               <div class="alert alert-success" *ngIf = "showSuccess">
                     <strong>Success!</strong> {{message}}

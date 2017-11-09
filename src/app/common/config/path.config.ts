@@ -1,11 +1,14 @@
 export class PathConfig {
 
     public static BASE_URL_API:string  = 'http://www.evolutionbytes.com/projects/sh8ke/';
+
+    public static LOGIN_AUTH:string = PathConfig.BASE_URL_API + 'api/api.php?action=login';
+
     public static GET_STATISTICS :string = PathConfig.BASE_URL_API + 'api/api.php?action=DashboardStatistics';
 
     public static GET_CURR_WEEK_REPORT :string  = PathConfig.BASE_URL_API + 'api/api.php?action=CurrentWeekReport';
     public static GET_MONTHLY_REPORT :string = PathConfig.BASE_URL_API + 'api/api.php?action=MonthlyReport';
-    
+
     public static GET_SHAKES_LIST :string = PathConfig.BASE_URL_API + 'api/api.php?action=TrendingSh8kes';
 
     public static GET_GENERAL_USER :string = PathConfig.BASE_URL_API + 'api/api.php?action=GeneralUsers';
@@ -17,7 +20,7 @@ export class PathConfig {
     public static GET_EXAMPLE_ANSWER_LST:string = PathConfig.BASE_URL_API + 'api/api.php?action=ExampleSh8keAnswer&id=';
 
     public static GET_GENERAL_SH8KE_ANSWER :string = PathConfig.BASE_URL_API + 'api/api.php?action=GeneralSh8keAnswer&id=';
-    
+
     public static GET_GENERAL_SH8KE_CREATOR :string = PathConfig.BASE_URL_API + 'api/api.php?action=UsersSh8ke&path=sh&id=';
 
     public static GET_GLOBAL_SH8KE_ANSWER :string = PathConfig.BASE_URL_API + 'api/api.php?action=GlobalSh8keAnswer&id=';
@@ -31,8 +34,9 @@ export class PathConfig {
 
     public static GET_GENERAL_SH8KE_EDITABLE_DATA :string = PathConfig.BASE_URL_API + 'api/api.php?action=EditSh8keGeneral&id=';
     public static POST_GENERAL_SH8KE_EDITABLE_DATA :string = PathConfig.BASE_URL_API + 'api/api.php?action=UpdateSh8keGeneral';
-    
+
     public static GET_GLOBAL_SH8KE_EDITABLE_DATA :string = PathConfig.BASE_URL_API + 'api/api.php?action=EditSh8keGlobal&id=';
+
     public static POST_GLOBAL_SH8KE_EDITABLE_DATA :string = PathConfig.BASE_URL_API + 'api/api.php?action=UpdateSh8keGlobal';    
 
     public static ADD_NEW_CATEGORY:string = PathConfig.BASE_URL_API +'api/api.php?action=AddCategory';
@@ -101,8 +105,7 @@ export class PathConfig {
     public static NEWS_CHANGE_STATUS:string = PathConfig.BASE_URL_API + "api/api.php?action=NewsStatus";
     public static UPDATE_NEWS_ANSWER_UPLOADED_ITEM:string = PathConfig.BASE_URL_API + "api/api.php?action=UpdateNewsWithImage";
     public static UPDATE_NEWS_ANSWER:string = PathConfig.BASE_URL_API + "api/api.php?action=UpdateNews";
-    
-    
-
-    
+    public static EDIT_EXAMPLE_SH8KE:string = PathConfig.BASE_URL_API +"api/api.php?action=EditExampleSh8ke&id=";
+    public static UPDATE_ADMIN_USER_ISACTIVE:string = PathConfig.BASE_URL_API +"api/api.php?action=AdminStatus";
+   
 }

@@ -19,6 +19,7 @@ export class GenralSh8keEditComponent implements OnInit {
   showSuccess:boolean = false;
   showError:boolean= false;
   selectedDevice:string = "";
+  question_id:string = "";
   constructor(private router:Router, private activateRoute:ActivatedRoute, private http:HttpService) { }
 
   ngOnInit() {
@@ -35,6 +36,7 @@ export class GenralSh8keEditComponent implements OnInit {
         this.titleName = this.generalSh8keEditableData['title'];
         this.categoryItems = (this.generalSh8keEditableData['Category']);
         this.selectedCategory = this.generalSh8keEditableData["category_id"];
+        this.question_id = this.generalSh8keEditableData["id"];
         for(let obj in this.generalSh8keEditableData){
           if(obj != "Category" && obj !="title" && obj != "category_id" && obj != "id"){
             let key = obj;
@@ -62,13 +64,19 @@ export class GenralSh8keEditComponent implements OnInit {
     let postData = {};
     this.options.forEach((key,val) =>{
       //let setvalue = 
+      console.log(key);
       postData[key.name] = (key.selected == true ? 1 : 0);
-      console.log(postData[key.name] + "   postData[key.name]")
+      if(key.name == "sh8ke_down"){
+        console.log(key)
+        postData["shakedown"] = (key.selected == true ? 1 : 0); 
+        delete postData['sh8ke_down']; 
+      }
     
     });
-    postData["userID"] = "1";
+    postData["admin_id"] = "1";
     postData["category_id"]= this.selectedCategory;
     postData["title"] = this.titleName;
+    postData["id"] = this.question_id;
 
     console.log(postData);
     this.http.post(PathConfig.POST_GENERAL_SH8KE_EDITABLE_DATA, postData).subscribe( (response)=>{
