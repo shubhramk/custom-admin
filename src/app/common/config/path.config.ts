@@ -2,7 +2,7 @@ export class PathConfig {
 
     public static BASE_URL_API:string  = 'http://www.evolutionbytes.com/projects/sh8ke/';
 
-    public static LOGIN_AUTH:string = PathConfig.BASE_URL_API + 'api/api.php?action=login';
+    public static LOGIN_AUTH:string = PathConfig.BASE_URL_API + 'api/api.php?action=Login';
 
     public static GET_STATISTICS :string = PathConfig.BASE_URL_API + 'api/api.php?action=DashboardStatistics';
 

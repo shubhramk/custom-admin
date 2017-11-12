@@ -11,6 +11,7 @@ import {ConstantConfig} from "../../common/config/constant.config";
 })
 export class LoginComponent implements OnInit{
   loginItem:FormGroup;
+  message:string = '';
   constructor(
     private router:Router,
     private authService:AuthService,
@@ -29,33 +30,51 @@ export class LoginComponent implements OnInit{
 
   //on Form Submit
   onSubmit({ value, valid }: { value: any, valid: boolean }) {
-    console.log(value);
+
 
     //dummy call
-    this.localStorage.set(ConstantConfig.AUTH_TOKEN,'rtfghuuhhgfd4545cvv' );
-    this.router.navigate(['/home']);
+    //this.localStorage.set(ConstantConfig.AUTH_TOKEN,'rtfghuuhhgfd4545cvv' );
+    //this.router.navigate(['/home']);
 
+    if(!value['email']){
+      this.message = "Please provide username.";
+      return false;
+    }else if(!value['userPwd']){
+      this.message = "Please provide password.";
+      return false;
+    }
 
-    /*
     if(valid){
+      this.message = '';
+      this.authService.login(PathConfig.LOGIN_AUTH , {'username':value['email'],'password':value['userPwd']})
+        .then(response => {
+          let data = response['data'];
+          let code = response['MessageCode'];
 
-      this.authService.login(PathConfig.LOGIN_AUTH , {'email':value['email'],'password':value['userPwd'],'status':1})
-        .then(data => {
-          let response = data['response']['payload'];
-          let accessToken = data['token'];
-          if(response) {
-
-
+          if(code == "400"){
+            this.loginItem.reset();
+            this.message = response['ErrorMessage'];
+            return true;
           }
+
+          let accessToken = data['token'];
+          let profile_image = data['profile_image'];
+          let name = data['name'];
           if(accessToken){
             this.localStorage.set(ConstantConfig.AUTH_TOKEN,accessToken );
-            this.router.navigate(['dashboard/home']);
+            this.localStorage.set(ConstantConfig.USER_DETAIL,JSON.stringify(
+              {
+              "name":name ,
+              "img":profile_image
+              }
+            ));
+            this.router.navigate(['/home']);
           }
         })
         .catch(err =>{
           //log error if any
           console.log('login error')
         });
-    }*/
+    }
   }
 }

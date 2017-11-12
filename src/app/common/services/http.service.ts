@@ -80,13 +80,13 @@ export class HttpService {
   getAuthHeaders():Headers{
     let headers = new Headers(); //set content type to JSON
     headers.append('Content-Type','application/json' );
-    headers.append('Authorization',  this.localStorage.get(ConstantConfig.AUTH_TOKEN));
+    headers.append('authorization',  this.localStorage.get(ConstantConfig.AUTH_TOKEN));
     return headers;
   }
   //set headers
   getAuthHeadersFileUpload():Headers{
     let headers = new Headers(); //set content type to JSON
-    headers.append('Authorization',  this.localStorage.get(ConstantConfig.AUTH_TOKEN));
+    headers.append('authorization',  this.localStorage.get(ConstantConfig.AUTH_TOKEN));
     return headers;
   }
 }

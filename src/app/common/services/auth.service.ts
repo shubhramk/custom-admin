@@ -22,9 +22,7 @@ export class AuthService {
       return this.http
         .post(url, body, options)
         .toPromise()
-        .then((res) =>{
-          return ({'response':res.json(),'token':res.headers.get("access-token")});
-        })
+        .then((res) => res.json())
         .catch((error) =>{
           return Promise.reject(error.json() || error.json().error || 'Server error')
         });
@@ -32,6 +30,7 @@ export class AuthService {
 
     //Log Out
     logout(){
+      this.localStorage.remove(ConstantConfig.USER_DETAIL);
       this.localStorage.remove(ConstantConfig.AUTH_TOKEN);
       this.router.navigate(['/login']);
     }
