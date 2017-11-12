@@ -10,8 +10,9 @@ declare var $:any;
 })
 export class GeneralUserComponent implements OnInit, AfterViewInit {
   visibleElement:boolean = false;
-  preferencesItems = ["Arty", "Girly", "Nerdy", "Craftsman", "Hip-ster", "Old School", "Dapper", "Jock", "Quiet", "Extreme", "Loud", "Romantic",
-  "Funny", "Manly", "Sassy", "Ditzy", "Social", "Techie"];
+  preferencesItems = [{name:"Arty", selected:false, disabled:false }, {name:"Girly",selected:false, disabled:false }, {name:"Nerdy",selected:false, disabled:false }, {name:"Craftsman",selected:false, disabled:false }, {name:"Hip-ster",selected:false, disabled:false }, {name:"Old School",selected:false, disabled:false }, {name:"Dapper",selected:false, disabled:false }, {name:"Jock",selected:false, disabled:false}, {name:"Quiet",selected:false, disabled:false}, {name:"Extreme",selected:false, disabled:false}, {name:"Loud",selected:false, disabled:false}, {name:"Romantic",selected:false, disabled:false},
+  {name:"Funny",selected:false, disabled:false}, {name:"Manly",selected:false, disabled:false}, {name:"Sassy",selected:false, disabled:false}, {name:"Ditzy",selected:false, disabled:false}, {name:"Social",selected:false, disabled:false}, {name:"Techie",selected:false, disabled:false}];
+  
    generalUser = [];
    dtConfigGeneralUser:Object = {};
 
@@ -19,7 +20,7 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
    surName:string = "";
    phoneNo:number;
    email:string = "";
-   userName:string = "";
+   userName_general:string = "";
    password:string = "";
    selectedGender:string = "";
    selectStatus:string = "";
@@ -144,7 +145,7 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
     let postData = {};
     postData["name"] = this.fName;
     postData["surname"] = this.surName
-    postData["username"] = this.userName;
+    postData["username"] = this.userName_general;
     postData["password"] = this.password;
     postData["mail_id"] = this.email;
     postData["mobile_no"] = this.phoneNo
@@ -154,7 +155,9 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
     postData["birth_day"] = this.selectedDate;
     postData["intrested_gender"] = this.selectIntrest;
     postData["status"] = this.selectStatus;
+    postData['prefrences'] = this.preferencesItems;
     console.log(postData);
+
    this.http.post(PathConfig.ADD_GENERAL_USER, postData).subscribe((response)=>{
       console.log(response.SucessMessage, "    ", response.ErrorMessage);
       if(response.Status == "Success"){        
@@ -195,6 +198,33 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
     err=>{})
     }
   }
+  counter = 0;
+  updateCheckedOptions(data,event){
+    console.log(data);
+    console.log(event);
+    if(event == true){
+      this.counter++;
+    }else{
+      this.counter --;
+    }
+    if(this.counter == 3){
+      this.preferencesItems.forEach((val, key) => {
+        if(val.selected == false){
+          val.disabled = true;
+        } 
+      });
+    }else{
+      this.preferencesItems.forEach((val, key) => {
+        //if(val.selected == false){
+          val.disabled = false;
+        //} 
+      });
+    }
+     
+    
+
+  }
+
   handleVisiblity(){    
     var self = this;
     this.visibleElement = !this.visibleElement;

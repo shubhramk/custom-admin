@@ -20,6 +20,8 @@ export class GlobalSh8keComponent implements OnInit {
   dtConfigGlobal:Object = {};
   showSuccess:boolean = false;
   showError:boolean= false;
+  
+  temp_Option = [];
   constructor(private router:Router, private http:HttpService) { }
 
  ngOnInit(){
@@ -159,9 +161,15 @@ getTopGlobalShakes(){
               data = {"name":key, "selected":true}
             }            
             this.options.push(data);
-            console.log(this.options , "   Options");
+            
           }          
         }
+       // this.temp_Option = this.options;
+        console.log(this.temp_Option);
+        this.options.forEach((val, key)=>{
+          this.temp_Option.push(val);
+        })
+        console.log(this.temp_Option);
         //this.options.push[this.generalSh8keEditableData[]];
       },
       err => {
@@ -228,6 +236,7 @@ getTopGlobalShakes(){
     }       
   }
   submitData(){
+   
     let postData = {};
     this.options.forEach((key,val) =>{
       //let setvalue = 
@@ -246,9 +255,19 @@ getTopGlobalShakes(){
     this.http.post(PathConfig.ADD_NEW_GLOBAL_SH8KE, postData).subscribe( (response)=>{
       console.log(postData);
           if(response.Status == "Success"){
+            
+              this.options = [];
+              this.options = this.temp_Option;
+              console.log(this.options);
             this.getTopGlobalShakes();
             this.showSuccess = true;
             this.showError = false;
+            this.selectedCategory = "0";
+            this.titleName = "";
+            
+            
+            
+
           }else if(response.Status == "Error"){
             this.showSuccess = false;
             this.showError = true;

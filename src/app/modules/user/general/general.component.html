@@ -39,7 +39,7 @@
                    <h4 class="card-title"> Add General User</h4>
                 </div>
               </div>
-                <form class="form p-t-20">
+                <form class="form p-t-20" autocomplete="off">
                       <div class="form-group row">
                         <div class="col-sm-9 marginCenter">
                           <label for="exampleInputuname2">Name</label>
@@ -93,7 +93,7 @@
                           <label for="password">Password</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-lock"></i></div>
-                              <input type="password" name="password" [(ngModel)]="password" class="form-control" id="password" placeholder="Enter pwd">
+                              <input type="password" autocomplete="new-password" name="password" [(ngModel)]="password" class="form-control" id="password" placeholder="Enter pwd">
                               
                           </div>
                       </div>
@@ -152,9 +152,10 @@
                             <div class="form-check checkBoxContainer col-md-4 col-sm-6" *ngFor = "let checkData of preferencesItems; let i= index;">
                               
                                   <label class="custom-control custom-checkbox">
-                                      <input type="checkbox" class="custom-control-input">
+                                      <input type="checkbox" [disabled]="checkData['disabled']" name="role_{{ i }}" id = "role_{{ i }}" class="custom-control-input"  [(ngModel)]="checkData['selected']"  (ngModelChange)="updateCheckedOptions(checkData, $event)"  [attr.checked]="checkData['selected']">
+                                      
                                       <span class="custom-control-indicator"></span>
-                                      <span class="custom-control-description">{{checkData}}</span>
+                                      <span class="custom-control-description">{{checkData.name}}</span>
                                   </label>
                               </div>
                           </div>
@@ -169,7 +170,7 @@
                       <div class="text-left row">
                         <div class="col-sm-9 marginCenter">
                           <button type="submit" class="btn btn-success waves-effect waves-light m-r-10" (click)="addNewGenralUser()">Submit</button>
-                          <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
+                          <button type="submit" class="btn btn-inverse waves-effect waves-light" (click)="handleVisiblity(); showSuccess = false;showError = false;">Cancel</button>
                         </div>
                       </div>
                   </form>

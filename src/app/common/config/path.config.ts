@@ -74,7 +74,7 @@ export class PathConfig {
 
     public static ADD_GLOBAL_SH8KE_ANSWER:string = PathConfig.BASE_URL_API+"api/api.php?action=AddSh8keGlobalAnswer";
     public static UPDATE_SH8KE_GLOBAL_ANSWER_UPLOADED_ITEM:string = PathConfig.BASE_URL_API+"api/api.php?action=EditSh8keGlobalAnswer";
-    public static UPDATE_SH8KE_GLOBAL_ANSWER_TEXT:string = PathConfig.BASE_URL_API + "api/api.php?action=EditSh8keGlobalAnswerTextData";
+    public static UPDATE_SH8KE_GLOBAL_ANSWER_TEXT:string = PathConfig.BASE_URL_API + "api/api.php?action=EditSh8keGlobalAnswerData";
 
     public static ADD_GLOBAL_ANSWER_UPLOADED_DATA:string = PathConfig.BASE_URL_API+"api/api.php?action=AddSh8keGlobalAnswerImage";
 

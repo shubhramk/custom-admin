@@ -96,9 +96,8 @@
                           <label for="exampleInputpwd3">Select Gender</label>
                           <div class="input-group">
                             <select class="form-control" id="user_type" [ngModel]="selectedGender" (ngModelChange)="updateCheckedOptions($event, 'gender')" name="user_type" aria-required="true" aria-invalid="false">
-                              <option value="">Select Gender</option>
-                              <option value="1">Male</option>
-                              <option value="2">Female</option>                        
+                              <option value="-1" selected disabled>Select Gender</option>
+                              <option [attr.selected]="selectedGender == i ? true:null"  *ngFor="let gender of arr_gender; let i = index;" [attr.value]="i">{{gender}}</option>                        
                             </select>
                           </div>
                         </div>
@@ -109,10 +108,9 @@
                           <div class="input-group">
                             <select class="form-control" id="user_status" name="user_status" [ngModel]="selectStatus" (ngModelChange)="updateCheckedOptions($event, 'status')" aria-required="true" aria-invalid="false">
                               <option value="-1" selected>Select Status</option>
-                              <option value="1">Single</option>
-                              <option value="2">Married</option> 
-                              <option value="3">Divorced</option>  
-                              <option value="3">Open</option>                        
+                              
+                              <option [attr.selected]="selectStatus == i ? true:null"  *ngFor="let status of arr_status; let i = index;" [attr.value]="i">{{status}}</option>                        
+                              
                             </select>
                           </div>
                         </div>
@@ -122,9 +120,9 @@
                           <label for="user_status">Intrest</label>
                           <div class="input-group">
                             <select class="form-control" [ngModel]="selectIntrest" (ngModelChange)="updateCheckedOptions($event, 'intrest')" id="user_status" name="user_interest" aria-required="true" aria-invalid="false">
-                              <option value="-1" selected>Intrested In</option>
-                              <option value="1">Male</option>
-                              <option value="2">Female</option>                    
+                              <option value="-1" selected disabled>Intrested In</option>
+                              <option [attr.selected]="selectIntrest == i ? true:null"  *ngFor="let intrest of arr_gender; let i = index;" [attr.value]="i">{{intrest}}</option>                        
+                              
                             </select>
                           </div>
                         </div>
@@ -137,9 +135,9 @@
                             <div class="form-check checkBoxContainer col-md-4 col-sm-6" *ngFor = "let checkData of preferencesItems; let i= index;">
                               
                                   <label class="custom-control custom-checkbox">
-                                      <input type="checkbox" class="custom-control-input">
+                                    <input type="checkbox" name="role_{{ i }}" id = "role_{{ i }}" class="custom-control-input"  [(ngModel)]="checkData['selected']"  (ngModelChange)="updateCheckedOptions(checkData, $event)"  [attr.checked]="checkData['selected']">
                                       <span class="custom-control-indicator"></span>
-                                      <span class="custom-control-description">{{checkData}}</span>
+                                      <span class="custom-control-description">{{checkData.name}}</span>
                                   </label>
                               </div>
                           </div>
@@ -154,7 +152,7 @@
                       <div class="text-left row">
                         <div class="col-sm-9 marginCenter">
                           <button type="submit" class="btn btn-success waves-effect waves-light m-r-10" (click)="submitEditableData">Submit</button>
-                          <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
+                          <button type="submit" class="btn btn-inverse waves-effect waves-light" (click)="navigateTo('users/general')">Cancel</button>
                         </div>
                       </div>
                   </form>

@@ -264,8 +264,8 @@ question_id:string = "";
       this.uploadedFileDetail['base64Code'] = baseVal;
     }   
     submitAnswer(){
-      
-    if(this.selectedDevice != "0"){
+      console.log("asasaas");
+    if($("input[type =file]").val() != ""  && $("input[type =file]").val() != undefined ){
       this.uploader.cancelAll();
       this.uploader.uploadAll();
       this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {

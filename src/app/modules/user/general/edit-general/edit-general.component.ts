@@ -10,8 +10,12 @@ declare var $:any;
   styleUrls: ['./edit-general.component.css']
 })
 export class EditGeneralComponent implements OnInit {
-  preferencesItems = ["Arty", "Girly", "Nerdy", "Craftsman", "Hip-ster", "Old School", "Dapper", "Jock", "Quiet", "Extreme", "Loud", "Romantic",
-  "Funny", "Manly", "Sassy", "Ditzy", "Social", "Techie"];
+  preferencesItems = [{name:"Arty", selected:false}, {name:"Girly",selected:false}, {name:"Nerdy",selected:false}, {name:"Craftsman",selected:false}, {name:"Hip-ster",selected:false}, {name:"Old School",selected:false}, {name:"Dapper",selected:false}, {name:"Jock",selected:false}, {name:"Quiet",selected:false}, {name:"Extreme",selected:false}, {name:"Loud",selected:false}, {name:"Romantic",selected:false},
+  {name:"Funny",selected:false}, {name:"Manly",selected:false}, {name:"Sassy",selected:false}, {name:"Ditzy",selected:false}, {name:"Social",selected:false}, {name:"Techie",selected:false}];
+  
+  arr_gender = ["Male", "Female"];
+  arr_status = ["Single", "Married", "Divorced", "Open"];
+
   fName:string = "";
   surName:string = "";
   phoneNo:number;
@@ -66,6 +70,7 @@ export class EditGeneralComponent implements OnInit {
       this.selectedDate = response.data["birth_day"];
       this.selectIntrest = response.data["intrested_gender"];
       this.selectStatus = response.data["status"];
+      /* this.preferencesItems  =response.data['prefrece'] */
       $("#datepicker-autoclose").datepicker("update", new Date(Number(this.selectedYear),Number(this.selectedMonth),Number(this.selectedDate )));
     },err=>{
 

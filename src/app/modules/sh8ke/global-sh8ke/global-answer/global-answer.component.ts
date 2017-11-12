@@ -143,7 +143,7 @@ export class GlobalAnswerComponent implements OnInit {
         this.bool_answerType = true;
         this.bool_fileType = false;
       }else{
-        this.bool_answer = true;
+        this.bool_answer = false;
         this.bool_answerType = false;
         this.bool_answerOther = false;
         this.bool_fileType = true;
