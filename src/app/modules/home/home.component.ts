@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {HttpService} from "../../common/services/http.service";
 import {PathConfig} from "../../common/config/path.config";
 import * as _ from 'lodash';
+import {Broadcaster} from "../../common/services/broadcaster.service";
 
 //import Chartist from 'chartist';
 @Component({
@@ -20,13 +21,14 @@ export class HomeComponent implements OnInit,AfterViewInit{
   dtConfigGeneral:Object = {};
   keysLength:number = 0;
   cardStatistcs = {};
-  
+
   configLabel = [];
   configLinecolor = [];
   configYKeys = [];
   constructor(
     private router:Router,
-    private http:HttpService
+    private http:HttpService,
+    private broadcaster:Broadcaster
   ) {}
 
   ngOnInit(){
@@ -159,10 +161,13 @@ export class HomeComponent implements OnInit,AfterViewInit{
 
   //get statistics for stats cards
   getStatistics(){
+
     this.http.get(PathConfig.GET_STATISTICS)
       .subscribe((response)=> {
         this.cardStatistcs = response.data;
         this.cardStatistcs['deviation'] = 4;
+
+        this.broadcaster.broadcast("SHOW_LOADER",false);
       },
       err => {
           // Log errors if any
@@ -275,14 +280,14 @@ export class HomeComponent implements OnInit,AfterViewInit{
               }else if(type == "globalSh8ke"){
                 this.getTopGlobalShakes();
               }
-              
+
             }
           },
           err => {
           }
         );
-      }       
-  } 
+      }
+  }
   //navigate to page
   navigateTo(url:string){
     this.router.navigate([url]);

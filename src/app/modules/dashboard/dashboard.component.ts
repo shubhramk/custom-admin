@@ -6,6 +6,7 @@ import chartist from 'chartist';
 //declare var Chartist:any;
 import {LocalStorageService} from "../../common/services/local-storage.service";
 import {AuthService} from "../../common/services/auth.service";
+import {Broadcaster} from "../../common/services/broadcaster.service";
 declare var $:any;
 
 @Component({
@@ -16,13 +17,28 @@ export class DashboardComponent implements OnInit,AfterViewInit{
   visibleElement:boolean = false;
   constructor(
     private router:Router,
-    private authService:AuthService
+    private authService:AuthService,
+    private broadcaster:Broadcaster
   ) {}
 
   ngOnInit(){
     setTimeout(()=>this.initJS(),500);
   }
-  ngAfterViewInit(){}
+
+  ngAfterViewInit(){
+    //registerLoaderEvents
+    this.broadcaster.on<string>('SHOW_LOADER')
+      .subscribe(message => {
+        console.log(message);
+        if(!message){
+          $(".preloader").fadeOut();
+        }else{
+          $(".preloader").fadeIn();
+        }
+
+      });
+
+  }
 
   //navigate to page
   navigateTo(url:string){
@@ -41,7 +57,7 @@ export class DashboardComponent implements OnInit,AfterViewInit{
     $(function () {
       "use strict";
       $(function () {
-        $(".preloader").fadeOut();
+        //$(".preloader").fadeOut();
       });
       $(document).on('click', '.mega-dropdown', function (e) {
         e.stopPropagation()
@@ -251,7 +267,7 @@ export class DashboardComponent implements OnInit,AfterViewInit{
       }($, window, document));
     });
 
-    
+
       var CalendarApp = function() {
           this.$body = $("body")
           this.$calendar = $('#calendar'),
@@ -260,12 +276,12 @@ export class DashboardComponent implements OnInit,AfterViewInit{
           this.$extEvents = $('#calendar-events'),
           this.$modal = $('#my-event'),
           this.$saveCategoryBtn = $('.save-category'),
-          this.$calendarObj = null;        
+          this.$calendarObj = null;
       };
-  
-  
+
+
       /* on drop */
-      CalendarApp.prototype.onDrop = function (eventObj, date) { 
+      CalendarApp.prototype.onDrop = function (eventObj, date) {
           var $this = this;
               // retrieve the dropped element's stored Event Object
               var originalEventObject = eventObj.data('eventObject');
@@ -340,14 +356,14 @@ export class DashboardComponent implements OnInit,AfterViewInit{
                           end: end,
                           allDay: false,
                           className: categoryClass
-                      }, true);  
+                      }, true);
                       $this.$modal.modal('hide');
                   }
                   else{
                       alert('You have to give a title to your event');
                   }
                   return false;
-                  
+
               });
               $this.$calendarObj.fullCalendar('unselect');
       },
@@ -371,7 +387,7 @@ export class DashboardComponent implements OnInit,AfterViewInit{
       }
       /* Initializing */
       CalendarApp.prototype.init = function() {
-          
+
           this.enableDrag();
           /*  Initialize the calendar  */
           var date = new Date();
@@ -380,7 +396,7 @@ export class DashboardComponent implements OnInit,AfterViewInit{
           var y = date.getFullYear();
           var form = '';
           var today = new Date($.now());
-  
+
           var defaultEvents =  [{
                   title: 'Released Ample Admin!',
                   start: new Date($.now() + 506800000),
@@ -409,7 +425,7 @@ export class DashboardComponent implements OnInit,AfterViewInit{
                   start: new Date($.now() - 399000000),
                   end: new Date($.now() - 219000000),
                   className: 'bg-info'
-              },  
+              },
                 {
                   title: 'Hanns birthday',
                   start: new Date($.now() + 868000000),
@@ -419,15 +435,15 @@ export class DashboardComponent implements OnInit,AfterViewInit{
                   start: new Date($.now() + 348000000),
                   className: 'bg-success'
               }];
-  
+
           var $this = this;
           $this.$calendarObj = $this.$calendar.fullCalendar({
               slotDuration: '00:15:00', /* If we want to split day time each 15minutes */
               minTime: '08:00:00',
-              maxTime: '19:00:00',  
-              defaultView: 'month',  
-              handleWindowResize: true,   
-               
+              maxTime: '19:00:00',
+              defaultView: 'month',
+              handleWindowResize: true,
+
               header: {
                   left: 'prev,next today',
                   center: 'title',
@@ -441,9 +457,9 @@ export class DashboardComponent implements OnInit,AfterViewInit{
               drop: function(date) { $this.onDrop($(this), date); },
               select: function (start, end, allDay) { $this.onSelect(start, end, allDay); },
               eventClick: function(calEvent, jsEvent, view) { $this.onEventClick(calEvent, jsEvent, view); }
-  
+
           });
-  
+
           //on new event
           this.$saveCategoryBtn.on('click', function(){
               var categoryName = $this.$categoryForm.find("input[name='category-name']").val();
@@ -452,10 +468,10 @@ export class DashboardComponent implements OnInit,AfterViewInit{
                   $this.$extEvents.append('<div class="calendar-events bg-' + categoryColor + '" data-class="bg-' + categoryColor + '" style="position: relative;"><i class="fa fa-move"></i>' + categoryName + '</div>')
                   $this.enableDrag();
               }
-  
+
           });
       },
-  
+
      //init CalendarApp
       $.CalendarApp = new CalendarApp, $.CalendarApp.Constructor = CalendarApp;
       $.CalendarApp.init();
