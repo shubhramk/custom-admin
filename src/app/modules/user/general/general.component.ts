@@ -172,7 +172,7 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
         selectedPrefrences.push(val.name);
       }
     });
-    postData['prefrences'] = selectedPrefrences;
+    postData['preference'] = selectedPrefrences;
     console.log(postData);
 
    this.http.post(PathConfig.ADD_GENERAL_USER, postData).subscribe((response)=>{

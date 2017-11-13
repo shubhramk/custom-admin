@@ -90,7 +90,7 @@ export class EditGeneralComponent implements OnInit {
       this.selectIntrest = response.data["intrested_gender"];
       this.selectStatus = response.data["status"];
       
-      this.selectedPrefrence = ['Dapper', 'Girly'];
+      this.selectedPrefrence = response.data['preference'].split(",");
 
       this.preferencesItems.forEach((val,key)=>{
         this.selectedPrefrence.forEach((v,k)=>{
@@ -111,6 +111,7 @@ export class EditGeneralComponent implements OnInit {
   submitEditableData(){
     let postData = {};
    // postData[]
+   let selectedPrefrences = [];
     if($("input[type =file]").val() == ""){
       this.fName = postData["name"];
       this.surName = postData["surname"];
@@ -124,6 +125,13 @@ export class EditGeneralComponent implements OnInit {
       this.selectedDate = postData["birth_day"];
       this.selectIntrest = postData["intrested_gender"];
       this.selectStatus = postData["status"];
+
+      this.preferencesItems.forEach((val,key)=>{
+        if(val.selected == true){
+          selectedPrefrences.push(val.name);
+        }
+      });
+      postData['prefrences'] = selectedPrefrences;
     }else{
 
     }
