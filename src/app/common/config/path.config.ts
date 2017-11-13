@@ -74,7 +74,7 @@ export class PathConfig {
 
     public static ADD_GLOBAL_SH8KE_ANSWER:string = PathConfig.BASE_URL_API+"api/api.php?action=AddSh8keGlobalAnswer";
     public static UPDATE_SH8KE_GLOBAL_ANSWER_UPLOADED_ITEM:string = PathConfig.BASE_URL_API+"api/api.php?action=EditSh8keGlobalAnswer";
-    public static UPDATE_SH8KE_GLOBAL_ANSWER_TEXT:string = PathConfig.BASE_URL_API + "api/api.php?action=EditSh8keGlobalAnswerData";
+    public static UPDATE_SH8KE_GLOBAL_ANSWER_TEXT:string = PathConfig.BASE_URL_API + "api/api.php?action=EditSh8keGlobalAnswerOnlyText";
 
     public static ADD_GLOBAL_ANSWER_UPLOADED_DATA:string = PathConfig.BASE_URL_API+"api/api.php?action=AddSh8keGlobalAnswerImage";
 
@@ -107,5 +107,7 @@ export class PathConfig {
     public static UPDATE_NEWS_ANSWER:string = PathConfig.BASE_URL_API + "api/api.php?action=UpdateNews";
     public static EDIT_EXAMPLE_SH8KE:string = PathConfig.BASE_URL_API +"api/api.php?action=EditExampleSh8ke&id=";
     public static UPDATE_ADMIN_USER_ISACTIVE:string = PathConfig.BASE_URL_API +"api/api.php?action=AdminStatus";
-   
+    public static UPDATE_GENERAL_USER_ISACTIVE:string = PathConfig.BASE_URL_API +"api/api.php?action=GeneralUserStatus";
+ 
+    public static ADD_GENERAL_USER_IMAGE:string = PathConfig.BASE_URL_API + "api/api.php?action=AddUserWithImage"
 }

@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {HttpService} from "../../../common/services/http.service";
 import {PathConfig} from "../../../common/config/path.config";
 declare var $:any;
+import { FileUploader } from 'ng2-file-upload';
 
 @Component({
   styleUrls: ['./general.component.scss'],
@@ -33,11 +34,44 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
    message:string = "";
    self = this;
    noRecordFound:boolean = false;
+   
+   uploader:FileUploader = new FileUploader({url:PathConfig.ADD_GENERAL_USER_IMAGE});
+
   constructor(private router:Router, private http:HttpService) {}
   ngAfterViewInit(){
     
   }
   ngOnInit(){
+    let selectedPrefrences = [];
+    
+    
+
+    this.uploader.onBuildItemForm = (item, form) => {
+      form.append("name", this.fName);
+      form.append("surname" ,this.surName);
+      form.append("username" ,this.userName_general);
+      form.append('password', this.password);
+
+      form.append("mail_id", this.email);
+      form.append("mobile_no" ,this.phoneNo);
+      form.append('gender', this.selectedGender);
+
+      form.append("birth_month", this.selectedMonth);
+      form.append("birth_year" ,this.selectedYear);
+      form.append("birth_day" ,this.selectedDate);
+      form.append('intrested_gender', this.selectFromDropdown);
+
+      form.append("status" ,this.selectStatus);
+      this.preferencesItems.forEach((val,key)=>{
+        if(val.selected == true){
+          selectedPrefrences.push(val.name);
+        }
+      });
+      form.append("prefrences" , selectedPrefrences);
+    };
+
+    this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+
      //general data table
      var self = this;
       this.dtConfigGeneralUser =  {
@@ -71,9 +105,15 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
               var template = '';
 
               let val = data;
-              template = '<div class="dt-menu-icons">' +
-                '<span class="fa fa-check-circle" aria-hidden="true" *ngIf="'+val+'">'+'</span>' +
+              if(full['isActive'] == '1'){
+                template = '<div class="dt-menu-icons">' +
+                '<a href="javascript:void(0);" data-name="status" data-custom="' + full['rowId']  + '"data-creator="' + full['isActive'] + '"><span class="fa fa-check-circle" aria-hidden="true">'+'</span></a>' +
                 '</div>';
+              }else{
+                template = '<div class="dt-menu-icons">' +
+                '<a href="javascript:void(0);" data-name="status" data-custom="' + full['rowId']  + '"data-creator="' + full['isActive'] + '"><span class="fa fa-times-circle" aria-hidden="true">'+'</span></a>' +
+                '</div>';
+              }
 
               return template;
             }
@@ -111,6 +151,72 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
 
   //on Menu Icon selected
   
+  addGeneralUserWithoutImage(){
+    console.log(this.selectedYear);
+    let postData = {};
+    let selectedPrefrences = [];
+    postData["name"] = this.fName;
+    postData["surname"] = this.surName
+    postData["username"] = this.userName_general;
+    postData["password"] = this.password;
+    postData["mail_id"] = this.email;
+    postData["mobile_no"] = this.phoneNo
+    postData["gender"] = this.selectedGender;
+    postData["birth_month"] = this.selectedMonth;
+    postData["birth_year"] = this.selectedYear;
+    postData["birth_day"] = this.selectedDate;
+    postData["intrested_gender"] = this.selectIntrest;
+    postData["status"] = this.selectStatus;
+    this.preferencesItems.forEach((val,key)=>{
+      if(val.selected == true){
+        selectedPrefrences.push(val.name);
+      }
+    });
+    postData['prefrences'] = selectedPrefrences;
+    console.log(postData);
+
+   this.http.post(PathConfig.ADD_GENERAL_USER, postData).subscribe((response)=>{
+      console.log(response.SucessMessage, "    ", response.ErrorMessage);
+      if(response.Status == "Success"){        
+        this.message = response.SucessMessage;
+        this.showError = false;
+        this.showSuccess = true;
+        window.scrollTo(0, 0);
+        this.getGeneralUsersList();
+      }else if(response.Status == "Error"){
+        this.message = response.ErrorMessage;
+        this.showError = true;
+        this.showSuccess = false;
+        window.scrollTo(0, 0);
+      }
+    },
+    err=>{
+
+    })
+
+  }
+
+  addGeneralUsreWithImage(){
+    this.uploader.cancelAll();
+    this.uploader.uploadAll();
+    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+      var responsePath = JSON.parse(response);
+      console.log(responsePath.Status);
+      if(responsePath.Status == "Success"){
+        this.showSuccess= true;
+        this.showError= false;
+        this.message = responsePath.SucessMessage;
+        
+        this.getGeneralUsersList();
+       // this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
+       }else if(responsePath.Status == "Error"){
+        this.showSuccess= true;
+        this.showError= false;
+        this.message = responsePath.ErrorMessage;
+       }
+       $("#avatar").val("");
+    }
+  }
   //get generalShakes
   getGeneralUsersList(){
     this.http.get(PathConfig.GET_GENERAL_USER)
@@ -141,41 +247,13 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
 
   
   addNewGenralUser(){
-    console.log(this.selectedYear);
-    let postData = {};
-    postData["name"] = this.fName;
-    postData["surname"] = this.surName
-    postData["username"] = this.userName_general;
-    postData["password"] = this.password;
-    postData["mail_id"] = this.email;
-    postData["mobile_no"] = this.phoneNo
-    postData["gender"] = this.selectedGender;
-    postData["birth_month"] = this.selectedMonth;
-    postData["birth_year"] = this.selectedYear;
-    postData["birth_day"] = this.selectedDate;
-    postData["intrested_gender"] = this.selectIntrest;
-    postData["status"] = this.selectStatus;
-    postData['prefrences'] = this.preferencesItems;
-    console.log(postData);
-
-   this.http.post(PathConfig.ADD_GENERAL_USER, postData).subscribe((response)=>{
-      console.log(response.SucessMessage, "    ", response.ErrorMessage);
-      if(response.Status == "Success"){        
-        this.message = response.SucessMessage;
-        this.showError = false;
-        this.showSuccess = true;
-        window.scrollTo(0, 0);
-        this.getGeneralUsersList();
-      }else if(response.Status == "Error"){
-        this.message = response.ErrorMessage;
-        this.showError = true;
-        this.showSuccess = false;
-        window.scrollTo(0, 0);
-      }
-    },
-    err=>{
-
-    })
+    debugger;
+    if($("input[type =file]").val() == ""){  
+      this.addGeneralUserWithoutImage();
+      
+    }else{
+      this.addGeneralUsreWithImage();
+    }
   }
   onMenuSelect(data: any) {
     if (data['clickedOn'] == 'edit') {
@@ -185,7 +263,9 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
       this.navigateTo('user/generalCreator/'+data['value']+"/"+data['creatorName']);
     }else if(data['clickedOn'] == 'delete'){
       this.deleteGeneralUser(data['value']);
-    }
+    }else if(data['clickedOn'] == 'status'){
+      this.chnageStatus(data['value'], data['creatorName']);
+    } 
   }
   deleteGeneralUser(id){
     let confirmElem = confirm("Are you sure to delete!");
@@ -220,10 +300,27 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
         //} 
       });
     }
-     
-    
 
   }
+  chnageStatus(id:string, status){
+    let confirmElem  = confirm('sure to change status for this news?');
+    
+    if(confirmElem== true){
+      if(status == "0"){
+        status ="1";
+      }else{
+        status = "0";
+      }
+      console.log(status);
+      //alert(status);
+      this.http.post(PathConfig.UPDATE_GENERAL_USER_ISACTIVE, {st:status, id:id}).subscribe((response)=>{
+      console.log(response);
+      this.getGeneralUsersList();
+    }, err=>{
+
+    });
+    }
+  } 
 
   handleVisiblity(){    
     var self = this;
