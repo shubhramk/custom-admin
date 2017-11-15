@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpService} from "../../../common/services/http.service";
 import {PathConfig} from "../../../common/config/path.config";
+import {Broadcaster} from "../../../common/services/broadcaster.service";
 
 @Component({
   selector: 'app-example-sh8ke',
@@ -19,7 +20,7 @@ export class ExampleSh8keComponent implements OnInit {
    selectedCategory:string = "";
    showSuccess:boolean = false;
    showError:boolean = false;
-  constructor(private router:Router, private http:HttpService) { }
+  constructor(private router:Router, private http:HttpService, private broadcaster:Broadcaster) { }
 
   ngOnInit(){
     this.dtConfig = { 
@@ -66,6 +67,7 @@ export class ExampleSh8keComponent implements OnInit {
 }
 
   getExampleSh8keList(){
+    this.broadcaster.broadcast("SHOW_LOADER",false);
     this.http.get(PathConfig.GET_EXAMPLE_SH8KE)
       .subscribe((response)=> {
           this.exampleSh8keList =  response.data;
@@ -121,8 +123,10 @@ export class ExampleSh8keComponent implements OnInit {
     }
   }
   deleteExampleSh8ke(id:string, serviceUrl:string){
+    this.broadcaster.broadcast("SHOW_LOADER",true);
     let confirmElem = confirm("Are you sure to delete!");
     if (confirmElem == true) {
+      this.broadcaster.broadcast("SHOW_LOADER",false);
        this.http.get(serviceUrl+id).subscribe((response)=> {
           if(response.Status == "Success"){
             this.getExampleSh8keList();

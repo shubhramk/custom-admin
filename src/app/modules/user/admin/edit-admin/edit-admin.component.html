@@ -75,7 +75,7 @@
                         <div class="col-sm-9 marginCenter">
                           <label for="exampleInputpwd3">Upload Photo</label>
                           <div class="input-group">
-                              <input type="file" class="form-control" name= "imageUrl" [(ngModel)]="imageUrl" id="exampleInputpwd3" placeholder="Upload Photo">
+                            <input type="file" ng2FileSelect [uploader]="uploader" id="avatar" name="uploadedAnswer"/>
                           </div>
                         </div>
                       </div>

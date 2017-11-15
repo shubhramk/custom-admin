@@ -3,6 +3,7 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {HttpService} from "../../../../common/services/http.service";
 import {PathConfig} from "../../../../common/config/path.config";
 import { FileUploader } from 'ng2-file-upload';
+import {Broadcaster} from "../../../../common/services/broadcaster.service";
 declare var $:any;
 
 @Component({
@@ -30,7 +31,7 @@ export class GeneralAnswerComponent implements OnInit, AfterViewInit {
       url:PathConfig.ADD_GENERAL_SH8KE_ANSWER_UPLOADED_ITEM
     });
 
-  constructor(private router:Router, private http:HttpService, private activeRoute:ActivatedRoute) {}
+  constructor(private router:Router, private http:HttpService, private activeRoute:ActivatedRoute, private broadcaster:Broadcaster) {}
   ngAfterViewInit(){
     
   }
@@ -118,6 +119,7 @@ export class GeneralAnswerComponent implements OnInit, AfterViewInit {
 
   //get generalShakes
   getGeneralAnswerList(id:string){
+    this.broadcaster.broadcast("SHOW_LOADER",false);
     this.http.get(PathConfig.GET_GENERAL_SH8KE_ANSWER+id)
       .subscribe((response)=> {
           this.generalAnswerList =  response.data;
@@ -139,10 +141,11 @@ export class GeneralAnswerComponent implements OnInit, AfterViewInit {
     }
   }
   deleteAnswer(id:string){
+    this.broadcaster.broadcast("SHOW_LOADER",true);
     let confirmElem = confirm("Are you sure to delete!");
     if (confirmElem == true) {
       this.http.get(PathConfig.DELETE_GENERAL_ANSWER+id).subscribe((response)=>{
-        console.log(response);
+        this.broadcaster.broadcast("SHOW_LOADER",false);
         this.getGeneralAnswerList(this.activeRoute.snapshot.params['id']);
       },
       err=>{
@@ -153,12 +156,13 @@ export class GeneralAnswerComponent implements OnInit, AfterViewInit {
   }
 
   addGeneralAnswer(){
+    this.broadcaster.broadcast("SHOW_LOADER",false);
     if(this.selectedItem != 0){
       this.uploader.cancelAll();
       this.uploader.uploadAll();
       this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
         var responsePath = JSON.parse(response);
-        console.log(responsePath.Status);
+        this.broadcaster.broadcast("SHOW_LOADER",true);
         if(responsePath.Status == "Success"){
           this.showSuccess= true;
           this.showError= false;
@@ -180,10 +184,9 @@ export class GeneralAnswerComponent implements OnInit, AfterViewInit {
       postData["ans"] = this.otherTextAnswer;
       postData["qid"]= this.activeRoute.snapshot.params['primeNo'];
 
-      console.log(postData);
-   
       this.http.post(PathConfig.ADD_GENERAL_SH8KE_ANSWER, postData).subscribe((response)=>{
         console.log(response);
+        this.broadcaster.broadcast("SHOW_LOADER",false);
         if(response.Status == "Success"){
          this.showSuccess= true;
          this.showError= false;

@@ -3,6 +3,7 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {HttpService} from "../../../../common/services/http.service";
 import {PathConfig} from "../../../../common/config/path.config";
 import { FileUploader } from 'ng2-file-upload';
+import {Broadcaster} from "../../../../common/services/broadcaster.service";
 
 declare var $:any;
 @Component({
@@ -39,7 +40,7 @@ export class GlobalAnswerComponent implements OnInit {
     url:PathConfig.ADD_GLOBAL_ANSWER_UPLOADED_DATA
   });
  //uploadedFileDetail:object = {'base64Code':""};
-  constructor(private router:Router, private http:HttpService, private activeRoute:ActivatedRoute) { }
+  constructor(private router:Router, private http:HttpService, private activeRoute:ActivatedRoute, private broadcaster:Broadcaster) { }
 
   ngOnInit(){
 
@@ -188,8 +189,10 @@ export class GlobalAnswerComponent implements OnInit {
   
   //get generalShakes
   getGlobalAnswerList(id:string){
+    this.broadcaster.broadcast("SHOW_LOADER",true);
     this.http.get(PathConfig.GET_GLOBAL_SH8KE_ANSWER+id)
       .subscribe((response)=> {
+        this.broadcaster.broadcast("SHOW_LOADER",false);
           this.globalsh8keAnswer =  response.data;
           console.log(this.globalsh8keAnswer);
         },
@@ -218,12 +221,13 @@ export class GlobalAnswerComponent implements OnInit {
       this.uploadedFileDetail['base64Code'] = baseVal;
     }   
   submitAnswer(){
-    
+    this.broadcaster.broadcast("SHOW_LOADER",true);
   if(this.selectedDevice != "0"){
     this.uploader.cancelAll();
     this.uploader.uploadAll();
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
       var responsePath = JSON.parse(response);
+      this.broadcaster.broadcast("SHOW_LOADER",false);
       console.log(responsePath.Status);
       if(responsePath.Status == "Success"){
         this.showSuccess= true;
@@ -259,6 +263,7 @@ export class GlobalAnswerComponent implements OnInit {
 
    this.http.post(PathConfig.ADD_GLOBAL_SH8KE_ANSWER, postData).subscribe((response)=>{
      console.log(response);
+     this.broadcaster.broadcast("SHOW_LOADER",false);
      if(response.Status == "Success"){
       this.showSuccess= true;
       this.showError= false;

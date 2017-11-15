@@ -3,6 +3,7 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {HttpService} from "../../../../common/services/http.service";
 import {PathConfig} from "../../../../common/config/path.config";
 import { FileUploader } from 'ng2-file-upload';
+import {Broadcaster} from "../../../../common/services/broadcaster.service";
 
 declare var $:any;
 
@@ -42,7 +43,7 @@ text_mainType = ["Text", "Image", "Audio", "Video"];
 recieved_url = "";
 question_id:string = ""; 
 
-  constructor(private router:Router, private http:HttpService, private activeRoute:ActivatedRoute) { }
+  constructor(private router:Router, private http:HttpService, private activeRoute:ActivatedRoute, private broadcaster:Broadcaster) { }
   ngAfterViewInit(){
     
     
@@ -81,7 +82,7 @@ question_id:string = "";
       //this.getEditableAnswer("1");
   }
   getEditableAnswer(id:string){
-    
+    this.broadcaster.broadcast("SHOW_LOADER",false);
     this.http.get(PathConfig.GET_EDITABLE_GLOBAL_ANSWER+id).subscribe((response)=>{
       if(response.Status == "Success"){
         console.log(response);
@@ -264,13 +265,13 @@ question_id:string = "";
       this.uploadedFileDetail['base64Code'] = baseVal;
     }   
     submitAnswer(){
-      console.log("asasaas");
+      this.broadcaster.broadcast("SHOW_LOADER",true);
     if($("input[type =file]").val() != ""  && $("input[type =file]").val() != undefined ){
       this.uploader.cancelAll();
       this.uploader.uploadAll();
       this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
         var responsePath = JSON.parse(response);
-        console.log(responsePath.Status);
+        this.broadcaster.broadcast("SHOW_LOADER",false);
         if(responsePath.Status == "Success"){
           this.showSuccess= true;
           this.showError= false;
@@ -306,6 +307,7 @@ question_id:string = "";
   
      this.http.post(PathConfig.UPDATE_SH8KE_GLOBAL_ANSWER_TEXT, postData).subscribe((response)=>{
        console.log(response);
+       this.broadcaster.broadcast("SHOW_LOADER",false);
        if(response.Status == "Success"){
         this.showSuccess= true;
         this.showError= false;

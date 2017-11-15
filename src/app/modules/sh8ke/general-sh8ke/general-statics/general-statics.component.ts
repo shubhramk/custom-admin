@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {HttpService} from "../../../../common/services/http.service";
 import {PathConfig} from "../../../../common/config/path.config";
 import {Router, ActivatedRoute} from "@angular/router";
+import {Broadcaster} from "../../../../common/services/broadcaster.service";
 import * as _ from 'lodash';
 declare var $:any;
 
@@ -20,7 +21,7 @@ export class GeneralStaticsComponent implements OnInit {
   configLinecolor = [];
   configYKeys = []; 
 
-  constructor(private router:Router, private http:HttpService, private activedroute:ActivatedRoute) { }
+  constructor(private router:Router, private http:HttpService, private activedroute:ActivatedRoute, private broadcaster:Broadcaster) { }
 
   ngOnInit() {
     this.generalSh8keName = this.activedroute.snapshot.params["name"];
@@ -41,11 +42,14 @@ export class GeneralStaticsComponent implements OnInit {
   }
   //get month report
   getCurrentMonthReport(id:string, startDate, endDate){
+    
+    this.broadcaster.broadcast("SHOW_LOADER",false);
     this.configLabel = ['Shared Count','Favorite Count'];
     this.configLinecolor = ['#009efb','#4DA74D'];
     this.configYKeys = ['a', 'b'];
     this.http.post(PathConfig.GET_GENERAL_SH8KE_STATICS+id, {"startDate" : startDate,"endDate": endDate})
       .subscribe((response)=> {
+        this.broadcaster.broadcast("SHOW_LOADER",false);
           let monthStr     = response['data']['monthStr'];
           let monthStrArr  = response['data']['monthStr'] ? response['data']['monthStr'].split(",") : [];
           let sharedCount  = response['data']['monthDataStr'] ? response['data']['monthDataStr'].split(",") : [];

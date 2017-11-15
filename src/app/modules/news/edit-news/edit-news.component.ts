@@ -5,6 +5,7 @@ import {PathConfig} from "../../../common/config/path.config";
 import { FileUploader } from 'ng2-file-upload';
 import { ValidationService } from '../../../common/services/validation.service';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Broadcaster} from "../../../common/services/broadcaster.service";
 declare var $:any
 
 @Component({
@@ -28,7 +29,7 @@ export class EditNewsComponent implements OnInit {
 answer_id:string = "";
 oldImagePath:string = "";
 userForm:any;
-  constructor(private router:Router, private http:HttpService, private activatedroute:ActivatedRoute, private formBuilder: FormBuilder) {
+  constructor(private broadcaster:Broadcaster, private router:Router, private http:HttpService, private activatedroute:ActivatedRoute, private formBuilder: FormBuilder) {
     this.userForm = this.formBuilder.group({
       'newsTitle': ['', Validators.required],
       'description': ['', Validators.required],
@@ -70,6 +71,8 @@ userForm:any;
   }
 
   getEditableNewsData(id:string){
+    this.broadcaster.broadcast("SHOW_LOADER",false);
+    
     this.http.get(PathConfig.GET_EDITABLE_NEWS + id).subscribe((response)=>{
       console.log(response);
       if(response.Status == "Success"){
@@ -90,6 +93,8 @@ userForm:any;
   }
   updateNews(){
     console.log(this.uploader.isFile);
+    this.broadcaster.broadcast("SHOW_LOADER",true);
+    
     if($("input[type =file]").val() == ""){      
       let postData = {};
       postData["title"] = this.newsTitle;
@@ -97,7 +102,8 @@ userForm:any;
       postData["expire_on"] = this.expireDate;
       postData["id"] = this.answer_id;
       this.http.post(PathConfig.UPDATE_NEWS_ANSWER, postData).subscribe((response)=>{
-        console.log(response);
+        this.broadcaster.broadcast("SHOW_LOADER",false);
+        
         if(response.Status == "Success"){
           this.showSuccess= true;
           this.showError= false;
@@ -117,7 +123,8 @@ userForm:any;
       this.uploader.uploadAll();
       this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
         var responsePath = JSON.parse(response);
-        console.log(responsePath.Status);
+        this.broadcaster.broadcast("SHOW_LOADER",false);
+        
         if(responsePath.Status == "Success"){
           this.showSuccess= true;
           this.showError= false;

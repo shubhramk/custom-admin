@@ -4,6 +4,7 @@ import {HttpService} from "../../../../common/services/http.service";
 import {PathConfig} from "../../../../common/config/path.config";
 import { FileUploader } from 'ng2-file-upload';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Broadcaster} from "../../../../common/services/broadcaster.service";
 
 declare var $:any;
 @Component({
@@ -22,7 +23,7 @@ export class EditGeneralComponent implements OnInit {
   surName:string = "";
   phoneNo:number;
   email:string = "";
-  userName:string = "";
+  userName_general:string = "";
   password:string = "";
   selectedGender:string = "";
   selectStatus:string = "";
@@ -34,29 +35,52 @@ export class EditGeneralComponent implements OnInit {
   showError:boolean = false;
   message:string = "";
   imageUrl:string="";
+  userId = "";
   self = this;
   selectedPrefrence = [];
   form: FormGroup;
   userForm: any;
   uploader:FileUploader = new FileUploader({
-    url:PathConfig.ADD_NEW_CATEGORY_UPLOADED_ITEM
+    url:PathConfig.UPDATE_GENERAL_USER_WITH_IMAGE
   });
 
   
-  constructor(private router:Router, private http:HttpService, private activatedRouteL:ActivatedRoute, private formBuilder: FormBuilder) { 
+  constructor(private router:Router, private broadcaster:Broadcaster, private http:HttpService, private activatedRouteL:ActivatedRoute, private formBuilder: FormBuilder) { 
 
     
   }
 
   ngOnInit() {
     var self = this;
+    let selectedPrefrences = [];
+    this.uploader.onBuildItemForm = (item, form) => {
+      selectedPrefrences = [];
+      form.append("id", this.userId);
+      form.append("name", this.fName);
+      form.append("surname" ,this.surName);
+      form.append("username" ,this.userName_general);
+      form.append('password', this.password);
 
-    /* this.uploader.onBuildItemForm = (item, form) => {
-      form.append("title_english", this.englishName);
-      form.append("title_french" ,this.frenchName);
-      form.append("order" ,this.sorting);
-    }; */
+      form.append("mail_id", this.email);
+      form.append("mobile_no" ,this.phoneNo);
+      form.append('gender', this.selectedGender);
 
+      form.append("birth_month", this.selectedMonth);
+      form.append("birth_year" ,this.selectedYear);
+      form.append("birth_day" ,this.selectedDate);
+      form.append('intrested_gender', this.selectIntrest);
+
+      form.append("status" ,this.selectStatus);
+      this.preferencesItems.forEach((val,key)=>{
+        if(val.selected == true){
+          
+          selectedPrefrences.push(val.name);
+        }
+      });
+      form.append("prefrence" , selectedPrefrences);
+    };
+
+    this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
 
     setTimeout(()=>{
        $('#datepicker-autoclose').datepicker({
@@ -77,9 +101,10 @@ export class EditGeneralComponent implements OnInit {
   getAdminUserDetail(){
     this.http.get(PathConfig.GET_GENERAL_USER_EDITABLE_DATA+this.activatedRouteL.snapshot.params["id"]).subscribe((response)=>{
       console.log(response);
+      this.broadcaster.broadcast("SHOW_LOADER",false);
       this.fName = response.data["name"];
       this.surName = response.data["surname"]
-      this.userName  = response.data["username"] ;
+      this.userName_general  = response.data["username"] ;
       this.password = response.data["password"] ;
       this.email = response.data["mail_id"];
       this.phoneNo = response.data["mobile_no"] 
@@ -89,7 +114,7 @@ export class EditGeneralComponent implements OnInit {
       this.selectedDate = response.data["birth_day"];
       this.selectIntrest = response.data["intrested_gender"];
       this.selectStatus = response.data["status"];
-      
+      this.userId = response.data['id'];
       this.selectedPrefrence = response.data['preference'].split(",");
 
       this.preferencesItems.forEach((val,key)=>{
@@ -108,33 +133,86 @@ export class EditGeneralComponent implements OnInit {
     });
   }
 
+  
+  addGeneralUserWithoutImage(){
+    console.log(this.selectedYear);
+    let postData = {};
+    let selectedPrefrences = [];
+    postData["name"] = this.fName;
+    postData["surname"] = this.surName
+    postData["username"] = this.userName_general;
+    postData["password"] = this.password;
+    postData["mail_id"] = this.email;
+    postData["mobile_no"] = this.phoneNo
+    postData["gender"] = this.selectedGender;
+    postData["birth_month"] = this.selectedMonth;
+    postData["birth_year"] = this.selectedYear;
+    postData["birth_day"] = this.selectedDate;
+    postData["intrested_gender"] = this.selectIntrest;
+    postData["status"] = this.selectStatus;
+    postData['id'] = this.userId;
+    this.preferencesItems.forEach((val,key)=>{
+      if(val.selected == true){
+        selectedPrefrences.push(val.name);
+      }
+    });
+    postData['preference'] = selectedPrefrences;
+    console.log(postData);
+
+   this.http.post(PathConfig.UPDATE_GENERAL_USER, postData).subscribe((response)=>{
+      console.log(response.SucessMessage, "    ", response.ErrorMessage);
+      if(response.Status == "Success"){        
+        this.message = response.SucessMessage;
+        this.showError = false;
+        this.showSuccess = true;
+        window.scrollTo(0, 0);
+        //this.getGeneralUsersList();
+      }else if(response.Status == "Error"){
+        this.message = response.ErrorMessage;
+        this.showError = true;
+        this.showSuccess = false;
+        window.scrollTo(0, 0);
+      }
+    },
+    err=>{
+
+    })
+
+  }
+  addGeneralUsreWithImage(){
+    this.uploader.cancelAll();
+    this.uploader.uploadAll();
+    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+      var responsePath = JSON.parse(response);
+      console.log(responsePath.Status);
+      if(responsePath.Status == "Success"){
+        this.showSuccess= true;
+        this.showError= false;
+        this.message = responsePath.SucessMessage;
+        
+        //this.getGeneralUsersList();
+       // this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
+       }else if(responsePath.Status == "Error"){
+        this.showSuccess= true;
+        this.showError= false;
+        this.message = responsePath.ErrorMessage;
+       }
+       $("#avatar").val("");
+    }
+  }
+  
   submitEditableData(){
+    this.broadcaster.broadcast("SHOW_LOADER",true)
     let postData = {};
    // postData[]
-   let selectedPrefrences = [];
-    if($("input[type =file]").val() == ""){
-      this.fName = postData["name"];
-      this.surName = postData["surname"];
-      this.userName  = postData["username"] ;
-      this.password = postData["password"] ;
-      this.email = postData["mail_id"];
-      this.phoneNo = postData["mobile_no"] ;
-      this.selectedGender  = postData["gender"] ;
-      this.selectedMonth = postData["birth_month"];
-      this.selectedYear = postData["birth_year"] ;
-      this.selectedDate = postData["birth_day"];
-      this.selectIntrest = postData["intrested_gender"];
-      this.selectStatus = postData["status"];
-
-      this.preferencesItems.forEach((val,key)=>{
-        if(val.selected == true){
-          selectedPrefrences.push(val.name);
-        }
-      });
-      postData['prefrences'] = selectedPrefrences;
+   if($("input[type =file]").val() == ""){  
+    this.addGeneralUserWithoutImage();  
+    this.broadcaster.broadcast("SHOW_LOADER",false)  
     }else{
-
+      this.addGeneralUsreWithImage();
+      this.broadcaster.broadcast("SHOW_LOADER",false)
     }
+   
   }
   navigateTo(url:string){
     this.router.navigate([url]);

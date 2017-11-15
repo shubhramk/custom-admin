@@ -6,6 +6,7 @@ import {PathConfig} from "../../common/config/path.config";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { FileUploader } from 'ng2-file-upload';
 import { ValidationService } from '../../common/services/validation.service';
+import {Broadcaster} from "../../common/services/broadcaster.service";
 
 declare var $:any;
 
@@ -37,7 +38,7 @@ export class CategoryComponent implements OnInit {
   url:PathConfig.ADD_NEW_CATEGORY_UPLOADED_ITEM
 });
 
-  constructor(private router:Router, private http:HttpService, private formBuilder: FormBuilder) {
+  constructor(private router:Router, private http:HttpService, private formBuilder: FormBuilder, private broadcaster:Broadcaster) {
     this.userForm = this.formBuilder.group({
       'englishName': ['', Validators.required],
       'frenchName': ['', Validators.required],
@@ -113,6 +114,8 @@ handleInput(){
 }
 
 getCategoryList(){
+  this.broadcaster.broadcast("SHOW_LOADER",false);
+  
   this.http.get(PathConfig.GET_CATEGORY)
       .subscribe((response)=> {
         this.categoryList = response.data;
@@ -140,8 +143,12 @@ getCategoryList(){
     console.log(id);
     let confirmElem = confirm("Are you sure to delete!");
     if (confirmElem == true) {
+      this.broadcaster.broadcast("SHOW_LOADER",true);
+      
       this.http.get(PathConfig.DELETE_CATEGORY+id).subscribe((response)=>{
         console.log(response);
+        this.broadcaster.broadcast("SHOW_LOADER",false);
+        
         this.getCategoryList();
       }, err=>{
   

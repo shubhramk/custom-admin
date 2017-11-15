@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router, ActivatedRoute} from "@angular/router";
 import {HttpService} from "../../../../common/services/http.service";
 import {PathConfig} from "../../../../common/config/path.config";
+import {Broadcaster} from "../../../../common/services/broadcaster.service";
 
 @Component({
   selector: 'app-global-sh8ke-edit',
@@ -18,7 +19,7 @@ export class GlobalSh8keEditComponent implements OnInit {
   showSuccess:boolean = false;
   showError:boolean= false;
   message:string = "";
-  constructor(private router:Router, private activateRoute:ActivatedRoute, private http:HttpService) { }
+  constructor(private router:Router, private activateRoute:ActivatedRoute, private http:HttpService, private broadcaster:Broadcaster) { }
 
   ngOnInit() {
    // this.titleName = this.activateRoute.snapshot.params['name'];
@@ -26,6 +27,7 @@ export class GlobalSh8keEditComponent implements OnInit {
   }
   getGlobalSh8keEditableData(id:string){
     this.options = [];
+    this.broadcaster.broadcast("SHOW_LOADER",false);
     this.http.get(PathConfig.GET_GLOBAL_SH8KE_EDITABLE_DATA+id)
       .subscribe((response)=> {
         this.generalSh8keEditableData = response.data;
@@ -53,6 +55,7 @@ export class GlobalSh8keEditComponent implements OnInit {
     );
   }
   saveGlobalSh8keEditableData(){
+    this.broadcaster.broadcast("SHOW_LOADER",true);
     let postData = {};
     this.options.forEach((key,val) =>{
       //let setvalue = 
@@ -67,6 +70,7 @@ export class GlobalSh8keEditComponent implements OnInit {
     console.log(postData)
     this.http.post(PathConfig.POST_GLOBAL_SH8KE_EDITABLE_DATA, postData)
       .subscribe((response)=> {
+        this.broadcaster.broadcast("SHOW_LOADER",false);
         console.log(response);
         //this.getGlobalSh8keEditableData(this.activateRoute.snapshot.params['id']);
         if(response.Status == "Success"){

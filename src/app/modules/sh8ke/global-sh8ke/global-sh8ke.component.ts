@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpService} from "../../../common/services/http.service";
 import {PathConfig} from "../../../common/config/path.config";
+import {Broadcaster} from "../../../common/services/broadcaster.service";
 declare var $:any;
 @Component({
   selector: 'app-global-sh8ke',
@@ -22,7 +23,7 @@ export class GlobalSh8keComponent implements OnInit {
   showError:boolean= false;
   
   temp_Option = [];
-  constructor(private router:Router, private http:HttpService) { }
+  constructor(private router:Router, private http:HttpService, private broadcaster:Broadcaster) { }
 
  ngOnInit(){
     this.dtConfigGlobal = {
@@ -115,6 +116,7 @@ export class GlobalSh8keComponent implements OnInit {
 getTopGlobalShakes(){
     this.http.post(PathConfig.GET_SHAKES_LIST, { "trending_type": "global","limit": "","user_type": "","user_id": 1})
       .subscribe((response)=> {
+        this.broadcaster.broadcast("SHOW_LOADER",false);
           this.topGlobalSh8ke =  response.data;
           console.log(this.topGlobalSh8ke);
         },
@@ -177,8 +179,7 @@ getTopGlobalShakes(){
       }
     );
   }
-  updateCheckedOptions(data,event){  
-    
+  updateCheckedOptions(data,event){      
     console.log(data, "   DATA");
     if(data['name'] == "share" && data['selected'] == true){
       this.options.forEach((val,key) =>{
@@ -225,9 +226,11 @@ getTopGlobalShakes(){
   deleteGlobalSh8keQuestion(id:string, serviceUrl:string){
     let confirmElem = confirm("Are you sure to delete!");
     if (confirmElem == true) {
+      this.broadcaster.broadcast("SHOW_LOADER",true);
        this.http.post(serviceUrl, {'id':id}).subscribe((response)=> {
           if(response.Status == "Success"){
             this.getTopGlobalShakes();
+            this.broadcaster.broadcast("SHOW_LOADER",false);
           }
         },
         err => {
@@ -235,8 +238,7 @@ getTopGlobalShakes(){
       );
     }       
   }
-  submitData(){
-   
+  submitData(){   
     let postData = {};
     this.options.forEach((key,val) =>{
       //let setvalue = 
@@ -248,26 +250,23 @@ getTopGlobalShakes(){
     postData["category_id"]= this.selectedCategory;
     postData["title_english"] = this.titleName;
     postData["user_type"] = "Administrator";    
-    postData["status_approved"] = "1",
-    postData["published"] = "1",
+    postData["status_approved"] = "1";
+    postData["published"] = "1";
 
     console.log(postData);
+    this.broadcaster.broadcast("SHOW_LOADER",true);
     this.http.post(PathConfig.ADD_NEW_GLOBAL_SH8KE, postData).subscribe( (response)=>{
       console.log(postData);
           if(response.Status == "Success"){
-            
-              this.options = [];
-              this.options = this.temp_Option;
-              console.log(this.options);
+            this.broadcaster.broadcast("SHOW_LOADER",false);
+            this.options = [];
+            this.options = this.temp_Option;
+            console.log(this.options);
             this.getTopGlobalShakes();
             this.showSuccess = true;
             this.showError = false;
             this.selectedCategory = "0";
             this.titleName = "";
-            
-            
-            
-
           }else if(response.Status == "Error"){
             this.showSuccess = false;
             this.showError = true;

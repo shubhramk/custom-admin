@@ -3,6 +3,7 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {HttpService} from "../../../../common/services/http.service";
 import {PathConfig} from "../../../../common/config/path.config";
 import { FileUploader } from 'ng2-file-upload';
+import {Broadcaster} from "../../../../common/services/broadcaster.service";
 declare var $:any;
 
 @Component({
@@ -29,7 +30,7 @@ export class ExampleAnswerEditComponent implements OnInit {
  });
 
 
-  constructor(private router:Router, private http:HttpService, private activeRoute:ActivatedRoute) { }
+  constructor(private router:Router, private http:HttpService, private activeRoute:ActivatedRoute, private broadcaster:Broadcaster) { }
 
   ngOnInit() {
     //this.selectedDevice = this.answerType[0];
@@ -51,6 +52,7 @@ export class ExampleAnswerEditComponent implements OnInit {
   question_id:string = "";
 
   getEditableAnswer(id:string){
+    this.broadcaster.broadcast("SHOW_LOADER",false);
     
     this.http.get(PathConfig.GET_EDITABLE_EXAMPLE_ANSWER+id).subscribe((response)=>{
       if(response.Status == "Success"){
@@ -67,12 +69,15 @@ export class ExampleAnswerEditComponent implements OnInit {
   }
 
   saveGeneralSh8keEditableData(){
+    this.broadcaster.broadcast("SHOW_LOADER",true);
+    
     if(this.selectedDevice != "0"){
       this.uploader.cancelAll();
       this.uploader.uploadAll();
       this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
         var responsePath = JSON.parse(response);
-        console.log(responsePath.Status);
+        this.broadcaster.broadcast("SHOW_LOADER",false);
+        
         if(responsePath.Status == "Success"){
           this.showSuccess= true;
           this.showError= false;
@@ -98,6 +103,8 @@ export class ExampleAnswerEditComponent implements OnInit {
   
      this.http.post(PathConfig.UPDATE_SH8KE_EXAMPLE_ANSWER, postData).subscribe((response)=>{
        console.log(response);
+       this.broadcaster.broadcast("SHOW_LOADER",false);
+       
        if(response.Status == "Success"){
         this.showSuccess= true;
         this.showError= false;

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChildren} from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpService} from "../../../common/services/http.service";
 import {PathConfig} from "../../../common/config/path.config";
+import {Broadcaster} from "../../../common/services/broadcaster.service";
 declare var $:any;
 @Component({
   selector: 'app-general-sh8ke',
@@ -21,7 +22,7 @@ export class GeneralSh8keComponent implements OnInit {
 
   showSuccess:boolean = false;
   showError:boolean= false;
-  constructor(private router:Router, private http:HttpService) { }
+  constructor(private router:Router, private http:HttpService, private broadcaster:Broadcaster) { }
 
   ngOnInit(){
     this.dtConfigGeneral = {
@@ -87,6 +88,7 @@ export class GeneralSh8keComponent implements OnInit {
   getTopGeneralShakes(){
     this.http.post(PathConfig.GET_SHAKES_LIST, { "trending_type": "general","limit": "","user_type": "","user_id": 1})
       .subscribe((response)=> {
+        this.broadcaster.broadcast("SHOW_LOADER",false);
           this.topGeneralSh8ke =  response.data;
           console.log(this.topGeneralSh8ke);
         },
@@ -150,8 +152,10 @@ export class GeneralSh8keComponent implements OnInit {
    
   }
   deleteRowFromTop20Trending(id:string, serviceUrl:string){
+    this.broadcaster.broadcast("SHOW_LOADER",true);
     let confirmElem = confirm("Are you sure to delete!");
     if (confirmElem == true) {
+      this.broadcaster.broadcast("SHOW_LOADER",false);
        this.http.post(serviceUrl, {'id':id}).subscribe((response)=> {
           if(response.Status == "Success"){
             this.getTopGeneralShakes();
@@ -203,6 +207,7 @@ updateCheckedOptions(data,event){
   console.log(this.options);
 }
 submitData(){
+  this.broadcaster.broadcast("SHOW_LOADER",true);
     let postData = {};
     this.options.forEach((key,val) =>{
       //let setvalue = 
@@ -217,6 +222,7 @@ submitData(){
     console.log(postData);
     this.http.post(PathConfig.ADD_NEW_GENERAL_SH8KE, postData).subscribe( (response)=>{
       console.log(response);
+      this.broadcaster.broadcast("SHOW_LOADER",false);
           if(response.Status == "Success"){
             this.getTopGeneralShakes();
             this.showSuccess = true;

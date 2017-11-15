@@ -3,6 +3,7 @@ import {Router, ActivatedRoute} from "@angular/router";
 import {HttpService} from "../../../../common/services/http.service";
 import {PathConfig} from "../../../../common/config/path.config";
 import { ObjectKeyPipe } from '../../../../common/pipes/object-key.pipe';
+import {Broadcaster} from "../../../../common/services/broadcaster.service";
 
 @Component({
   selector: 'app-genral-sh8ke-edit',
@@ -20,7 +21,7 @@ export class GenralSh8keEditComponent implements OnInit {
   showError:boolean= false;
   selectedDevice:string = "";
   question_id:string = "";
-  constructor(private router:Router, private activateRoute:ActivatedRoute, private http:HttpService) { }
+  constructor(private router:Router, private activateRoute:ActivatedRoute, private http:HttpService, private broadcaster:Broadcaster) { }
 
   ngOnInit() {
     //this.titleName = this.activateRoute.snapshot.params['name'];
@@ -28,6 +29,7 @@ export class GenralSh8keEditComponent implements OnInit {
   }
   //get Data from server
   getGeneralSh8keEditableData(id:string){
+    this.broadcaster.broadcast("SHOW_LOADER",false);
     this.options = [];
     this.http.get(PathConfig.GET_GENERAL_SH8KE_EDITABLE_DATA+id)
       .subscribe((response)=> {
@@ -61,6 +63,7 @@ export class GenralSh8keEditComponent implements OnInit {
       console.log("gggg");
   }
   saveGeneralSh8keEditableData(){
+    this.broadcaster.broadcast("SHOW_LOADER",true);
     let postData = {};
     this.options.forEach((key,val) =>{
       //let setvalue = 
@@ -80,7 +83,7 @@ export class GenralSh8keEditComponent implements OnInit {
 
     console.log(postData);
     this.http.post(PathConfig.POST_GENERAL_SH8KE_EDITABLE_DATA, postData).subscribe( (response)=>{
-      console.log(response);
+      this.broadcaster.broadcast("SHOW_LOADER",false);
           if(response.Status == "Success"){
             this.showSuccess = true;
             this.showError = false;

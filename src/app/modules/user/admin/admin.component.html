@@ -39,7 +39,7 @@
                           <label for="exampleInputuname2">Name</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
-                              <input type="text" class="form-control" id="exampleInputuname2" placeholder="Name">
+                              <input type="text" name="fName" [(ngModel)]= "fName" class="form-control fName" id="fName" placeholder="Name">
                              
                           </div>
                         </div>
@@ -49,7 +49,7 @@
                           <label for="exampleInputEmail2">Email address</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-email"></i></div>
-                              <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
+                              <input type="email" name="email" [(ngModel)]= "email" class="form-control" id="email" placeholder="Enter email">
                               
                           </div>
                         </div>
@@ -59,7 +59,7 @@
                           <label for="exampleInputpwd2">User Name</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
-                              <input type="text" class="form-control" id="exampleInputpwd2" placeholder="Username">
+                              <input type="text" class="form-control" name="userName" [(ngModel)]= "userName" id="userName" placeholder="Username">
                               
                           </div>
                         </div>
@@ -69,7 +69,7 @@
                           <label for="exampleInputpwd2">Password</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-lock"></i></div>
-                              <input type="password" class="form-control" id="exampleInputpwd2" placeholder="Enter pwd">                              
+                              <input type="password" class="form-control" id="password"  name="password"  [(ngModel)]= "password" placeholder="Enter pwd">                              
                           </div>
                         </div>
                       </div>
@@ -77,7 +77,7 @@
                         <div class="col-sm-9 marginCenter">
                           <label for="exampleInputpwd3">Upload Photo</label>
                           <div class="input-group">
-                              <input type="file" class="form-control" id="exampleInputpwd3" placeholder="Upload Photo">
+                              <input type="file" ng2FileSelect [uploader]="uploader" id="avatar" name="uploadedAnswer"/>
                           </div>
                         </div>
                       </div>
@@ -85,7 +85,7 @@
                         <div class="col-sm-9 marginCenter">
                           <label for="exampleInputpwd3">User Type</label>
                           <div class="input-group">
-                            <select class="form-control" id="user_type" name="user_type" aria-required="true" aria-invalid="false">
+                            <select class="form-control" id="user_type" name= "userType" (ngModelChange)="updatedUserType($event)" [(ngModel)]="user_type"  name="user_type" aria-required="true" aria-invalid="false">
                               <option value="">Select user type</option>
                               <option value="Super Administrator">Super Administrator</option>
                               <option value="Administrator">Admin users</option> 
@@ -97,7 +97,7 @@
                       
                       <div class="text-left row">
                         <div class="col-sm-9 marginCenter">
-                          <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
+                          <button type="submit" class="btn btn-success waves-effect waves-light m-r-10" (click)="addAdminUser()">Submit</button>
                           <button type="submit" class="btn btn-inverse waves-effect waves-light" (click)="visibleElement = !visibleElement">Cancel</button>
                       </div>
                       </div>

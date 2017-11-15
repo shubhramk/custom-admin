@@ -68,7 +68,7 @@
                           <label for="username">User Name</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
-                              <input type="text" class="form-control" id="username" name="userName" [(ngModel)]="userName" autocomplete="off" placeholder="Username">
+                              <input type="text" class="form-control" id="username" name="userName" [(ngModel)]="userName_general" autocomplete="off" placeholder="Username">
                               
                           </div>
                         </div>
@@ -88,7 +88,7 @@
                         <div class="col-sm-9 marginCenter">
                           <label for="imageUrl">Upload Photo</label>
                           <div class="input-group">
-                              <input type="file" class="form-control" id="imageUrl" name ="imageUrl" [(ngModel)]="imageUrl" placeholder="Upload Photo">
+                            <input type="file" ng2FileSelect [uploader]="uploader" id="avatar" name="uploadedAnswer"/>
                           </div>
                         </div>
                       </div>
@@ -152,7 +152,7 @@
                       </div>
                       <div class="text-left row">
                         <div class="col-sm-9 marginCenter">
-                          <button type="submit" class="btn btn-success waves-effect waves-light m-r-10" (click)="submitEditableData">Submit</button>
+                          <button type="submit" class="btn btn-success waves-effect waves-light m-r-10" (click)="submitEditableData()">Submit</button>
                           <button type="submit" class="btn btn-inverse waves-effect waves-light" (click)="navigateTo('users/general')">Cancel</button>
                         </div>
                       </div>

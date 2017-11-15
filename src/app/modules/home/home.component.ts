@@ -223,7 +223,7 @@ export class HomeComponent implements OnInit,AfterViewInit{
   //get month report
   getCurrentMonthReport(){
     this.configLabel = ['Total Users','Sh8ke Shared','Sh8ke Created'];
-    this.configLinecolor = ['#009efb','#617381','#4DA74D'];
+    this.configLinecolor = ['#009efb','#4DA74D','#617381'];
     this.configYKeys = ['a', 'b','c'];
     this.http.get(PathConfig.GET_MONTHLY_REPORT)
       .subscribe((response)=> {

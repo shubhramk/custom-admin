@@ -2,6 +2,7 @@ import {Component, AfterViewInit, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {HttpService} from "../../../../common/services/http.service";
 import {PathConfig} from "../../../../common/config/path.config";
+import {Broadcaster} from "../../../../common/services/broadcaster.service";
 import { FileUploader } from 'ng2-file-upload';
 declare var $:any;
 
@@ -33,7 +34,7 @@ visibleElement:boolean = false;
       url:PathConfig.ADD_EXAMPLE_SH8KE_ANSWER_UPLOADED_ITEM
     });
 
-  constructor(private router:Router, private http:HttpService, private activeRoute:ActivatedRoute) { }
+  constructor(private router:Router, private http:HttpService, private activeRoute:ActivatedRoute, private broadcaster:Broadcaster) { }
 
    ngOnInit(){
      //general data table
@@ -100,7 +101,8 @@ visibleElement:boolean = false;
   
   //get generalShakes
   getExampleAnswerList(id:string){
-    console.log(PathConfig.GET_EXAMPLE_ANSWER_LST+id);
+    this.broadcaster.broadcast("SHOW_LOADER",false);
+    
     this.http.get(PathConfig.GET_EXAMPLE_ANSWER_LST+id)
       .subscribe((response)=> {
           if(response.SucessMessage == "No record found"){
@@ -126,11 +128,14 @@ visibleElement:boolean = false;
   }
 
   deleteAnswer(id:string){
+
     console.log(PathConfig.DELETE_EXAMPLE_ANSWER+id);
     let confirmElem = confirm("Are you sure to delete!");
     if (confirmElem == true) {
+      this.broadcaster.broadcast("SHOW_LOADER",true);      
       this.http.get(PathConfig.DELETE_EXAMPLE_ANSWER+id).subscribe((response)=>{
         console.log(response);
+        this.broadcaster.broadcast("SHOW_LOADER",false);
         this.getExampleAnswerList(this.activeRoute.snapshot.params['id']);
       },
       err=>{
@@ -163,12 +168,15 @@ visibleElement:boolean = false;
   }
 
   addGeneralAnswer(){
+    this.broadcaster.broadcast("SHOW_LOADER",true);
     if(this.selectedItem != 0){
       this.uploader.cancelAll();
       this.uploader.uploadAll();
       this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
         var responsePath = JSON.parse(response);
         console.log(responsePath.Status);
+        this.broadcaster.broadcast("SHOW_LOADER",false);
+        
         if(responsePath.Status == "Success"){
           this.showSuccess= true;
           this.showError= false;
@@ -193,7 +201,8 @@ visibleElement:boolean = false;
       console.log(postData);
    
       this.http.post(PathConfig.ADD_EXAMPLE_SH8KE_ANSWER, postData).subscribe((response)=>{
-        console.log(response);
+        this.broadcaster.broadcast("SHOW_LOADER",false);
+        
         if(response.Status == "Success"){
          this.showSuccess= true;
          this.showError= false;

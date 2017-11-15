@@ -2,6 +2,7 @@ import {Component, AfterViewInit, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {HttpService} from "../../../common/services/http.service";
 import {PathConfig} from "../../../common/config/path.config";
+import {Broadcaster} from "../../../common/services/broadcaster.service";
 declare var $:any;
 import { FileUploader } from 'ng2-file-upload';
 
@@ -37,16 +38,14 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
    
    uploader:FileUploader = new FileUploader({url:PathConfig.ADD_GENERAL_USER_IMAGE});
 
-  constructor(private router:Router, private http:HttpService) {}
+  constructor(private router:Router, private http:HttpService, private broadcaster:Broadcaster) {}
   ngAfterViewInit(){
     
   }
   ngOnInit(){
     let selectedPrefrences = [];
-    
-    
-
     this.uploader.onBuildItemForm = (item, form) => {
+      selectedPrefrences = [];
       form.append("name", this.fName);
       form.append("surname" ,this.surName);
       form.append("username" ,this.userName_general);
@@ -59,15 +58,16 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
       form.append("birth_month", this.selectedMonth);
       form.append("birth_year" ,this.selectedYear);
       form.append("birth_day" ,this.selectedDate);
-      form.append('intrested_gender', this.selectFromDropdown);
+      form.append('intrested_gender', this.selectIntrest);
 
       form.append("status" ,this.selectStatus);
       this.preferencesItems.forEach((val,key)=>{
         if(val.selected == true){
+          
           selectedPrefrences.push(val.name);
         }
       });
-      form.append("prefrences" , selectedPrefrences);
+      form.append("prefrence" , selectedPrefrences);
     };
 
     this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
@@ -221,7 +221,7 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
   getGeneralUsersList(){
     this.http.get(PathConfig.GET_GENERAL_USER)
       .subscribe((response)=> {
-        
+        this.broadcaster.broadcast("SHOW_LOADER",false)
           this.generalUser =  response.data;
           if(this.generalUser.length < 1){
             this.noRecordFound = true;
@@ -234,7 +234,7 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
   }
 
   selectFromDropdown(event, type){
-    debugger;
+   
     console.log(type);
     if(type == 'gender'){
       this.selectedGender = event;
@@ -247,12 +247,13 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
 
   
   addNewGenralUser(){
-    debugger;
+    this.broadcaster.broadcast("SHOW_LOADER",true)
     if($("input[type =file]").val() == ""){  
       this.addGeneralUserWithoutImage();
-      
+      this.broadcaster.broadcast("SHOW_LOADER",false)
     }else{
       this.addGeneralUsreWithImage();
+      this.broadcaster.broadcast("SHOW_LOADER",false)
     }
   }
   onMenuSelect(data: any) {

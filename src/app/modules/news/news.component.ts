@@ -5,6 +5,7 @@ import {PathConfig} from "../../common/config/path.config";
 import { FileUploader } from 'ng2-file-upload';
 import { ValidationService } from '../../common/services/validation.service';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Broadcaster} from "../../common/services/broadcaster.service";
 
 declare var $:any
 @Component({
@@ -29,7 +30,7 @@ export class NewsComponent implements OnInit {
   });
   bool_fileUploaded = false;
   userForm:any;
-  constructor(private router:Router, private http:HttpService, private formBuilder: FormBuilder) { 
+  constructor(private router:Router, private http:HttpService, private formBuilder: FormBuilder, private broadcaster:Broadcaster) { 
     this.userForm = this.formBuilder.group({
       'newsTitle': ['', Validators.required],
       'description': ['', Validators.required],
@@ -161,9 +162,10 @@ export class NewsComponent implements OnInit {
       });
     },200);
     }
-    getNewsList(){
+    getNewsList(){  
       this.http.get(PathConfig.GET_NEWS)
       .subscribe((response)=> {
+        this.broadcaster.broadcast("SHOW_LOADER",false);
         this.newsList = response.data;
         console.log(this.newsList);
       },
@@ -189,8 +191,10 @@ export class NewsComponent implements OnInit {
     console.log(status);
     let confirmElem  = confirm('sure to change status for this news?');
     if(confirmElem== true){
+      this.broadcaster.broadcast("SHOW_LOADER",true);
+      
       this.http.post(PathConfig.NEWS_CHANGE_STATUS, {st:status, id:id}).subscribe((response)=>{
-      console.log(response);
+        this.broadcaster.broadcast("SHOW_LOADER",false);    
       this.getNewsList();
     }, err=>{
 
@@ -208,7 +212,9 @@ export class NewsComponent implements OnInit {
   deleteNews(id:string){
     let confirmElem = confirm("Are you sure to delete!");
     if(confirmElem == true){
-      this.http.get(PathConfig.DELETE_NEWS+id).subscribe((response)=>{       
+      this.broadcaster.broadcast("SHOW_LOADER",true);      
+      this.http.get(PathConfig.DELETE_NEWS+id).subscribe((response)=>{
+        this.broadcaster.broadcast("SHOW_LOADER",false);        
         this.getNewsList();
       }, err=>{
   
@@ -236,6 +242,7 @@ export class NewsComponent implements OnInit {
     }else{
       this.bool_fileUploaded = false;
     }
+    this.broadcaster.broadcast("SHOW_LOADER",true);
     if($("input[type =file]").val() == ""){
       this.http.post(PathConfig.ADD_NEWS, {
         "title": this.newsTitle,
@@ -244,6 +251,8 @@ export class NewsComponent implements OnInit {
         "size": "",
         "expire_on":this.expireDate
       }).subscribe((response)=>{
+        this.broadcaster.broadcast("SHOW_LOADER",false);
+  
         if(response.Status == "Success"){
           this.getNewsList();
           this.showSuccess = true;
@@ -256,11 +265,14 @@ export class NewsComponent implements OnInit {
         
       })
     }else{
+
         this.uploader.cancelAll();
         this.uploader.uploadAll();
         this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
           var responsePath = JSON.parse(response);
           console.log(responsePath.Status);
+          this.broadcaster.broadcast("SHOW_LOADER",false);
+          
           if(responsePath.Status == "Success"){
             this.showSuccess= true;
             this.showError= false;

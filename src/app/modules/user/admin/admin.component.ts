@@ -2,6 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {HttpService} from "../../../common/services/http.service";
 import {PathConfig} from "../../../common/config/path.config";
+import {Broadcaster} from "../../../common/services/broadcaster.service";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { ValidationService } from '../../../common/services/validation.service';
+declare var $:any;
+
 @Component({
   styleUrls: ['./admin.component.scss'],
   templateUrl: './admin.component.html'
@@ -10,9 +15,16 @@ export class AdminUserComponent implements OnInit {
   visibleElement:boolean = false;
   adminUserList = [];
   dtConfigAdminUser:object = {};
-  constructor(private router:Router, private http:HttpService) {}
+  form: FormGroup;
+  userForm: any;
+  constructor( private router:Router, private http:HttpService, private broadcaster:Broadcaster) {  }
 ngOnInit(){
      //general data table
+
+     $(".fName").rules("add", { 
+      required:true,
+    });
+    
       this.dtConfigAdminUser =  {
         "columnDefs": [
           {
@@ -101,6 +113,7 @@ ngOnInit(){
     let confirmElem  = confirm('sure to change status for this news?');
     
     if(confirmElem== true){
+      this.broadcaster.broadcast("SHOW_LOADER",true)
       if(status == "0"){
 
         status ="1";
@@ -110,6 +123,7 @@ ngOnInit(){
       console.log(status);
       //alert(status);
       this.http.post(PathConfig.UPDATE_ADMIN_USER_ISACTIVE, {st:status, id:id}).subscribe((response)=>{
+        this.broadcaster.broadcast("SHOW_LOADER",false)
       console.log(response);
       this.getAdminUsers();
     }, err=>{
@@ -117,11 +131,16 @@ ngOnInit(){
     });
     }
   } 
+  addAdminUser(){
+
+  }
 //get top20 globalShakes
 deleteAdminUser(id){
   let confirmElem = confirm("Are you sure to delete!");
   if (confirmElem == true){
+    this.broadcaster.broadcast("SHOW_LOADER",true);
     this.http.get(PathConfig.DELETE_ADMIN_USER+id).subscribe((response)=>{
+      this.broadcaster.broadcast("SHOW_LOADER",false);
       if(response.Status == "Success"){
         this.getAdminUsers();
       }
@@ -135,6 +154,7 @@ getAdminUsers(){
   
   this.http.get(PathConfig.GET_ADMIN_USER)
     .subscribe((response)=> {
+      this.broadcaster.broadcast("SHOW_LOADER",false)
         this.adminUserList =  response.data;
         console.log(this.adminUserList);
       },
@@ -146,4 +166,5 @@ getAdminUsers(){
   navigateTo(url:string){
     this.router.navigate([url]);
   }
+  
 }
