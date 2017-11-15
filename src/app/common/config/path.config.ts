@@ -110,4 +110,7 @@ export class PathConfig {
     public static UPDATE_GENERAL_USER_ISACTIVE:string = PathConfig.BASE_URL_API +"api/api.php?action=GeneralUserStatus";
  
     public static ADD_GENERAL_USER_IMAGE:string = PathConfig.BASE_URL_API + "api/api.php?action=AddUserWithImage"
+    public static UPDATE_GENERAL_USER:string = PathConfig.BASE_URL_API + "api/api.php?action=updateUser";
+    public static UPDATE_GENERAL_USER_WITH_IMAGE:string = PathConfig.BASE_URL_API + "api/api.php?action=UpdateUserWithImage"
+    
 }
