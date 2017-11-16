@@ -3,7 +3,7 @@ import {HttpService} from "../../../../common/services/http.service";
 import {PathConfig} from "../../../../common/config/path.config";
 import {ActivatedRoute} from '@angular/router';
 import {Broadcaster} from "../../../../common/services/broadcaster.service";
-declare var $:any;
+declare var $:any, mscConfirm:any;
 
 @Component({
   selector: 'app-general-creator',
@@ -65,22 +65,23 @@ export class GeneralCreatorComponent implements OnInit {
     })
   }
   chnageStatus(){
-    let confirmElem  = confirm('sure to change status user?');
+    var self = this;
     let isActive:string = "";
-    if(confirmElem== true){
-      if(this.userActive == "Activate User"){
-        isActive ="1";
-      }else{
-        isActive = "0";
-      }
-      //alert(status);
-      this.http.post(PathConfig.UPDATE_GENERAL_USER_ISACTIVE, {st:isActive, id:this.activateroute.snapshot.params['id']}).subscribe((response)=>{
-      console.log(response);
-      this.getUserIsactiveOrNot(this.activateroute.snapshot.params['id']);
-    }, err=>{
+      mscConfirm("sure to change user status ", function(){
+        if(self.userActive == "Activate User"){
+          isActive ="1";
+        }else{
+          isActive = "0";
+        }
+        //alert(status);
+        self.http.post(PathConfig.UPDATE_GENERAL_USER_ISACTIVE, {st:isActive, id:self.activateroute.snapshot.params['id']}).subscribe((response)=>{
+        console.log(response);
+        self.getUserIsactiveOrNot(self.activateroute.snapshot.params['id']);
+      }, err=>{
 
+      });
     });
-    }
+    
   }
    getGeneralCreator(id:string, startDate, endDate){
     this.http.post(PathConfig.GET_GENERAL_SH8KE_CREATOR+id, {"startDate" : startDate,	"endDate" : endDate})

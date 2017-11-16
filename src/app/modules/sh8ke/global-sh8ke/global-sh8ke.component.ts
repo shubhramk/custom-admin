@@ -3,7 +3,7 @@ import {Router} from "@angular/router";
 import {HttpService} from "../../../common/services/http.service";
 import {PathConfig} from "../../../common/config/path.config";
 import {Broadcaster} from "../../../common/services/broadcaster.service";
-declare var $:any;
+declare var $:any, mscConfirm:any;
 @Component({
   selector: 'app-global-sh8ke',
   templateUrl: './global-sh8ke.component.html',
@@ -84,11 +84,11 @@ export class GlobalSh8keComponent implements OnInit {
             let yes = "Yes";
             if(val == "No"){
               template = '<div class="dt-menu-icons">' +
-              '<a href="javascript:void(0);" data-name="global-publish"  data-custom="'+ full['rowId']  + '" data-creator="' + full['title'] + '"><span class="fa fa-times" aria-hidden="true"></span></a>' +
+              '<a href="javascript:void(0);" data-name="global-publish"  data-custom="'+ full['rowId']  + '" data-creator="' + full['published'] + '"><span class="fa fa-times" aria-hidden="true"></span></a>' +
              '</div>';
             }else if(val == "Yes"){
               template = '<div class="dt-menu-icons">' +
-              '<a href="javascript:void(0);" data-name="global-publish"  data-custom="'+ full['rowId']  + '" data-creator="' + full['title'] + '"><span class="fa fa-check" aria-hidden="true"></span></a>' +
+              '<a href="javascript:void(0);" data-name="global-publish"  data-custom="'+ full['rowId']  + '" data-creator="' + full['published'] + '"><span class="fa fa-check" aria-hidden="true"></span></a>' +
               '</div>';
 
             }
@@ -138,12 +138,37 @@ getTopGlobalShakes(){
         this.navigateTo('sh8ke/globalstatics/'+data['value']+"/"+data['creatorName']);
     }else if(data['clickedOn']== 'delete'){
       this.deleteGlobalSh8keQuestion(data['value'], PathConfig.DELETE_GLOBAL_SH8KE)
+    }else if(data['clickedOn'] == 'global-publish'){
+      this.chnageStatus(data['value'], data['creatorName']);
     }
   }
   //navigate to page
   navigateTo(url:string){
     this.router.navigate([url]);
   }
+
+  chnageStatus(id:string, status:string){
+    var self = this;
+    mscConfirm("sure to change status!", function(){
+        self.broadcaster.broadcast("SHOW_LOADER",true)
+        if(status == "No"){
+          status ="No";
+        }else{
+          status = "Yes";
+        }
+        console.log(status, "    ", id);
+        //alert(status);
+        self.http.post(PathConfig.CHANGE_PUBLISH_STATUS_GLOBAL_SH8KE, {st:status, id:id}).subscribe((response)=>{
+          self.broadcaster.broadcast("SHOW_LOADER",false)
+        console.log(response);
+        self.getTopGlobalShakes();
+      }, err=>{
+
+      });
+    });
+  }
+
+
   getGlobalSh8keEditableData(){
     this.options = [];
     this.http.get(PathConfig.GET_GENERAL_SH8KE_EDITABLE_DATA)
@@ -224,19 +249,19 @@ getTopGlobalShakes(){
   }
 
   deleteGlobalSh8keQuestion(id:string, serviceUrl:string){
-    let confirmElem = confirm("Are you sure to delete!");
-    if (confirmElem == true) {
-      this.broadcaster.broadcast("SHOW_LOADER",true);
-       this.http.post(serviceUrl, {'id':id}).subscribe((response)=> {
-          if(response.Status == "Success"){
-            this.getTopGlobalShakes();
-            this.broadcaster.broadcast("SHOW_LOADER",false);
-          }
-        },
-        err => {
-        }
-      );
-    }       
+    var self = this;
+    mscConfirm("Are you sure to delete!", function(){
+      self.broadcaster.broadcast("SHOW_LOADER",true);
+      self.http.post(serviceUrl, {'id':id}).subscribe((response)=> {
+         if(response.Status == "Success"){
+          self.getTopGlobalShakes();
+          self.broadcaster.broadcast("SHOW_LOADER",false);
+         }
+       },
+       err => {
+       }
+     );
+    });      
   }
   submitData(){   
     let postData = {};

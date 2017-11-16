@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {HttpService} from "../../../../common/services/http.service";
 import {PathConfig} from "../../../../common/config/path.config";
 import {Router, ActivatedRoute} from "@angular/router";
+import {Broadcaster} from "../../../../common/services/broadcaster.service";
 import * as _ from 'lodash';
 declare var $:any;
 
@@ -19,7 +20,7 @@ export class GlobalStaticsComponent implements OnInit {
   configLabel = [];
   configLinecolor = [];
   configYKeys = []; 
-  constructor(private router:Router, private http:HttpService, private activedroute:ActivatedRoute) { }
+  constructor(private router:Router, private http:HttpService, private activedroute:ActivatedRoute, private broadcaster:Broadcaster) { }
 
   ngOnInit() {
     this.globalSh8keName = this.activedroute.snapshot.params["name"];
@@ -40,6 +41,7 @@ export class GlobalStaticsComponent implements OnInit {
   }
   //get month report
   getCurrentMonthReport(id:string, startDate, endDate){
+    this.broadcaster.broadcast("SHOW_LOADER",false);
     this.configLabel = ['Favorite Count'];
     this.configLinecolor = ['#4DA74D'];
     this.configYKeys = ['a'];

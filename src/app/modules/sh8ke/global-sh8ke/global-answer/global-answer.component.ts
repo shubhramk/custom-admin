@@ -5,7 +5,7 @@ import {PathConfig} from "../../../../common/config/path.config";
 import { FileUploader } from 'ng2-file-upload';
 import {Broadcaster} from "../../../../common/services/broadcaster.service";
 
-declare var $:any;
+declare var $:any, mscConfirm:any;
 @Component({
   selector: 'app-global-answer',
   templateUrl: './global-answer.component.html',
@@ -296,18 +296,17 @@ export class GlobalAnswerComponent implements OnInit {
     }
   }
   deleteAnswer(id:string){
-    let confirmElem = confirm("Are you sure to delete!");
-    if (confirmElem == true) {
-      this.http.get(PathConfig.DELETE_GLOBAL_ANSWER+id).subscribe((response)=>{
-          if(response.Status == "Success"){
-            this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
-            
-          }
-        },
-        err => {
+    var self = this;
+    mscConfirm("Are you sure to delete!", function(){
+      self.http.get(PathConfig.DELETE_GLOBAL_ANSWER+id).subscribe((response)=>{
+        if(response.Status == "Success"){
+          self.getGlobalAnswerList(self.activeRoute.snapshot.params['id']);
         }
-      );
-    } 
+      },
+      err => {
+      }
+    );
+    });
     
   }
   handleVisiblity(){    

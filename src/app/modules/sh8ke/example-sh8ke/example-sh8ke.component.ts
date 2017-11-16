@@ -3,7 +3,7 @@ import {Router} from "@angular/router";
 import {HttpService} from "../../../common/services/http.service";
 import {PathConfig} from "../../../common/config/path.config";
 import {Broadcaster} from "../../../common/services/broadcaster.service";
-
+declare var mscConfirm:any;
 @Component({
   selector: 'app-example-sh8ke',
   templateUrl: './example-sh8ke.component.html',
@@ -70,6 +70,7 @@ export class ExampleSh8keComponent implements OnInit {
     this.broadcaster.broadcast("SHOW_LOADER",false);
     this.http.get(PathConfig.GET_EXAMPLE_SH8KE)
       .subscribe((response)=> {
+        this.broadcaster.broadcast("SHOW_LOADER",false);
           this.exampleSh8keList =  response.data;
           console.log(this.exampleSh8keList);
         },
@@ -123,19 +124,19 @@ export class ExampleSh8keComponent implements OnInit {
     }
   }
   deleteExampleSh8ke(id:string, serviceUrl:string){
-    this.broadcaster.broadcast("SHOW_LOADER",true);
-    let confirmElem = confirm("Are you sure to delete!");
-    if (confirmElem == true) {
-      this.broadcaster.broadcast("SHOW_LOADER",false);
-       this.http.get(serviceUrl+id).subscribe((response)=> {
-          if(response.Status == "Success"){
-            this.getExampleSh8keList();
-          }
-        },
-        err => {
-        }
-      );
-    }
+    var self = this;
+    mscConfirm("Are you sure to delete", function(){
+      self.broadcaster.broadcast("SHOW_LOADER",true);
+      self.http.get(serviceUrl+id).subscribe((response)=> {
+        self.broadcaster.broadcast("SHOW_LOADER",false);
+         if(response.Status == "Success"){
+           self.getExampleSh8keList();
+         }
+       },
+       err => {
+       }
+     );
+    });
   }
   //navigate to page
   navigateTo(url:string){

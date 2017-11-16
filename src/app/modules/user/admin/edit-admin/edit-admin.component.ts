@@ -3,6 +3,9 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {HttpService} from "../../../../common/services/http.service";
 import {PathConfig} from "../../../../common/config/path.config";
 import {Broadcaster} from "../../../../common/services/broadcaster.service";
+import { FileUploader } from 'ng2-file-upload';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+declare var $:any;
 
 @Component({
   selector: 'app-edit-admin',
@@ -20,10 +23,29 @@ export class EditAdminComponent implements OnInit {
   showSuccess:boolean = false;
   showError:boolean = false;
   message:string = "";
+  form: FormGroup;
+  userForm: any;
+  
+  uploader:FileUploader = new FileUploader({
+    url:PathConfig.UPDATE_ADMIN_USER_WITH_IMAGE
+  });
+
   constructor(private router:Router, private http:HttpService, private activatedRouteL:ActivatedRoute, private broadcaster:Broadcaster) { }
 
   ngOnInit() {
-    
+
+    this.uploader.onBuildItemForm = (item, form) => {
+      let checkBoxFinalAnswer:string;
+      form.append("id", this.getUserId);
+      form.append("name", this.name);
+      form.append("user_type" ,this.user_type);
+      form.append("email" ,this.email);
+      form.append("password" , this.password ? "" : this.password);
+      form.append("username" ,this.user_Name);
+    };
+  
+    this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+      
     console.log(this.activatedRouteL.snapshot.params["id"]);
     this.getAdminUserDetail();
   }
@@ -41,12 +63,12 @@ export class EditAdminComponent implements OnInit {
 
     })
   }
-  saveUpdatedAdminUser(){
+  adMinUserDateWithoutImage(){
     let postData = {};
     postData["id"] = this.getUserId;
     postData["name"] = this.name;
     postData["user_type"]  = this.user_type;
-    postData["mail_id"] = this.email;
+    postData["email"] = this.email;
     postData["password"] = this.password ? "" : this.password;
     postData["username"] = this.user_Name;
     console.log(postData);
@@ -66,6 +88,33 @@ export class EditAdminComponent implements OnInit {
     }, err=>{
 
     });
+  }
+  adMinUserDateWithImage(){
+    this.uploader.cancelAll();
+    
+    this.uploader.uploadAll();
+    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+      var responsePath = JSON.parse(response);
+      this.broadcaster.broadcast("SHOW_LOADER",false);      
+      if(responsePath.Status == "Success"){
+        this.showSuccess= true;
+        this.showError= false;
+        this.message = responsePath.SucessMessage;
+       // this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
+       }else if(responsePath.Status == "Error"){
+        this.showSuccess= true;
+        this.showError= false;
+        this.message = responsePath.ErrorMessage;
+       }
+       $("#avatar").val("");
+     }
+  }
+  saveUpdatedAdminUser(){
+    if($("input[type =file]").val() == ""){ 
+      this.adMinUserDateWithoutImage()
+    }else{
+      this.adMinUserDateWithImage();
+    }
   }
    //navigate to page
   navigateTo(url:string){

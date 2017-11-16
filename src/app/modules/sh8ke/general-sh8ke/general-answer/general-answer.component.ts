@@ -5,6 +5,7 @@ import {PathConfig} from "../../../../common/config/path.config";
 import { FileUploader } from 'ng2-file-upload';
 import {Broadcaster} from "../../../../common/services/broadcaster.service";
 declare var $:any;
+declare var mscConfirm:any;
 
 @Component({
   selector: 'app-general-answer',
@@ -122,6 +123,7 @@ export class GeneralAnswerComponent implements OnInit, AfterViewInit {
     this.broadcaster.broadcast("SHOW_LOADER",false);
     this.http.get(PathConfig.GET_GENERAL_SH8KE_ANSWER+id)
       .subscribe((response)=> {
+        this.broadcaster.broadcast("SHOW_LOADER",false);
           this.generalAnswerList =  response.data;
           console.log(this.generalAnswerList);
         },
@@ -141,18 +143,18 @@ export class GeneralAnswerComponent implements OnInit, AfterViewInit {
     }
   }
   deleteAnswer(id:string){
-    this.broadcaster.broadcast("SHOW_LOADER",true);
-    let confirmElem = confirm("Are you sure to delete!");
-    if (confirmElem == true) {
-      this.http.get(PathConfig.DELETE_GENERAL_ANSWER+id).subscribe((response)=>{
-        this.broadcaster.broadcast("SHOW_LOADER",false);
-        this.getGeneralAnswerList(this.activeRoute.snapshot.params['id']);
+    var self = this;
+    mscConfirm("Are you sure to delete", function(){
+      self.http.get(PathConfig.DELETE_GENERAL_ANSWER+id).subscribe((response)=>{
+        self.broadcaster.broadcast("SHOW_LOADER",false);
+        self.getGeneralAnswerList(self.activeRoute.snapshot.params['id']);
       },
       err=>{
     
       });
 
-    }    
+    })
+       
   }
 
   addGeneralAnswer(){

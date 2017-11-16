@@ -5,6 +5,8 @@ import {PathConfig} from "../../common/config/path.config";
 import * as _ from 'lodash';
 import {Broadcaster} from "../../common/services/broadcaster.service";
 
+declare var mscConfirm:any;
+
 //import Chartist from 'chartist';
 @Component({
   styleUrls: ['./home.component.scss'],
@@ -271,22 +273,22 @@ export class HomeComponent implements OnInit,AfterViewInit{
   }
 
   deleteRowFromTop20Trending(id:string, serviceUrl:string, type:string){
-      let confirmElem = confirm("Are you sure to delete!");
-      if (confirmElem == true) {
-         this.http.post(serviceUrl, {'id':id}).subscribe((response)=> {
-            if(response.Status == "Success"){
-              if(type == "generalSh8ke"){
-                this.getTopGeneralShakes();
-              }else if(type == "globalSh8ke"){
-                this.getTopGlobalShakes();
-              }
-
-            }
-          },
-          err => {
+    var self = this;
+    mscConfirm("Are you sure to delete?", function(){
+      self.http.post(serviceUrl, {'id':id}).subscribe((response)=> {
+        if(response.Status == "Success"){
+          if(type == "generalSh8ke"){
+            self.getTopGeneralShakes();
+          }else if(type == "globalSh8ke"){
+            self.getTopGlobalShakes();
           }
-        );
+
+        }
+      },
+      err => {
       }
+    );
+    });
   }
   //navigate to page
   navigateTo(url:string){

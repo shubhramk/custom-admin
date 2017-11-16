@@ -9,7 +9,7 @@ import { ValidationService } from '../../common/services/validation.service';
 import {Broadcaster} from "../../common/services/broadcaster.service";
 
 declare var $:any;
-
+declare var mscConfirm:any;
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -118,6 +118,7 @@ getCategoryList(){
   
   this.http.get(PathConfig.GET_CATEGORY)
       .subscribe((response)=> {
+        this.broadcaster.broadcast("SHOW_LOADER",false);
         this.categoryList = response.data;
         console.log(this.categoryList);
       },
@@ -140,20 +141,21 @@ getCategoryList(){
   }
 
   deleteCategory(id:string){
-    console.log(id);
-    let confirmElem = confirm("Are you sure to delete!");
-    if (confirmElem == true) {
-      this.broadcaster.broadcast("SHOW_LOADER",true);
-      
-      this.http.get(PathConfig.DELETE_CATEGORY+id).subscribe((response)=>{
+  var self = this;    
+    mscConfirm("Are you sure to delete Category?", function(){
+      self.broadcaster.broadcast("SHOW_LOADER",true);      
+      self.http.get(PathConfig.DELETE_CATEGORY+id).subscribe((response)=>{
         console.log(response);
-        this.broadcaster.broadcast("SHOW_LOADER",false);
-        
-        this.getCategoryList();
+        self.broadcaster.broadcast("SHOW_LOADER",false);        
+        self.getCategoryList();
       }, err=>{
   
       });
-    }
+    });
+    /* let confirmElem = confirm("Are you sure to delete!");
+    if (confirmElem == true) {
+      
+    } */
     
   }
   //navigate to page

@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {HttpService} from "../../../common/services/http.service";
 import {PathConfig} from "../../../common/config/path.config";
 import {Broadcaster} from "../../../common/services/broadcaster.service";
-declare var $:any;
+declare var $:any, mscConfirm:any;
 import { FileUploader } from 'ng2-file-upload';
 
 @Component({
@@ -269,15 +269,15 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
     } 
   }
   deleteGeneralUser(id){
-    let confirmElem = confirm("Are you sure to delete!");
-    if (confirmElem == true){
-      this.http.get(PathConfig.DELETE_GENERAL_USER+id).subscribe((response)=>{
+    var self = this;
+    mscConfirm("Are you sure to delete!", function(){
+      self.http.get(PathConfig.DELETE_GENERAL_USER+id).subscribe((response)=>{
         if(response.Status == "Success"){
-          this.getGeneralUsersList();
+          self.getGeneralUsersList();
         }
       },
-    err=>{})
-    }
+    err=>{});
+    });
   }
   counter = 0;
   updateCheckedOptions(data,event){
@@ -304,9 +304,8 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
 
   }
   chnageStatus(id:string, status){
-    let confirmElem  = confirm('sure to change status for this news?');
-    
-    if(confirmElem== true){
+    var self = this;
+    mscConfirm("Are you sure to delete!", function(){
       if(status == "0"){
         status ="1";
       }else{
@@ -314,13 +313,13 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
       }
       console.log(status);
       //alert(status);
-      this.http.post(PathConfig.UPDATE_GENERAL_USER_ISACTIVE, {st:status, id:id}).subscribe((response)=>{
+      self.http.post(PathConfig.UPDATE_GENERAL_USER_ISACTIVE, {st:status, id:id}).subscribe((response)=>{
       console.log(response);
-      this.getGeneralUsersList();
+      self.getGeneralUsersList();
     }, err=>{
 
     });
-    }
+    });
   } 
 
   handleVisiblity(){    

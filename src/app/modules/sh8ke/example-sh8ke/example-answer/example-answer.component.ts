@@ -5,6 +5,7 @@ import {PathConfig} from "../../../../common/config/path.config";
 import {Broadcaster} from "../../../../common/services/broadcaster.service";
 import { FileUploader } from 'ng2-file-upload';
 declare var $:any;
+declare var mscConfirm:any;
 
 @Component({
   selector: 'app-example-answer',
@@ -101,10 +102,11 @@ visibleElement:boolean = false;
   
   //get generalShakes
   getExampleAnswerList(id:string){
-    this.broadcaster.broadcast("SHOW_LOADER",false);
+    
     
     this.http.get(PathConfig.GET_EXAMPLE_ANSWER_LST+id)
       .subscribe((response)=> {
+        this.broadcaster.broadcast("SHOW_LOADER",false);
           if(response.SucessMessage == "No record found"){
             this.boolErrorMessageOnLoad = true
             this.errorMessageOnLoad = response.SucessMessage
@@ -128,21 +130,18 @@ visibleElement:boolean = false;
   }
 
   deleteAnswer(id:string){
-
-    console.log(PathConfig.DELETE_EXAMPLE_ANSWER+id);
-    let confirmElem = confirm("Are you sure to delete!");
-    if (confirmElem == true) {
-      this.broadcaster.broadcast("SHOW_LOADER",true);      
-      this.http.get(PathConfig.DELETE_EXAMPLE_ANSWER+id).subscribe((response)=>{
+    var self = this;
+    mscConfirm("Are you sure to delete Answer", function(){
+      self.broadcaster.broadcast("SHOW_LOADER",true);      
+      self.http.get(PathConfig.DELETE_EXAMPLE_ANSWER+id).subscribe((response)=>{
         console.log(response);
-        this.broadcaster.broadcast("SHOW_LOADER",false);
-        this.getExampleAnswerList(this.activeRoute.snapshot.params['id']);
+        self.broadcaster.broadcast("SHOW_LOADER",false);
+        self.getExampleAnswerList(self.activeRoute.snapshot.params['id']);
       },
       err=>{
     
       });
-
-    }    
+    });    
   }
 
 

@@ -3,7 +3,7 @@ import {Router} from "@angular/router";
 import {HttpService} from "../../../common/services/http.service";
 import {PathConfig} from "../../../common/config/path.config";
 import {Broadcaster} from "../../../common/services/broadcaster.service";
-declare var $:any;
+declare var $:any, mscConfirm:any;
 @Component({
   selector: 'app-general-sh8ke',
   templateUrl: './general-sh8ke.component.html',
@@ -152,19 +152,21 @@ export class GeneralSh8keComponent implements OnInit {
    
   }
   deleteRowFromTop20Trending(id:string, serviceUrl:string){
-    this.broadcaster.broadcast("SHOW_LOADER",true);
-    let confirmElem = confirm("Are you sure to delete!");
-    if (confirmElem == true) {
-      this.broadcaster.broadcast("SHOW_LOADER",false);
-       this.http.post(serviceUrl, {'id':id}).subscribe((response)=> {
-          if(response.Status == "Success"){
-            this.getTopGeneralShakes();
-          }
-        },
-        err => {
-        }
-      );
-    }       
+    
+    var self = this;
+    mscConfirm("Are you sure to delete!", function(){
+      self.broadcaster.broadcast("SHOW_LOADER",true);
+      self.http.post(serviceUrl, {'id':id}).subscribe((response)=> {
+        self.broadcaster.broadcast("SHOW_LOADER",false);
+         if(response.Status == "Success"){
+          self.getTopGeneralShakes();
+         }
+       },
+       err => {
+       }
+     );
+    })
+          
 }
 selectedList=[];
 

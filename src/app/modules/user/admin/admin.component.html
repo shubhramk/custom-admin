@@ -20,8 +20,14 @@
   </div>
   <div class="row">
     <div class="col-md-12 marB">
-      <a href="javascript:void(0)" *ngIf ="!visibleElement" (click)="visibleElement = !visibleElement">Add New User</a>
-      <a href="javascript:void(0)" *ngIf="visibleElement" (click)="visibleElement = !visibleElement">Back</a>
+      <a href="javascript:void(0)" *ngIf ="!visibleElement" (click)="visibleElement = !visibleElement; showSuccess=false;showError= false;">Add New User</a>
+      <a href="javascript:void(0)" *ngIf="visibleElement" (click)="visibleElement = !visibleElement; showSuccess=false;showError= false;">Back</a>
+      <div class="alert alert-success" *ngIf = "showSuccess">
+        <strong>Success!</strong> {{message}}
+      </div>
+      <div class="alert alert-danger" *ngIf = "showError">
+           <strong>Error!</strong> {{message}}
+       </div>
     </div>
   </div>
   <div class="row" *ngIf = "visibleElement">
@@ -59,7 +65,7 @@
                           <label for="exampleInputpwd2">User Name</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
-                              <input type="text" class="form-control" name="userName" [(ngModel)]= "userName" id="userName" placeholder="Username">
+                              <input type="text" class="form-control" name="userName" [(ngModel)]= "user_Name" id="userName" placeholder="Username">
                               
                           </div>
                         </div>
@@ -69,7 +75,7 @@
                           <label for="exampleInputpwd2">Password</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-lock"></i></div>
-                              <input type="password" class="form-control" id="password"  name="password"  [(ngModel)]= "password" placeholder="Enter pwd">                              
+                              <input type="password" class="form-control" id="password"  name="password"  [(ngModel)]= "password_admin" placeholder="Enter pwd">                              
                           </div>
                         </div>
                       </div>

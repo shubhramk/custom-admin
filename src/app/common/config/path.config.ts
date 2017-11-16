@@ -60,6 +60,8 @@ export class PathConfig {
 
     public static GET_ADMIN_USER_EDITABLE_DATA = PathConfig.BASE_URL_API + "api/api.php?action=EditAdmin&id=";
     public static UPDATE_ADMIN_USER_ADMIN = PathConfig.BASE_URL_API + "api/api.php?action=UpdateAdmin";
+    public static UPDATE_ADMIN_USER_WITH_IMAGE = PathConfig.BASE_URL_API + "api/api.php?action=UpdateAdminUserWithImage";
+    
     public static DELETE_ADMIN_USER:string = PathConfig.BASE_URL_API +"api/api.php?action=DeleteAdmin&id=";
 
     public static DELETE_GENERAL_USER:string = PathConfig.BASE_URL_API +"api/api.php?action=DeleteUser&id=";
@@ -112,5 +114,8 @@ export class PathConfig {
     public static ADD_GENERAL_USER_IMAGE:string = PathConfig.BASE_URL_API + "api/api.php?action=AddUserWithImage"
     public static UPDATE_GENERAL_USER:string = PathConfig.BASE_URL_API + "api/api.php?action=updateUser";
     public static UPDATE_GENERAL_USER_WITH_IMAGE:string = PathConfig.BASE_URL_API + "api/api.php?action=UpdateUserWithImage"
-    
+    public static ADD_ADMIN_USER:string = PathConfig.BASE_URL_API + "api/api.php?action=AddAdminUser";
+    public static ADD_ADMIN_USER_WITH_IMAGE:string = PathConfig.BASE_URL_API+"api/api.php?action=AddAdminUserWithImage";
+
+    public static CHANGE_PUBLISH_STATUS_GLOBAL_SH8KE:string = PathConfig.BASE_URL_API +"api/api.php?action=GlobalSh8kePublish";
 }

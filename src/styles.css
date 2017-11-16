@@ -61,3 +61,42 @@ span.fa.fa-check, .fa.fa-pencil, .fa.fa-trash-o{
 .custom-control-input:disabled~.custom-control-indicator{
     background-color: #545759;
 }
+.btn-success.disabled, .btn-success:disabled {
+    background-color: #2f3d4a;
+    border-color: #a72e28;
+    cursor: not-allowed;
+}
+input.ng-dirty.ng-invalid {
+    background: #442f2f;
+}
+.msc-content{
+    background: #272c33;
+}
+.msc-body{
+    color: #15b6c4;
+}
+button.msc-ok{
+    background-color: #28a745;
+    border-color: #28a745;
+}
+button.msc-cancel {
+    background-color: #7d7f82;
+    border-color: #7d7f82;
+}
+.msc-action button{
+    color: #fff;
+}
+.msc-confirm{
+    position: absolute;
+}
+.msc-overlay{
+    background-color:transparent; 
+}
+.msc-title{
+    font-size: 1em;
+}
+.msc-content{
+    border-radius: 10px;
+    border: 1px solid #246733;
+    box-shadow: 1px 1px 3px 3px;
+} 

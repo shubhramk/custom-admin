@@ -7,6 +7,7 @@ import { ValidationService } from '../../common/services/validation.service';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Broadcaster} from "../../common/services/broadcaster.service";
 
+declare var mscConfirm:any;
 declare var $:any
 @Component({
   selector: 'app-news',
@@ -188,18 +189,16 @@ export class NewsComponent implements OnInit {
   }
 
   chnageStatus(id:string, status){
-    console.log(status);
-    let confirmElem  = confirm('sure to change status for this news?');
-    if(confirmElem== true){
+    var self = this;
+    mscConfirm("Are you sure to chnage status", function(){
       this.broadcaster.broadcast("SHOW_LOADER",true);
-      
-      this.http.post(PathConfig.NEWS_CHANGE_STATUS, {st:status, id:id}).subscribe((response)=>{
+        this.http.post(PathConfig.NEWS_CHANGE_STATUS, {st:status, id:id}).subscribe((response)=>{
         this.broadcaster.broadcast("SHOW_LOADER",false);    
-      this.getNewsList();
-    }, err=>{
+        this.getNewsList();
+      }, err=>{
 
+      });
     });
-    }
   } 
   sendNotification(id:string){
     this.http.get(PathConfig.NEWS_CHANGE_STATUS+id).subscribe((response)=>{
@@ -210,17 +209,16 @@ export class NewsComponent implements OnInit {
     });
   }
   deleteNews(id:string){
-    let confirmElem = confirm("Are you sure to delete!");
-    if(confirmElem == true){
-      this.broadcaster.broadcast("SHOW_LOADER",true);      
-      this.http.get(PathConfig.DELETE_NEWS+id).subscribe((response)=>{
-        this.broadcaster.broadcast("SHOW_LOADER",false);        
-        this.getNewsList();
+    var self = this;
+    mscConfirm("Are you sure to chnage status", function(){
+      self.broadcaster.broadcast("SHOW_LOADER",true);      
+      self.http.get(PathConfig.DELETE_NEWS+id).subscribe((response)=>{
+        self.broadcaster.broadcast("SHOW_LOADER",false);        
+        self.getNewsList();
       }, err=>{
   
       })
-    }
-    
+    });
   }
 
    //navigate to page
