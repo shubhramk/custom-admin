@@ -15,7 +15,7 @@ declare var $:any;
 export class EditGeneralComponent implements OnInit {
   preferencesItems = [{name:"Arty", selected:false, disabled:false }, {name:"Girly",selected:false, disabled:false }, {name:"Nerdy",selected:false, disabled:false }, {name:"Craftsman",selected:false, disabled:false }, {name:"Hip-ster",selected:false, disabled:false }, {name:"Old School",selected:false, disabled:false }, {name:"Dapper",selected:false, disabled:false }, {name:"Jock",selected:false, disabled:false}, {name:"Quiet",selected:false, disabled:false}, {name:"Extreme",selected:false, disabled:false}, {name:"Loud",selected:false, disabled:false}, {name:"Romantic",selected:false, disabled:false},
   {name:"Funny",selected:false, disabled:false}, {name:"Manly",selected:false, disabled:false}, {name:"Sassy",selected:false, disabled:false}, {name:"Ditzy",selected:false, disabled:false}, {name:"Social",selected:false, disabled:false}, {name:"Techie",selected:false, disabled:false}];
-  
+
   arr_gender = ["Male", "Female"];
   arr_status = ["Single", "Married", "Divorced", "Open"];
 
@@ -44,10 +44,10 @@ export class EditGeneralComponent implements OnInit {
     url:PathConfig.UPDATE_GENERAL_USER_WITH_IMAGE
   });
 
-  
-  constructor(private router:Router, private broadcaster:Broadcaster, private http:HttpService, private activatedRouteL:ActivatedRoute, private formBuilder: FormBuilder) { 
 
-    
+  constructor(private router:Router, private broadcaster:Broadcaster, private http:HttpService, private activatedRouteL:ActivatedRoute, private formBuilder: FormBuilder) {
+
+
   }
 
   ngOnInit() {
@@ -73,7 +73,7 @@ export class EditGeneralComponent implements OnInit {
       form.append("status" ,this.selectStatus);
       this.preferencesItems.forEach((val,key)=>{
         if(val.selected == true){
-          
+
           selectedPrefrences.push(val.name);
         }
       });
@@ -84,15 +84,15 @@ export class EditGeneralComponent implements OnInit {
 
     setTimeout(()=>{
        $('#datepicker-autoclose').datepicker({
-        todayHighlight: true 
+        todayHighlight: true
      }).on('changeDate', function(e) {
-      
+
       let date = new Date(e.date);
-      
+
       self.selectedDate = String(date.getDate());
       self.selectedMonth = String(date.getMonth());
       self.selectedYear = String(date.getFullYear());
-      
+
     });
       },200);
       this.getAdminUserDetail();
@@ -107,7 +107,7 @@ export class EditGeneralComponent implements OnInit {
       this.userName_general  = response.data["username"] ;
       this.password = response.data["password"] ;
       this.email = response.data["mail_id"];
-      this.phoneNo = response.data["mobile_no"] 
+      this.phoneNo = response.data["mobile_no"]
       this.selectedGender  = response.data["gender"] ;
       this.selectedMonth = response.data["birth_month"];
       this.selectedYear = response.data["birth_year"] ;
@@ -133,7 +133,7 @@ export class EditGeneralComponent implements OnInit {
     });
   }
 
-  
+
   addGeneralUserWithoutImage(){
     console.log(this.selectedYear);
     let postData = {};
@@ -161,7 +161,7 @@ export class EditGeneralComponent implements OnInit {
 
    this.http.post(PathConfig.UPDATE_GENERAL_USER, postData).subscribe((response)=>{
       console.log(response.SucessMessage, "    ", response.ErrorMessage);
-      if(response.Status == "Success"){        
+      if(response.Status == "Success"){
         this.message = response.SucessMessage;
         this.showError = false;
         this.showSuccess = true;
@@ -189,7 +189,7 @@ export class EditGeneralComponent implements OnInit {
         this.showSuccess= true;
         this.showError= false;
         this.message = responsePath.SucessMessage;
-        
+
         //this.getGeneralUsersList();
        // this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
        }else if(responsePath.Status == "Error"){
@@ -200,24 +200,24 @@ export class EditGeneralComponent implements OnInit {
        $("#avatar").val("");
     }
   }
-  
+
   submitEditableData(){
     this.broadcaster.broadcast("SHOW_LOADER",true)
     let postData = {};
    // postData[]
-   if($("input[type =file]").val() == ""){  
-    this.addGeneralUserWithoutImage();  
-    this.broadcaster.broadcast("SHOW_LOADER",false)  
+   if($("input[type =file]").val() == ""){
+    this.addGeneralUserWithoutImage();
+    this.broadcaster.broadcast("SHOW_LOADER",false)
     }else{
       this.addGeneralUsreWithImage();
       this.broadcaster.broadcast("SHOW_LOADER",false)
     }
-   
+
   }
   navigateTo(url:string){
     this.router.navigate([url]);
   }
-  
+
   counter = 0;
   updateCheckedOptions(data,event){
     if(event == true){
@@ -229,13 +229,13 @@ export class EditGeneralComponent implements OnInit {
       this.preferencesItems.forEach((val, key) => {
         if(val.selected == false){
           val.disabled = true;
-        } 
+        }
       });
     }else{
       this.preferencesItems.forEach((val, key) => {
         //if(val.selected == false){
           val.disabled = false;
-        //} 
+        //}
       });
     }
 

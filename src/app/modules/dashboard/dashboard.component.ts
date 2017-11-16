@@ -14,15 +14,22 @@ declare var $:any;
   templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit,AfterViewInit{
-  visibleElement:boolean = false;
+  visibleElement:boolean = false
+  loggedInUserName:string = '';
+  loggedInUserImg:string  = '';
+
   constructor(
     private router:Router,
     private authService:AuthService,
-    private broadcaster:Broadcaster
+    private broadcaster:Broadcaster,
+    private localStorage:LocalStorageService
   ) {}
 
   ngOnInit(){
     setTimeout(()=>this.initJS(),500);
+    let userDetail = this.localStorage.get(ConstantConfig.USER_DETAIL);
+    this.loggedInUserName = userDetail ? JSON.parse(userDetail)['name'] : '';
+    this.loggedInUserImg  = userDetail ? JSON.parse(userDetail)['img'] : '';
   }
 
   ngAfterViewInit(){

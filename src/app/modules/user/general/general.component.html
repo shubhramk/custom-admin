@@ -16,7 +16,7 @@
         <li class="breadcrumb-item active" *ngIf="visibleElement">Add General User</li>
       </ol>
     </div>
-    
+
   </div>
   <div class="row">
     <div class="col-md-12 marB">
@@ -45,8 +45,9 @@
                           <label for="exampleInputuname2">Name</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
-                              <input type="text" name="fName" [(ngModel)]="fName" class="form-control" id="exampleInputuname2" placeholder="Name">                             
+                              <input type="text" name="fName" [(ngModel)]="fName" class="form-control" id="exampleInputuname2" placeholder="Name">
                           </div>
+                          <span class="error-msg" *ngIf="errorAddGeneralUser.fname">required</span>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -56,6 +57,7 @@
                               <div class="input-group-addon"><i class="ti-user"></i></div>
                               <input type="text" name="surName" [(ngModel)]="surName" class="form-control" id="exampleInputuname2" placeholder="surname">
                           </div>
+                          <span class="error-msg" *ngIf="errorAddGeneralUser.surName">required</span>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -64,8 +66,9 @@
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
                               <input type="number" name="phone" [(ngModel)]="phoneNo" class="form-control" id="exampleInputuname2" placeholder="Phone">
-                             
+
                           </div>
+                          <span class="error-msg" *ngIf="errorAddGeneralUser.phoneNo">required</span>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -74,8 +77,8 @@
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-email"></i></div>
                               <input type="email" name="email" required [(ngModel)]="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
-                              
                           </div>
+                          <span class="error-msg" *ngIf="errorAddGeneralUser.email">Invalid</span>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -84,8 +87,8 @@
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
                               <input type="text" name="userName" [(ngModel)]="userName_general" class="form-control" id="username" placeholder="Username">
-                              
                           </div>
+                          <span class="error-msg" *ngIf="errorAddGeneralUser.userName_general">required</span>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -94,8 +97,9 @@
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-lock"></i></div>
                               <input type="password" autocomplete="new-password" name="password" [(ngModel)]="password" class="form-control" id="password" placeholder="Enter pwd">
-                              
+
                           </div>
+                          <span class="error-msg" *ngIf="errorAddGeneralUser.password">required</span>
                       </div>
                       </div>
                       <div class="form-group row">
@@ -103,7 +107,9 @@
                           <label for="exampleInputpwd3">Upload Photo</label>
                           <div class="input-group">
                             <input type="file" ng2FileSelect [uploader]="uploader" id="avatar" name="uploadedAnswer"/>
+                            <span class="error-msg" *ngIf="errorAddGeneralUser.uploader">required</span>
                           </div>
+
                         </div>
                       </div>
                       <div class="form-group row">
@@ -113,9 +119,10 @@
                             <select class="form-control" id="user_type"  [ngModel]="selectedGender" (ngModelChange)="selectFromDropdown($event,'gender')" name="user_type" aria-required="true" aria-invalid="false">
                               <option value="0" selected disabled>Select Gender</option>
                               <option value="Male">Male</option>
-                              <option value="Female">Female</option>                        
+                              <option value="Female">Female</option>
                             </select>
                           </div>
+                          <span class="error-msg" *ngIf="errorAddGeneralUser.selectedGender">required</span>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -125,11 +132,12 @@
                             <select class="form-control" id="user_status"  [ngModel]="selectStatus" (ngModelChange)="selectFromDropdown($event, 'status')" name="user_type" aria-required="true" aria-invalid="false">
                               <option value="-1" selected>Select Status</option>
                               <option value="Single">Single</option>
-                              <option value="Married">Married</option> 
-                              <option value="Divorced">Divorced</option>  
-                              <option value="Open">Open</option>                        
+                              <option value="Married">Married</option>
+                              <option value="Divorced">Divorced</option>
+                              <option value="Open">Open</option>
                             </select>
                           </div>
+                          <span class="error-msg" *ngIf="errorAddGeneralUser.selectStatus">required</span>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -139,32 +147,36 @@
                             <select class="form-control"  [ngModel]="selectIntrest" (ngModelChange)="selectFromDropdown($event, 'intrest')" id="user_intrst" name="user_interest" aria-required="true" aria-invalid="false">
                               <option value="0" selected>Intrested In</option>
                               <option value="Male">Male</option>
-                              <option value="Female">Female</option>                    
+                              <option value="Female">Female</option>
                             </select>
                           </div>
+                          <span class="error-msg" *ngIf="errorAddGeneralUser.selectIntrest">required</span>
                         </div>
                       </div>
                       <div class="form-group row">
                           <div class="col-sm-9 marginCenter">
                             <div >
                               <label for="preferences">Preferences</label>
-                            </div>                           
+                            </div>
                             <div class="form-check checkBoxContainer col-md-4 col-sm-6" *ngFor = "let checkData of preferencesItems; let i= index;">
-                              
+
                                   <label class="custom-control custom-checkbox">
                                       <input type="checkbox" [disabled]="checkData['disabled']" name="role_{{ i }}" id = "role_{{ i }}" class="custom-control-input"  [(ngModel)]="checkData['selected']"  (ngModelChange)="updateCheckedOptions(checkData, $event)"  [attr.checked]="checkData['selected']">
-                                      
+
                                       <span class="custom-control-indicator"></span>
                                       <span class="custom-control-description">{{checkData.name}}</span>
                                   </label>
-                              </div>
+                            </div>
+                            <span class="error-msg" *ngIf="errorAddGeneralUser.preferencesItems">required</span>
                           </div>
                     </div>
                       <div class="form-group row">
                           <div class="col-sm-9 marginCenter">
-                          <div class="input-group">
-                              <input type="text" class="form-control" name = "date" id="datepicker-autoclose" placeholder="mm/dd/yyyy">
-                              <span class="input-group-addon"><i class="icon-calender"></i></span> </div>
+                            <div class="input-group">
+                                <input type="text" class="form-control" name = "date" id="datepicker-autoclose" placeholder="mm/dd/yyyy">
+                                <span class="input-group-addon"><i class="icon-calender"></i></span>
+                            </div>
+                            <span class="error-msg" *ngIf="errorAddGeneralUser.date">required</span>
                           </div>
                       </div>
                       <div class="text-left row">

@@ -57,6 +57,7 @@ import { ControlMessageComponent } from './common/component/control-message/cont
 import {AuthService} from "./common/services/auth.service";
 import {AuthGuard} from "./common/routing/auth.guard";
 import {CommonModule} from "@angular/common";
+import {TitleCase} from "./common/pipes/camel-case";
 
 @NgModule({
   declarations: [
@@ -92,13 +93,14 @@ import {CommonModule} from "@angular/common";
     ExampleAnswerComponent,
     ExampleStaticsComponent,
     ObjectKeyPipe,
+    TitleCase,
     WorldMapComponent,
     CalendarComponent,
     GeneralAnswerEditComponent,
     GlobalAnswerEditComponent,
-    FileSelectDirective , 
-    FileDropDirective, 
-    ExampleAnswerEditComponent, 
+    FileSelectDirective ,
+    FileDropDirective,
+    ExampleAnswerEditComponent,
     ControlMessageComponent,
 
   ],
@@ -106,7 +108,7 @@ import {CommonModule} from "@angular/common";
     CommonModule,
     BrowserModule,
     HttpModule,
-    RoutingModule, 
+    RoutingModule,
     FormsModule,
     ReactiveFormsModule,
     RoutingModule,

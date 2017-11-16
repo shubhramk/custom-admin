@@ -5,6 +5,7 @@ import {PathConfig} from "../../../common/config/path.config";
 import {Broadcaster} from "../../../common/services/broadcaster.service";
 declare var $:any, mscConfirm:any;
 import { FileUploader } from 'ng2-file-upload';
+import * as _ from 'lodash';
 
 @Component({
   styleUrls: ['./general.component.scss'],
@@ -14,7 +15,7 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
   visibleElement:boolean = false;
   preferencesItems = [{name:"Arty", selected:false, disabled:false }, {name:"Girly",selected:false, disabled:false }, {name:"Nerdy",selected:false, disabled:false }, {name:"Craftsman",selected:false, disabled:false }, {name:"Hip-ster",selected:false, disabled:false }, {name:"Old School",selected:false, disabled:false }, {name:"Dapper",selected:false, disabled:false }, {name:"Jock",selected:false, disabled:false}, {name:"Quiet",selected:false, disabled:false}, {name:"Extreme",selected:false, disabled:false}, {name:"Loud",selected:false, disabled:false}, {name:"Romantic",selected:false, disabled:false},
   {name:"Funny",selected:false, disabled:false}, {name:"Manly",selected:false, disabled:false}, {name:"Sassy",selected:false, disabled:false}, {name:"Ditzy",selected:false, disabled:false}, {name:"Social",selected:false, disabled:false}, {name:"Techie",selected:false, disabled:false}];
-  
+
    generalUser = [];
    dtConfigGeneralUser:Object = {};
 
@@ -35,12 +36,12 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
    message:string = "";
    self = this;
    noRecordFound:boolean = false;
-   
+
    uploader:FileUploader = new FileUploader({url:PathConfig.ADD_GENERAL_USER_IMAGE});
 
   constructor(private router:Router, private http:HttpService, private broadcaster:Broadcaster) {}
   ngAfterViewInit(){
-    
+
   }
   ngOnInit(){
     let selectedPrefrences = [];
@@ -63,7 +64,7 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
       form.append("status" ,this.selectStatus);
       this.preferencesItems.forEach((val,key)=>{
         if(val.selected == true){
-          
+
           selectedPrefrences.push(val.name);
         }
       });
@@ -126,7 +127,7 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
             "render": function (data, type, full, meta) {
               var template = '';
               let val = data;
-               
+
               template = '<a href="javascript:void(0);" data-name="name" data-custom="' + full['rowId'] + '" data-creator="' + data + '">'+val+'</a>';
 
               return template;
@@ -150,7 +151,7 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
   }
 
   //on Menu Icon selected
-  
+
   addGeneralUserWithoutImage(){
     console.log(this.selectedYear);
     let postData = {};
@@ -177,7 +178,7 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
 
    this.http.post(PathConfig.ADD_GENERAL_USER, postData).subscribe((response)=>{
       console.log(response.SucessMessage, "    ", response.ErrorMessage);
-      if(response.Status == "Success"){        
+      if(response.Status == "Success"){
         this.message = response.SucessMessage;
         this.showError = false;
         this.showSuccess = true;
@@ -206,7 +207,7 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
         this.showSuccess= true;
         this.showError= false;
         this.message = responsePath.SucessMessage;
-        
+
         this.getGeneralUsersList();
        // this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
        }else if(responsePath.Status == "Error"){
@@ -234,7 +235,7 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
   }
 
   selectFromDropdown(event, type){
-   
+
     console.log(type);
     if(type == 'gender'){
       this.selectedGender = event;
@@ -245,16 +246,93 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
     }
   }
 
-  
-  addNewGenralUser(){
-    this.broadcaster.broadcast("SHOW_LOADER",true)
-    if($("input[type =file]").val() == ""){  
-      this.addGeneralUserWithoutImage();
-      this.broadcaster.broadcast("SHOW_LOADER",false)
-    }else{
-      this.addGeneralUsreWithImage();
-      this.broadcaster.broadcast("SHOW_LOADER",false)
+  errorAddGeneralUser = {
+    'fname':false,
+    'surName':false,
+    'phoneNo':false,
+    'email':false,
+    'userName_general':false,
+    'password':false,
+    'uploader':false,
+    'selectedGender':false,
+    'selectIntrest':false,
+    'selectStatus':false,
+    'preferencesItems':false,
+    'date':false
+  }
+
+  allErrorResolved(obj:Object):boolean{
+    //resetting all errors on Add
+    for (let v in obj){
+      if(obj[v.toString()]){
+        return false;
+      }
     }
+    return true;
+  }
+
+  resetErrorObj(obj:Object){
+    //resetting all errors
+    for (let v in obj){
+      obj[v.toString()] = false;
+    }
+
+  }
+  addNewGenralUser(){
+
+    //resetting all errors
+    this.resetErrorObj(this.errorAddGeneralUser);
+    //validation
+    if(!this.fName){
+      this.errorAddGeneralUser['fname']  = true;
+    }
+    if(!this.surName){
+      this.errorAddGeneralUser['surName'] = true;
+    }
+    if(!this.phoneNo){
+      this.errorAddGeneralUser['phoneNo'] = true;
+    }
+    if(!this.email || !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email))){
+      this.errorAddGeneralUser['email']   = true;
+    }
+    if(!this.userName_general){
+      this.errorAddGeneralUser['userName_general']   = true;
+    }
+    if(!this.password){
+      this.errorAddGeneralUser['password']   = true;
+    }
+    if($("input[type =file]").val() == ""){
+      this.errorAddGeneralUser['uploader']   = true;
+    }
+    if(!this.selectedGender || this.selectedGender == "0"){
+      this.errorAddGeneralUser['selectedGender'] = true;
+    }
+    if(!this.selectIntrest || this.selectIntrest == "-1"){
+      this.errorAddGeneralUser['selectIntrest'] = true;
+    }
+    if(!this.selectStatus || this.selectIntrest == "0"){
+      this.errorAddGeneralUser['selectStatus'] = true;
+    }
+
+    if(_.filter(this.preferencesItems,{'selected':true}).length == 0){
+      this.errorAddGeneralUser['preferencesItems'] = true;
+    }
+    if(!this.selectedDate){
+      this.errorAddGeneralUser['date'] = true;
+    }
+
+    //All Validation passes
+    if(this.allErrorResolved(this.errorAddGeneralUser)){
+      this.broadcaster.broadcast("SHOW_LOADER",true);
+      if($("input[type =file]").val() == ""){
+        this.addGeneralUserWithoutImage();
+        this.broadcaster.broadcast("SHOW_LOADER",false)
+      }else{
+        this.addGeneralUsreWithImage();
+        this.broadcaster.broadcast("SHOW_LOADER",false)
+      }
+    }
+
   }
   onMenuSelect(data: any) {
     if (data['clickedOn'] == 'edit') {
@@ -266,7 +344,7 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
       this.deleteGeneralUser(data['value']);
     }else if(data['clickedOn'] == 'status'){
       this.chnageStatus(data['value'], data['creatorName']);
-    } 
+    }
   }
   deleteGeneralUser(id){
     var self = this;
@@ -292,56 +370,61 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
       this.preferencesItems.forEach((val, key) => {
         if(val.selected == false){
           val.disabled = true;
-        } 
+        }
       });
     }else{
       this.preferencesItems.forEach((val, key) => {
         //if(val.selected == false){
           val.disabled = false;
-        //} 
+        //}
       });
     }
 
   }
-  chnageStatus(id:string, status){
+
+  chnageStatus(id:string, status) {
     var self = this;
-    mscConfirm("Are you sure to delete!", function(){
-      if(status == "0"){
-        status ="1";
-      }else{
-        status = "0";
+    mscConfirm("Are you sure to delete!", function () {
+      let confirmElem = confirm('sure to change status for this news?');
+
+      if (confirmElem == true) {
+        if (status == "0") {
+          status = "1";
+        } else {
+          status = "0";
+        }
+        console.log(status);
+        //alert(status);
+        self.http.post(PathConfig.UPDATE_GENERAL_USER_ISACTIVE, {st: status, id: id}).subscribe((response)=> {
+          console.log(response);
+          self.getGeneralUsersList();
+        }, err=> {
+
+        });
       }
-      console.log(status);
-      //alert(status);
-      self.http.post(PathConfig.UPDATE_GENERAL_USER_ISACTIVE, {st:status, id:id}).subscribe((response)=>{
-      console.log(response);
-      self.getGeneralUsersList();
-    }, err=>{
-
     });
-    });
-  } 
+  }
 
-  handleVisiblity(){    
+  handleVisiblity(){
     var self = this;
     this.visibleElement = !this.visibleElement;
     setTimeout(()=>{
        $('#datepicker-autoclose').datepicker({
         autoclose: true,
-        todayHighlight: true 
+        todayHighlight: true
      }).on('changeDate', function(e) {
        console.log(e.date);
        let date = new Date(e.date);
-       
+
        self.selectedDate = String(date.getDate());
        self.selectedMonth = String(date.getMonth());
        self.selectedYear = String(date.getFullYear());
-       
+
      });
       },200);
   }
   navigateTo(url:string){
     this.router.navigate([url]);
   }
-  
+
 }

@@ -247,8 +247,9 @@
                               <div class="dw-user-box">
                                   <div class="u-img"><img src="../assets/images/users/1.jpg" alt="user"></div>
                                   <div class="u-text">
-                                      <h4>Steave Jobs</h4>
-                                      <p class="text-muted">varun@gmail.com</p><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
+                                      <h4>{{loggedInUserName | titleCase}}</h4>
+                                      <p class="text-muted"></p>
+                                     <a href="profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
                               </div>
                           </li>
                           <li role="separator" class="divider"></li>
@@ -288,7 +289,7 @@
         <!-- User profile image -->
         <div class="profile-img"> <img src="../assets/images/users/1.jpg" alt="user" /> </div>
         <!-- User profile text-->
-        <div class="profile-text"> <a href="javascript:void(0)" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Markarn Doe <span class="caret"></span></a>
+        <div class="profile-text"> <a href="javascript:void(0)" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">{{loggedInUserName | titleCase}} <span class="caret"></span></a>
           <div class="dropdown-menu animated flipInY">
             <a href="javascript:void(0)" class="dropdown-item" (click)="logOut()"><i class="fa fa-power-off"></i> Logout</a>
           </div>
