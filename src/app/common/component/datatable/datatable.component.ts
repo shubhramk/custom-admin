@@ -12,6 +12,7 @@ import * as _ from 'lodash';
   selector: 'app-datatable',
   template: `
        <div class="custom-dt-table">
+          <div class="noRecord" [ngClass]="{show:isRecordAvailable}"><h3>No Record Found</h3></div>
           <table [attr.id]="elemID" class="dt-table table table-bordered table-striped table-responsive" style="width:100%;"></table>
         </div>
     `
@@ -29,12 +30,14 @@ export class DatatableComponent implements OnChanges, AfterViewInit, OnInit {
   elemID = 'dt-' + Math.random().toString(36).slice(2);
   dt: any = null;
   COMMON_CONFIG: Object = {}; 
-
+  isRecordAvailable : boolean = false;
+  
   //Constructor
   constructor() { }
 
   //on component init
   ngOnInit() {
+    console.log(this.data);
     this.initConfig();
 
   }
@@ -49,7 +52,7 @@ export class DatatableComponent implements OnChanges, AfterViewInit, OnInit {
     if (reloadDT) {
       if (data['currentValue'] != data['previousValue']) {
 
-        setTimeout(() => this.reloadTable(), 500);
+        setTimeout(() => this.reloadTable(), 200);
       }
     }
     if (data) {
@@ -78,6 +81,7 @@ export class DatatableComponent implements OnChanges, AfterViewInit, OnInit {
 
   //init data table
   initDT(options: Object): void {
+    console.log("Heeloo");
     if (this.dt) {
       this.dt.clear().destroy();
       this.dt = null;      
@@ -86,6 +90,11 @@ export class DatatableComponent implements OnChanges, AfterViewInit, OnInit {
       if(options["data"].length > 0){
         this.dt = $('#' + this.elemID).DataTable(options);
         setTimeout(() => this.onInitComplete(), 200);
+        setTimeout(()=>{this.isRecordAvailable = false; console.log(this.isRecordAvailable);}, 100);
+
+      }else if(options["data"].length == 0){        
+        this.isRecordAvailable = true;
+        /* setTimeout(()=>{this.isRecordAvailable = true; console.log(this.isRecordAvailable);}, 2000); */
       }
     }
   }
@@ -110,6 +119,7 @@ export class DatatableComponent implements OnChanges, AfterViewInit, OnInit {
 
   //init data Table common config
   initConfig() {
+    var self = this;
     this.COMMON_CONFIG = {
        displayLength: 20,
        destroy: false,

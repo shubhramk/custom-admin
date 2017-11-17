@@ -88,7 +88,7 @@
   <div class="row" *ngIf = "!visibleElement">
     <div class="col-md-12">
        <!--<app-datatable  [dtTableData]="topGeneralSh8ke"></app-datatable>-->
-       <h2 *ngIf = "boolErrorMessageOnLoad">{{errorMessageOnLoad}}</h2>
+       <!-- <h2 *ngIf = "boolErrorMessageOnLoad">{{errorMessageOnLoad}}</h2> -->
        <app-datatable [config]='dtConfig' [data]="generalAnswerList" (onMenuSelect)="onMenuSelect($event)"></app-datatable>
     </div>
   </div>

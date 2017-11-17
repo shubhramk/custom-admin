@@ -39,7 +39,7 @@
                     <h4 class="card-title"> Add Admin User</h4>
                 </div>
               </div>
-                <form class="form p-t-20">
+                <form class="form p-t-20" autocomplete="off">
                       <div class="form-group row">
                         <div class="col-sm-9 marginCenter">
                           <label for="exampleInputuname2">Name</label>
@@ -75,7 +75,7 @@
                           <label for="exampleInputpwd2">Password</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-lock"></i></div>
-                              <input type="password" class="form-control" id="password"  name="password"  [(ngModel)]= "password_admin" placeholder="Enter pwd">                              
+                              <input type="password" autocomplete="new-password" class="form-control" id="password"  name="password"  [(ngModel)]= "password_admin" placeholder="Enter pwd">                              
                           </div>
                         </div>
                       </div>

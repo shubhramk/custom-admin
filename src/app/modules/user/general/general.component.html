@@ -193,7 +193,7 @@
   <div class="row" *ngIf = "!visibleElement">
     <div class="col-md-12">
        <!--<app-datatable  [dtTableData]="topGeneralSh8ke"></app-datatable>-->
-       <div *ngIf = "noRecordFound"><h4>No Data Found</h4></div>
+      <!--  <div *ngIf = "noRecordFound"><h4>No Data Found</h4></div> -->
        <app-datatable [config]='dtConfigGeneralUser' [data]="generalUser" (onMenuSelect)="onMenuSelect($event)"></app-datatable>
     </div>
   </div>

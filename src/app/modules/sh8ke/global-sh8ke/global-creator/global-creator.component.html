@@ -30,7 +30,7 @@
                       <div class="card">
                         <div class="card-body">
                           <div class="table-responsive m-t-40">
-                              <div *ngIf = "bool_noRecordGeneral"><h4 class="noRecord">{{noRecordMessage}}</h4></div>
+                              <!-- <div *ngIf = "bool_noRecordGeneral"><h4 class="noRecord">{{noRecordMessage}}</h4></div> -->
                               <app-datatable [config]='dtConfig' [data]="generalSh8keList" (onMenuSelect)="onMenuSelect($event)"></app-datatable>
                             </div>
                           </div>
@@ -40,7 +40,7 @@
                       <div class="card">
                         <div class="card-body">
                           <div class="table-responsive m-t-40">
-                            <div *ngIf = "bool_noRecordGlobal"><h4 class="noRecord">{{noRecordMessage}}</h4></div>
+                            <!-- <div *ngIf = "bool_noRecordGlobal"><h4 class="noRecord">{{noRecordMessage}}</h4></div> -->
                             <app-datatable [config]='dtConfig' [data]="globalSh8keList" (onMenuSelect)="onMenuSelect($event)"></app-datatable>
                           </div>
                         </div>

@@ -83,6 +83,9 @@ button.msc-cancel {
     background-color: #7d7f82;
     border-color: #7d7f82;
 }
+.error{
+    color: #ab3737;
+}
 .msc-action button{
     color: #fff;
 }
@@ -100,3 +103,12 @@ button.msc-cancel {
     border: 1px solid #246733;
     box-shadow: 1px 1px 3px 3px;
 } 
+.dt-table tr td{
+    word-break: break-word;
+}
+.noRecord{
+    display: none;
+}
+.noRecord.show{
+    display: block;
+}

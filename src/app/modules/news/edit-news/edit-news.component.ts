@@ -20,6 +20,7 @@ export class EditNewsComponent implements OnInit {
   showSuccess:boolean = false;
   showError:boolean= false;
   message:string = "";
+  bool_fileUploaded:boolean = false;
   /* uploader:FileUploader = new FileUploader({
    url:PathConfig.UPDATE_NEWS_ANSWER_UPLOADED_ITEM
  }); */
@@ -71,10 +72,11 @@ userForm:any;
   }
 
   getEditableNewsData(id:string){
-    this.broadcaster.broadcast("SHOW_LOADER",false);
+   
     
     this.http.get(PathConfig.GET_EDITABLE_NEWS + id).subscribe((response)=>{
       console.log(response);
+      this.broadcaster.broadcast("SHOW_LOADER",false);
       if(response.Status == "Success"){
         this.newsTitle = response.data['title'];
         this.description = response.data['description'];
@@ -93,6 +95,12 @@ userForm:any;
   }
   updateNews(){
     console.log(this.uploader.isFile);
+    if($("#avatar").val() == ""){
+      this.bool_fileUploaded = true;
+      return true;
+    }else{
+      this.bool_fileUploaded = false;
+    }
     this.broadcaster.broadcast("SHOW_LOADER",true);
     
     if($("input[type =file]").val() == ""){      

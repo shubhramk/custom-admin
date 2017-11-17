@@ -384,10 +384,8 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
 
   chnageStatus(id:string, status) {
     var self = this;
-    mscConfirm("Are you sure to delete!", function () {
-      let confirmElem = confirm('sure to change status for this news?');
+    mscConfirm("Are you sure to change the status!", function () {
 
-      if (confirmElem == true) {
         if (status == "0") {
           status = "1";
         } else {
@@ -401,7 +399,6 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
         }, err=> {
 
         });
-      }
     });
   }
 
