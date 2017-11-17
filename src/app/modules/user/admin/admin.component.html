@@ -16,7 +16,7 @@
         <li class="breadcrumb-item active" *ngIf="visibleElement">Add Admin User</li>
       </ol>
     </div>
-    
+
   </div>
   <div class="row">
     <div class="col-md-12 marB">
@@ -46,8 +46,8 @@
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
                               <input type="text" name="fName" [(ngModel)]= "fName" class="form-control fName" id="fName" placeholder="Name">
-                             
                           </div>
+                          <span class="error-msg" *ngIf="errorAddAdminUser.fName">required</span>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -56,8 +56,9 @@
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-email"></i></div>
                               <input type="email" name="email" [(ngModel)]= "email" class="form-control" id="email" placeholder="Enter email">
-                              
+
                           </div>
+                          <span class="error-msg" *ngIf="errorAddAdminUser.email">invalid</span>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -66,8 +67,9 @@
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
                               <input type="text" class="form-control" name="userName" [(ngModel)]= "user_Name" id="userName" placeholder="Username">
-                              
+
                           </div>
+                          <span class="error-msg" *ngIf="errorAddAdminUser.user_Name">required</span>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -75,8 +77,9 @@
                           <label for="exampleInputpwd2">Password</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-lock"></i></div>
-                              <input type="password" autocomplete="new-password" class="form-control" id="password"  name="password"  [(ngModel)]= "password_admin" placeholder="Enter pwd">                              
+                              <input type="password" autocomplete="new-password" class="form-control" id="password"  name="password"  [(ngModel)]= "password_admin" placeholder="Enter pwd">
                           </div>
+                          <span class="error-msg" *ngIf="errorAddAdminUser.password_admin">required</span>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -94,13 +97,14 @@
                             <select class="form-control" id="user_type" name= "userType" (ngModelChange)="updatedUserType($event)" [(ngModel)]="user_type"  name="user_type" aria-required="true" aria-invalid="false">
                               <option value="">Select user type</option>
                               <option value="Super Administrator">Super Administrator</option>
-                              <option value="Administrator">Admin users</option> 
-                              <option value="PRO users">PRO users</option>                             
+                              <option value="Administrator">Admin users</option>
+                              <option value="PRO users">PRO users</option>
                             </select>
                           </div>
+                          <span class="error-msg" *ngIf="errorAddAdminUser.user_type">required</span>
                         </div>
                       </div>
-                      
+
                       <div class="text-left row">
                         <div class="col-sm-9 marginCenter">
                           <button type="submit" class="btn btn-success waves-effect waves-light m-r-10" (click)="addAdminUser()">Submit</button>

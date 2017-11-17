@@ -25,7 +25,7 @@ export class EditAdminComponent implements OnInit {
   message:string = "";
   form: FormGroup;
   userForm: any;
-  
+
   uploader:FileUploader = new FileUploader({
     url:PathConfig.UPDATE_ADMIN_USER_WITH_IMAGE
   });
@@ -43,9 +43,9 @@ export class EditAdminComponent implements OnInit {
       form.append("password" , this.password ? "" : this.password);
       form.append("username" ,this.user_Name);
     };
-  
+
     this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
-      
+
     console.log(this.activatedRouteL.snapshot.params["id"]);
     this.getAdminUserDetail();
   }
@@ -91,11 +91,11 @@ export class EditAdminComponent implements OnInit {
   }
   adMinUserDateWithImage(){
     this.uploader.cancelAll();
-    
+
     this.uploader.uploadAll();
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
       var responsePath = JSON.parse(response);
-      this.broadcaster.broadcast("SHOW_LOADER",false);      
+      this.broadcaster.broadcast("SHOW_LOADER",false);
       if(responsePath.Status == "Success"){
         this.showSuccess= true;
         this.showError= false;
@@ -109,11 +109,57 @@ export class EditAdminComponent implements OnInit {
        $("#avatar").val("");
      }
   }
+
+  errorAddAdminUser = {
+    'name':false,
+    'email':false,
+    'user_Name':false,
+    'user_type':false
+  }
+
+  allErrorResolved(obj:Object):boolean{
+    //resetting all errors on Add
+    for (let v in obj){
+      if(obj[v.toString()]){
+        return false;
+      }
+    }
+    return true;
+  }
+
+  resetErrorObj(obj:Object){
+    //resetting all errors
+    for (let v in obj){
+      obj[v.toString()] = false;
+    }
+  }
   saveUpdatedAdminUser(){
-    if($("input[type =file]").val() == ""){ 
-      this.adMinUserDateWithoutImage()
-    }else{
-      this.adMinUserDateWithImage();
+    //resetting all errors
+    this.resetErrorObj(this.errorAddAdminUser);
+    //validation
+
+    if(!this.name){
+      this.errorAddAdminUser['name']  = true;
+    }
+
+    if(!this.email || !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email))){
+      this.errorAddAdminUser['email']   = true;
+    }
+    if(!this.user_Name){
+      this.errorAddAdminUser['user_Name']   = true;
+    }
+
+    if(!this.user_type ){
+      this.errorAddAdminUser['user_type'] = true;
+    }
+
+    //All Validation passes
+    if(this.allErrorResolved(this.errorAddAdminUser)) {
+      if ($("input[type =file]").val() == "") {
+        this.adMinUserDateWithoutImage()
+      } else {
+        this.adMinUserDateWithImage();
+      }
     }
   }
    //navigate to page

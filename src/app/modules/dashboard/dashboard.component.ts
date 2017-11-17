@@ -51,6 +51,7 @@ export class DashboardComponent implements OnInit,AfterViewInit{
   navigateTo(url:string){
     this.visibleElement = false;
     ConstantConfig.visibleElement = this.visibleElement;
+    this.broadcaster.broadcast('ROUTE_URL',url);
     this.router.navigate([url]);
   }
 

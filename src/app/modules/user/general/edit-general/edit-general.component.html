@@ -7,7 +7,7 @@
         <li class="breadcrumb-item active">User</li>
         <li class="breadcrumb-item active">Edit General User</li>
       </ol>
-    </div>    
+    </div>
   </div>
 
   <div class="row">
@@ -30,8 +30,9 @@
                           <label for="fName">Name</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
-                              <input type="text" class="form-control" name="fname" [(ngModel)]="fName" id="fName" placeholder="Name">                             
+                              <input type="text" class="form-control" name="fname" [(ngModel)]="fName" id="fName" placeholder="Name">
                           </div>
+                          <span class="error-msg" *ngIf="errorAddGeneralUser.fname">required</span>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -41,6 +42,7 @@
                               <div class="input-group-addon"><i class="ti-user"></i></div>
                               <input type="text" class="form-control" id="exampleInputuname2" name="surName" [(ngModel)]="surName" placeholder="surname">
                           </div>
+                          <span class="error-msg" *ngIf="errorAddGeneralUser.surName">required</span>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -49,8 +51,8 @@
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
                               <input type="text" class="form-control" id="exampleInputuname2" name="phoneNo" [(ngModel)]="phoneNo" placeholder="Phone">
-                             
                           </div>
+                          <span class="error-msg" *ngIf="errorAddGeneralUser.phoneNo">required</span>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -59,8 +61,8 @@
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-email"></i></div>
                               <input type="email" class="form-control" id="exampleInputEmail2" name="email" [(ngModel)]="email" placeholder="Enter email">
-                              
                           </div>
+                          <span class="error-msg" *ngIf="errorAddGeneralUser.email">Invalid</span>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -69,8 +71,8 @@
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
                               <input type="text" class="form-control" id="username" name="userName" [(ngModel)]="userName_general" autocomplete="off" placeholder="Username">
-                              
                           </div>
+                          <span class="error-msg" *ngIf="errorAddGeneralUser.username">required</span>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -79,7 +81,6 @@
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-lock"></i></div>
                               <input type="password" autocomplete="new-password" class="form-control" id="datepicker" name="password" [(ngModel)]="password" autocomplete="off" placeholder="Enter pwd">
-                              
                           </div>
                           <label>(Leave blank if you do not want to change password)</label>
                       </div>
@@ -95,12 +96,13 @@
                       <div class="form-group row">
                         <div class="col-sm-9 marginCenter">
                           <label for="exampleInputpwd3">Select Gender</label>
-                          <div class="input-group">
+                          <div class="input-group">{{selectedGender}}
                             <select class="form-control" id="user_type" [ngModel]="selectedGender" (ngModelChange)="updateCheckedOptions($event, 'gender')" name="user_type" aria-required="true" aria-invalid="false">
                               <option value="-1" selected disabled>Select Gender</option>
-                              <option [attr.selected]="selectedGender == i ? true:null"  *ngFor="let gender of arr_gender; let i = index;" [attr.value]="i">{{gender}}</option>                        
+                              <option [attr.selected]="selectedGender == i ? true:null"  *ngFor="let gender of arr_gender; let i = index;" [attr.value]="i">{{gender}}</option>
                             </select>
                           </div>
+                          <span class="error-msg" *ngIf="errorAddGeneralUser.selectedGender">required</span>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -109,11 +111,10 @@
                           <div class="input-group">
                             <select class="form-control" id="user_status" name="user_status" [ngModel]="selectStatus" (ngModelChange)="updateCheckedOptions($event, 'status')" aria-required="true" aria-invalid="false">
                               <option value="-1" selected>Select Status</option>
-                              
-                              <option [attr.selected]="selectStatus == i ? true:null"  *ngFor="let status of arr_status; let i = index;" [attr.value]="i">{{status}}</option>                        
-                              
+                              <option [attr.selected]="selectStatus == i ? true:null"  *ngFor="let status of arr_status; let i = index;" [attr.value]="i">{{status}}</option>
                             </select>
                           </div>
+                          <span class="error-msg" *ngIf="errorAddGeneralUser.selectStatus">required</span>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -122,25 +123,26 @@
                           <div class="input-group">
                             <select class="form-control" [ngModel]="selectIntrest" (ngModelChange)="updateCheckedOptions($event, 'intrest')" id="user_status" name="user_interest" aria-required="true" aria-invalid="false">
                               <option value="-1" selected disabled>Intrested In</option>
-                              <option [attr.selected]="selectIntrest == i ? true:null"  *ngFor="let intrest of arr_gender; let i = index;" [attr.value]="i">{{intrest}}</option>                        
-                              
+                              <option [attr.selected]="selectIntrest == i ? true:null"  *ngFor="let intrest of arr_gender; let i = index;" [attr.value]="i">{{intrest}}</option>
                             </select>
                           </div>
+                          <span class="error-msg" *ngIf="errorAddGeneralUser.selectIntrest">required</span>
                         </div>
                       </div>
                       <div class="form-group row">
                           <div class="col-sm-9 marginCenter">
                             <div >
                               <label for="preferences">Preferences</label>
-                            </div>                           
+                            </div>
                             <div class="form-check checkBoxContainer col-md-4 col-sm-6" *ngFor = "let checkData of preferencesItems; let i= index;">
-                              
+
                                   <label class="custom-control custom-checkbox">
                                     <input [disabled]="checkData['disabled']" type="checkbox" name="role_{{ i }}" id = "role_{{ i }}" class="custom-control-input"  [(ngModel)]="checkData['selected']"  (ngModelChange)="updateCheckedOptions(checkData, $event)"  [attr.checked]="checkData['selected']">
                                       <span class="custom-control-indicator"></span>
                                       <span class="custom-control-description">{{checkData.name}}</span>
                                   </label>
-                              </div>
+                            </div>
+                            <span class="error-msg" *ngIf="errorAddGeneralUser.preferencesItems">required</span>
                           </div>
                     </div>
                       <div class="form-group row">
@@ -149,6 +151,7 @@
                               <input type="text" class="form-control" id="datepicker-autoclose" placeholder="mm/dd/yyyy">
                               <span class="input-group-addon"><i class="icon-calender"></i></span> </div>
                           </div>
+                        <span class="error-msg" *ngIf="errorAddGeneralUser.date">required</span>
                       </div>
                       <div class="text-left row">
                         <div class="col-sm-9 marginCenter">
@@ -157,7 +160,7 @@
                         </div>
                       </div>
                   </form>
-            
+
             </div>
         </div>
     </div>

@@ -6,6 +6,7 @@ import { FileUploader } from 'ng2-file-upload';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Broadcaster} from "../../../../common/services/broadcaster.service";
 
+import * as _ from 'lodash';
 declare var $:any;
 @Component({
   selector: 'app-edit-general',
@@ -133,50 +134,119 @@ export class EditGeneralComponent implements OnInit {
     });
   }
 
+  errorAddGeneralUser = {
+    'fname':false,
+    'surName':false,
+    'phoneNo':false,
+    'email':false,
+    'userName_general':false,
+    'selectedGender':false,
+    'selectIntrest':false,
+    'selectStatus':false,
+    'preferencesItems':false,
+    'date':false
+  }
+
+  allErrorResolved(obj:Object):boolean{
+    //resetting all errors on Add
+    for (let v in obj){
+      if(obj[v.toString()]){
+        return false;
+      }
+    }
+    return true;
+  }
+
+  resetErrorObj(obj:Object){
+    //resetting all errors
+    for (let v in obj){
+      obj[v.toString()] = false;
+    }
+
+  }
 
   addGeneralUserWithoutImage(){
-    console.log(this.selectedYear);
-    let postData = {};
-    let selectedPrefrences = [];
-    postData["name"] = this.fName;
-    postData["surname"] = this.surName
-    postData["username"] = this.userName_general;
-    postData["password"] = this.password;
-    postData["mail_id"] = this.email;
-    postData["mobile_no"] = this.phoneNo
-    postData["gender"] = this.selectedGender;
-    postData["birth_month"] = this.selectedMonth;
-    postData["birth_year"] = this.selectedYear;
-    postData["birth_day"] = this.selectedDate;
-    postData["intrested_gender"] = this.selectIntrest;
-    postData["status"] = this.selectStatus;
-    postData['id'] = this.userId;
-    this.preferencesItems.forEach((val,key)=>{
-      if(val.selected == true){
-        selectedPrefrences.push(val.name);
-      }
-    });
-    postData['preference'] = selectedPrefrences;
-    console.log(postData);
 
-   this.http.post(PathConfig.UPDATE_GENERAL_USER, postData).subscribe((response)=>{
-      console.log(response.SucessMessage, "    ", response.ErrorMessage);
-      if(response.Status == "Success"){
-        this.message = response.SucessMessage;
-        this.showError = false;
-        this.showSuccess = true;
-        window.scrollTo(0, 0);
-        //this.getGeneralUsersList();
-      }else if(response.Status == "Error"){
-        this.message = response.ErrorMessage;
-        this.showError = true;
-        this.showSuccess = false;
-        window.scrollTo(0, 0);
-      }
-    },
-    err=>{
+    //resetting all errors
+    this.resetErrorObj(this.errorAddGeneralUser);
+    //validation
+    if(!this.fName){
+      this.errorAddGeneralUser['fname']  = true;
+    }
+    if(!this.surName){
+      this.errorAddGeneralUser['surName'] = true;
+    }
+    if(!this.phoneNo){
+      this.errorAddGeneralUser['phoneNo'] = true;
+    }
+    if(!this.email || !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email))){
+      this.errorAddGeneralUser['email']   = true;
+    }
+    if(!this.userName_general){
+      this.errorAddGeneralUser['userName_general']   = true;
+    }
+    if(!this.selectedGender){
+      this.errorAddGeneralUser['selectedGender'] = true;
+    }
+    if(!this.selectIntrest || this.selectIntrest == "-1"){
+      this.errorAddGeneralUser['selectIntrest'] = true;
+    }
+    if(!this.selectStatus || this.selectStatus == "-1"){
+      this.errorAddGeneralUser['selectStatus'] = true;
+    }
 
-    })
+    if(_.filter(this.preferencesItems,{'selected':true}).length == 0){
+      this.errorAddGeneralUser['preferencesItems'] = true;
+    }
+    if(!this.selectedDate){
+      this.errorAddGeneralUser['date'] = true;
+    }
+
+    //All Validation passes
+    if(this.allErrorResolved(this.errorAddGeneralUser)) {
+      console.log(this.selectedYear);
+      let postData = {};
+      let selectedPrefrences = [];
+      postData["name"] = this.fName;
+      postData["surname"] = this.surName
+      postData["username"] = this.userName_general;
+      postData["password"] = this.password;
+      postData["mail_id"] = this.email;
+      postData["mobile_no"] = this.phoneNo
+      postData["gender"] = this.selectedGender;
+      postData["birth_month"] = this.selectedMonth;
+      postData["birth_year"] = this.selectedYear;
+      postData["birth_day"] = this.selectedDate;
+      postData["intrested_gender"] = this.selectIntrest;
+      postData["status"] = this.selectStatus;
+      postData['id'] = this.userId;
+      this.preferencesItems.forEach((val, key)=> {
+        if (val.selected == true) {
+          selectedPrefrences.push(val.name);
+        }
+      });
+      postData['preference'] = selectedPrefrences;
+      console.log(postData);
+
+      this.http.post(PathConfig.UPDATE_GENERAL_USER, postData).subscribe((response)=> {
+          console.log(response.SucessMessage, "    ", response.ErrorMessage);
+          if (response.Status == "Success") {
+            this.message = response.SucessMessage;
+            this.showError = false;
+            this.showSuccess = true;
+            window.scrollTo(0, 0);
+            //this.getGeneralUsersList();
+          } else if (response.Status == "Error") {
+            this.message = response.ErrorMessage;
+            this.showError = true;
+            this.showSuccess = false;
+            window.scrollTo(0, 0);
+          }
+        },
+        err=> {
+
+        })
+    }
 
   }
   addGeneralUsreWithImage(){

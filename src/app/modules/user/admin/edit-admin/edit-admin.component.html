@@ -7,7 +7,7 @@
         <li class="breadcrumb-item active">User</li>
         <li class="breadcrumb-item active">Edit Admin User</li>
       </ol>
-    </div>    
+    </div>
   </div>
 
   <div class="row">
@@ -37,8 +37,9 @@
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
                               <input type="text" class="form-control" name= "name" [(ngModel)]="name" id="exampleInputuname2" placeholder="Name">
-                             
+
                           </div>
+                          <span class="error-msg" *ngIf="errorAddAdminUser.name">required</span>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -47,8 +48,9 @@
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-email"></i></div>
                               <input type="email" class="form-control" name= "email" [(ngModel)]="email" id="exampleInputEmail2" placeholder="Enter email">
-                              
+
                           </div>
+                          <span class="error-msg" *ngIf="errorAddAdminUser.email">invalid</span>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -57,8 +59,8 @@
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
                               <input type="text" class="form-control" autocomplete="false" name= "username" [(ngModel)]="user_Name"  id="userName" placeholder="Username">
-                              
                           </div>
+                          <span class="error-msg" *ngIf="errorAddAdminUser.user_Name">required</span>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -66,9 +68,9 @@
                           <label for="password">Password</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-lock"></i></div>
-                              <input type="password" autocomplete="new-password" class="form-control" name= "password" autocomplete="false" [(ngModel)]="password" id="password" placeholder="Enter pwd"/>                                                     
+                              <input type="password" autocomplete="new-password" class="form-control" name= "password" autocomplete="false" [(ngModel)]="password" id="password" placeholder="Enter pwd"/>
                           </div>
-                          <label>(Leave blank if you do not want to change password)</label> 
+                          <label>(Leave blank if you do not want to change password)</label>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -86,13 +88,14 @@
                             <select class="form-control" id="user_type" name= "userType" (ngModelChange)="updatedUserType($event)" [(ngModel)]="user_type"  name="user_type" aria-required="true" aria-invalid="false">
                               <option value="">Select user type</option>
                               <option value="Super Administrator">Super Administrator</option>
-                              <option value="Administrator">Admin users</option> 
-                              <option value="PRO users">PRO users</option>                             
+                              <option value="Administrator">Admin users</option>
+                              <option value="PRO users">PRO users</option>
                             </select>
                           </div>
+                          <span class="error-msg" *ngIf="errorAddAdminUser.user_type">required</span>
                         </div>
                       </div>
-                      
+
                       <div class="text-left row">
                         <div class="col-sm-9 marginCenter">
                           <button type="submit" class="btn btn-success waves-effect waves-light m-r-10" (click) = "saveUpdatedAdminUser()">Submit</button>

@@ -19,7 +19,7 @@ export class AdminUserComponent implements OnInit {
   dtConfigAdminUser:object = {};
   form: FormGroup;
   userForm: any;
-  
+
   uploader:FileUploader = new FileUploader({
     url:PathConfig.ADD_ADMIN_USER_WITH_IMAGE
   });
@@ -34,7 +34,7 @@ export class AdminUserComponent implements OnInit {
   message:string = "";
   constructor( private router:Router, private http:HttpService, private broadcaster:Broadcaster) {  }
 ngOnInit(){
-  
+
   this.uploader.onBuildItemForm = (item, form) => {
     let checkBoxFinalAnswer:string;
     form.append("name", this.fName);
@@ -115,10 +115,17 @@ ngOnInit(){
     }
     //get top global shakes
     this.getAdminUsers();
-  }      //on Menu Icon selected
+
+    //register events
+    this.broadcaster.on<string>('ROUTE_URL')
+      .subscribe(message => {
+        this.visibleElement = false;
+    });
+  }
+  //on Menu Icon selected
   onMenuSelect(data: any) {
     if (data['clickedOn'] == 'edit') {
-      
+
       this.navigateTo('users/edit-admin/'+data['value']);
     }else if(data['clickedOn'] == 'name'){
       this.navigateTo('user/globalCreator/'+data['value']+"/"+data['creatorName']);
@@ -126,7 +133,7 @@ ngOnInit(){
       this.deleteAdminUser(data['value']);
     } else if(data['clickedOn'] == 'status'){
       this.chnageStatus(data['value'], data['creatorName']);
-    }    
+    }
   }
 
   chnageStatus(id:string, status){
@@ -149,11 +156,11 @@ ngOnInit(){
 
       });
     })
-  } 
+  }
 
   adMinUserDateWithoutImage(){
     let postData = {};
-    
+
     postData["name"] = this.fName;
     postData["user_type"]  = this.user_type;
     postData["email"] = this.email;
@@ -179,11 +186,11 @@ ngOnInit(){
   }
   adMinUserDateWithImage(){
     this.uploader.cancelAll();
-    
+
     this.uploader.uploadAll();
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
       var responsePath = JSON.parse(response);
-      this.broadcaster.broadcast("SHOW_LOADER",false);      
+      this.broadcaster.broadcast("SHOW_LOADER",false);
       if(responsePath.Status == "Success"){
         this.showSuccess= true;
         this.showError= false;
@@ -197,11 +204,60 @@ ngOnInit(){
        $("#avatar").val("");
      }
   }
+
+  errorAddAdminUser = {
+    'fName':false,
+    'email':false,
+    'user_Name':false,
+    'password_admin':false,
+    'user_type':false
+  }
+
+  allErrorResolved(obj:Object):boolean{
+    //resetting all errors on Add
+    for (let v in obj){
+      if(obj[v.toString()]){
+        return false;
+      }
+    }
+    return true;
+  }
+
+  resetErrorObj(obj:Object){
+    //resetting all errors
+    for (let v in obj){
+      obj[v.toString()] = false;
+    }
+  }
   addAdminUser(){
-    if($("input[type =file]").val() == ""){ 
-      this.adMinUserDateWithoutImage()
-    }else{
-      this.adMinUserDateWithImage();
+    //resetting all errors
+    this.resetErrorObj(this.errorAddAdminUser);
+    //validation
+
+    if(!this.fName){
+      this.errorAddAdminUser['fName']  = true;
+    }
+
+    if(!this.email || !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email))){
+      this.errorAddAdminUser['email']   = true;
+    }
+    if(!this.user_Name){
+      this.errorAddAdminUser['user_Name']   = true;
+    }
+    if(!this.password_admin){
+      this.errorAddAdminUser['password_admin']   = true;
+    }
+    if(!this.user_type ){
+      this.errorAddAdminUser['user_type'] = true;
+    }
+
+    //All Validation passes
+    if(this.allErrorResolved(this.errorAddAdminUser)) {
+      if ($("input[type =file]").val() == "") {
+        this.adMinUserDateWithoutImage()
+      } else {
+        this.adMinUserDateWithImage();
+      }
     }
   }
 //get top20 globalShakes
@@ -221,7 +277,7 @@ deleteAdminUser(id){
   });
 }
 getAdminUsers(){
-  
+
   this.http.get(PathConfig.GET_ADMIN_USER)
     .subscribe((response)=> {
       this.broadcaster.broadcast("SHOW_LOADER",false)
@@ -239,5 +295,5 @@ updatedUserType(event){
   navigateTo(url:string){
     this.router.navigate([url]);
   }
-  
+
 }

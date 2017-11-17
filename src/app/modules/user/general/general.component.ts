@@ -148,6 +148,12 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
       }
       //get top global shakes
       this.getGeneralUsersList();
+
+      //register events
+      this.broadcaster.on<string>('ROUTE_URL')
+        .subscribe(message => {
+          this.visibleElement = false;
+      });
   }
 
   //on Menu Icon selected
@@ -276,7 +282,6 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
     for (let v in obj){
       obj[v.toString()] = false;
     }
-
   }
   addNewGenralUser(){
 
@@ -300,9 +305,6 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
     }
     if(!this.password){
       this.errorAddGeneralUser['password']   = true;
-    }
-    if($("input[type =file]").val() == ""){
-      this.errorAddGeneralUser['uploader']   = true;
     }
     if(!this.selectedGender || this.selectedGender == "0"){
       this.errorAddGeneralUser['selectedGender'] = true;
