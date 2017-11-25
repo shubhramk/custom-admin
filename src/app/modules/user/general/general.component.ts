@@ -25,9 +25,9 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
    email:string = "";
    userName_general:string = "";
    password:string = "";
-   selectedGender:string = "";
-   selectStatus:string = "";
-   selectIntrest:string = "";
+   selectedGender:string = "0";
+   selectStatus:string = "-1";
+   selectIntrest:string = "0";
    selectedDate:string = "";
    selectedMonth:string = "";
    selectedYear:string = "";
@@ -318,7 +318,7 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
 
     if(_.filter(this.preferencesItems,{'selected':true}).length == 0){
       this.errorAddGeneralUser['preferencesItems'] = true;
-    }
+    } 
     if(!this.selectedDate){
       this.errorAddGeneralUser['date'] = true;
     }
@@ -329,12 +329,14 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
       if($("input[type =file]").val() == ""){
         this.addGeneralUserWithoutImage();
         this.broadcaster.broadcast("SHOW_LOADER",false)
+        this.resetFromValues();
       }else{
         this.addGeneralUsreWithImage();
         this.broadcaster.broadcast("SHOW_LOADER",false)
+        this.resetFromValues();
       }
     }
-
+    
   }
   onMenuSelect(data: any) {
     if (data['clickedOn'] == 'edit') {
@@ -384,6 +386,24 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
 
   }
 
+  resetFromValues(){
+    this.fName = "";
+    this.surName = "";
+    this.phoneNo ;
+    this.email = "";
+    this.userName_general = "";
+    this.password = "";
+    this.selectedGender = "0";
+    this.selectStatus = "";
+    this.selectIntrest = "";
+    this.selectedDate = "";
+    this.selectedMonth = "";
+    this.selectedYear = "";
+    this.preferencesItems =  [{name:"Arty", selected:false, disabled:false }, {name:"Girly",selected:false, disabled:false }, {name:"Nerdy",selected:false, disabled:false }, {name:"Craftsman",selected:false, disabled:false }, {name:"Hip-ster",selected:false, disabled:false }, {name:"Old School",selected:false, disabled:false }, {name:"Dapper",selected:false, disabled:false }, {name:"Jock",selected:false, disabled:false}, {name:"Quiet",selected:false, disabled:false}, {name:"Extreme",selected:false, disabled:false}, {name:"Loud",selected:false, disabled:false}, {name:"Romantic",selected:false, disabled:false},
+    {name:"Funny",selected:false, disabled:false}, {name:"Manly",selected:false, disabled:false}, {name:"Sassy",selected:false, disabled:false}, {name:"Ditzy",selected:false, disabled:false}, {name:"Social",selected:false, disabled:false}, {name:"Techie",selected:false, disabled:false}];
+  
+    $("#datepicker-autoclose").val();
+  }
   chnageStatus(id:string, status) {
     var self = this;
     mscConfirm("Are you sure to change the status!", function () {

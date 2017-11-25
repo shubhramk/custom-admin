@@ -39,6 +39,9 @@ export class CategoryComponent implements OnInit {
 });
 
   constructor(private router:Router, private http:HttpService, private formBuilder: FormBuilder, private broadcaster:Broadcaster) {
+    
+   }
+   createForm() {
     this.userForm = this.formBuilder.group({
       'englishName': ['', Validators.required],
       'frenchName': ['', Validators.required],
@@ -47,9 +50,8 @@ export class CategoryComponent implements OnInit {
       'profile': ['', [Validators.required, Validators.minLength(10)]] */
     });
    }
-   
   ngOnInit(){
-    
+    this.createForm();
     this.uploader.onBuildItemForm = (item, form) => {
       form.append("title_english", this.englishName);
       form.append("title_french" ,this.frenchName);
@@ -182,6 +184,7 @@ getCategoryList(){
           this.showError = false;
           this.showSuccess = true;
           this.getCategoryList();
+          this.createForm();
         }
       },
       err => {
@@ -195,17 +198,19 @@ getCategoryList(){
       this.uploader.uploadAll();
       this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
         var responsePath = JSON.parse(response);
-        console.log(responsePath.Status);
+        console.log(responsePath);
         if(responsePath.Status == "Success"){
           this.showSuccess= true;
           this.showError= false;
           this.message = responsePath.SucessMessage;
-          
+          this.englishName = "";
+          this.frenchName = "";
+          this.sorting = "";
           this.getCategoryList();
          // this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
          }else if(responsePath.Status == "Error"){
-          this.showSuccess= true;
-          this.showError= false;
+          this.showSuccess= false;
+          this.showError= true;
           this.message = responsePath.ErrorMessage;
          }
          $("#avatar").val("");

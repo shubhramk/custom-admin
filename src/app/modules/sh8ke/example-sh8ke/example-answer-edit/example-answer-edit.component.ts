@@ -29,7 +29,11 @@ export class ExampleAnswerEditComponent implements OnInit {
    url:PathConfig.UPDATE_SH8KE_EXAMPLE_ANSWER_UPLOADED_ITEM
  });
 
-
+ errorValidationObj = {
+  'selectedItem':false,
+  'otherTextAnswer':false,
+  'selectedImage':false
+}
   constructor(private router:Router, private http:HttpService, private activeRoute:ActivatedRoute, private broadcaster:Broadcaster) { }
 
   ngOnInit() {
@@ -67,61 +71,95 @@ export class ExampleAnswerEditComponent implements OnInit {
 
     })
   }
+  allErrorResolved(obj:Object):boolean{
+    //resetting all errors on Add
+    for (let v in obj){
+      if(obj[v.toString()]){
+        return false;
+      }
+    }
+    return true;
+  }
+
+  resetErrorObj(obj:Object){
+    //resetting all errors
+    for (let v in obj){
+      obj[v.toString()] = false;
+    }
+  }
 
   saveGeneralSh8keEditableData(){
-    this.broadcaster.broadcast("SHOW_LOADER",true);
+    this.resetErrorObj(this.errorValidationObj);
     
+    if(!this.selectedDevice || this.selectedDevice == "-1"){
+      this.errorValidationObj['selectedItem']  = true;
+    }
+    if(!this.otherTextAnswer){
+      this.errorValidationObj['otherTextAnswer'] = true;
+    }
     if(this.selectedDevice != "0"){
-      this.uploader.cancelAll();
-      this.uploader.uploadAll();
-      this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-        var responsePath = JSON.parse(response);
-        this.broadcaster.broadcast("SHOW_LOADER",false);
-        
-        if(responsePath.Status == "Success"){
+      if($("input[type='file']").val() == "")
+      {
+        this.errorValidationObj['selectedImage'] = true;
+      }
+    }
+    
+    if(this.allErrorResolved(this.errorValidationObj)){
+      this.broadcaster.broadcast("SHOW_LOADER",true);
+      
+      if(this.selectedDevice != "0"){
+        this.uploader.cancelAll();
+        this.uploader.uploadAll();
+        this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+          var responsePath = JSON.parse(response);
+          this.broadcaster.broadcast("SHOW_LOADER",false);
+          
+          if(responsePath.Status == "Success"){
+            this.showSuccess= true;
+            this.showError= false;
+            this.message = responsePath.SucessMessage;
+           // this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
+           }else if(responsePath.Status == "Error"){
+            this.showSuccess= true;
+            this.showError= false;
+            this.message = responsePath.ErrorMessage;
+           }
+          this.bool_answerOther = false;
+          this.bool_fileType = false;
+          $("#avatar").val("");
+          };
+      }else{
+    
+       let postData = {};
+       postData["type"] = this.selectedDevice;
+       postData["ans"] = this.otherTextAnswer;
+       postData["qid"]= this.question_id;
+       postData['id'] = this.answer_id; 
+       console.log(postData);
+    
+       this.http.post(PathConfig.UPDATE_SH8KE_EXAMPLE_ANSWER, postData).subscribe((response)=>{
+         console.log(response);
+         this.broadcaster.broadcast("SHOW_LOADER",false);
+         
+         if(response.Status == "Success"){
           this.showSuccess= true;
           this.showError= false;
-          this.message = responsePath.SucessMessage;
-         // this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
-         }else if(responsePath.Status == "Error"){
+          this.message = response.SucessMessage;
+          //this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
+         }else if(response.Status == "Error"){
           this.showSuccess= true;
           this.showError= false;
-          this.message = responsePath.ErrorMessage;
+          this.message = response.ErrorMessage;
          }
+         $("#avatar").val("");
         this.bool_answerOther = false;
         this.bool_fileType = false;
-        $("#avatar").val("");
-        };
-    }else{
-  
-     let postData = {};
-     postData["type"] = this.selectedDevice;
-     postData["ans"] = this.otherTextAnswer;
-     postData["qid"]= this.question_id;
-     postData['id'] = this.answer_id; 
-     console.log(postData);
-  
-     this.http.post(PathConfig.UPDATE_SH8KE_EXAMPLE_ANSWER, postData).subscribe((response)=>{
-       console.log(response);
-       this.broadcaster.broadcast("SHOW_LOADER",false);
-       
-       if(response.Status == "Success"){
-        this.showSuccess= true;
-        this.showError= false;
-        this.message = response.SucessMessage;
-        //this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
-       }else if(response.Status == "Error"){
-        this.showSuccess= true;
-        this.showError= false;
-        this.message = response.ErrorMessage;
-       }
-       $("#avatar").val("");
-      this.bool_answerOther = false;
-      this.bool_fileType = false;
-     }, err=>{
-       
-       })
-      }   
+       }, err=>{
+         
+         })
+        }   
+      
+    }
     
   }
   setOnAnswerLoad(event){

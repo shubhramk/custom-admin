@@ -10,7 +10,7 @@
     <div class="col-md-6 col-8 align-self-center">
       <h3 class="text-themecolor m-b-0 m-t-0">News</h3>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+        <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="navigateTo('/home')">Home</a></li>
         <li class="breadcrumb-item active">News</li>
         <li class="breadcrumb-item active" *ngIf="visibleElement">Add New News</li>
       </ol>
@@ -74,7 +74,7 @@
                     <div class="form-group row m-b-0">
                         <div class="offset-sm-3 col-sm-9 marginCenter ">
                             <button type="button" [disabled]="!userForm.valid" class="btn btn-success waves-effect waves-light m-r-10" (click)="addNews()">Save</button>
-                            <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
+                            <button type="submit" class="btn btn-inverse waves-effect waves-light" (click)="cancelBtnHandler()">Cancel</button>
                         </div>
                     </div>
                 </form>

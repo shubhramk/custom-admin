@@ -175,6 +175,8 @@ ngOnInit(){
         this.message = " Record Updated Successfully"
         this.showError = false;
         this.showSuccess = true;
+        this.getAdminUsers();
+        this.resetForm();
       }else{
         this.message = response.data['ErrorMessage'];
         this.showError = true;
@@ -195,6 +197,8 @@ ngOnInit(){
         this.showSuccess= true;
         this.showError= false;
         this.message = responsePath.SucessMessage;
+        this.getAdminUsers();
+        this.resetForm();
        // this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
        }else if(responsePath.Status == "Error"){
         this.showSuccess= true;
@@ -258,7 +262,15 @@ ngOnInit(){
       } else {
         this.adMinUserDateWithImage();
       }
+      
     }
+  }
+  resetForm(){
+    this.fName = "";
+    this.email = "";
+    this.user_Name = "";
+    this.password_admin = "";
+    this.user_type = "";
   }
 //get top20 globalShakes
 deleteAdminUser(id){
@@ -281,8 +293,9 @@ getAdminUsers(){
   this.http.get(PathConfig.GET_ADMIN_USER)
     .subscribe((response)=> {
       this.broadcaster.broadcast("SHOW_LOADER",false)
+      
         this.adminUserList =  response.data;
-        console.log(this.adminUserList);
+        console.log((this.adminUserList));
       },
       err => {
       }

@@ -17,9 +17,13 @@ export class ExampleSh8keComponent implements OnInit {
 
    exampleTitle:string = "";
    description:string = "";
-   selectedCategory:string = "";
+   selectedCategory:string = "-1";
    showSuccess:boolean = false;
    showError:boolean = false;
+   errorValidationObj = {
+    'selectedCategory':false,
+    'exampleTitle':false
+  }
   constructor(private router:Router, private http:HttpService, private broadcaster:Broadcaster) { }
 
   ngOnInit(){
@@ -64,6 +68,10 @@ export class ExampleSh8keComponent implements OnInit {
      }
      this.getExampleSh8keList();
      this.getCategoryList();
+     this.broadcaster.on<string>('ROUTE_URL')
+     .subscribe(message => {
+       this.visibleElement = false;
+   });
 }
 
   getExampleSh8keList(){
@@ -91,24 +99,54 @@ export class ExampleSh8keComponent implements OnInit {
   updatedCategory( event){
     this.selectedCategory = event;
   }
-  addExampleSh8ke(){
-    this.http.post(PathConfig.ADD_NEW_EXAMPLE_SH8KE, {
-      "title": this.exampleTitle,
-      "description": this.description,
-      "category_id": this.selectedCategory,
-      "admin_id": "1"
-    }).subscribe((response)=>{
-      if(response.Status == "Success"){
-        this.getExampleSh8keList();
-        this.showSuccess = true;
-        this.showError = false;
-      }else if(response.Status == "Error"){
-        this.showSuccess = false;
-        this.showError = true;
+  allErrorResolved(obj:Object):boolean{
+    //resetting all errors on Add
+    for (let v in obj){
+      if(obj[v.toString()]){
+        return false;
       }
-    }, err =>{
+    }
+    return true;
+  }
 
-    })
+  resetErrorObj(obj:Object){
+    //resetting all errors
+    for (let v in obj){
+      obj[v.toString()] = false;
+    }
+  }
+  addExampleSh8ke(){
+    this.resetErrorObj(this.errorValidationObj);
+    
+    if(!this.selectedCategory || this.selectedCategory == "-1"){
+      this.errorValidationObj['selectedCategory']  = true;
+    }
+    if(!this.exampleTitle){
+      this.errorValidationObj['exampleTitle'] = true;
+    }
+    
+    if(this.allErrorResolved(this.errorValidationObj)){
+      
+      this.http.post(PathConfig.ADD_NEW_EXAMPLE_SH8KE, {
+        "title": this.exampleTitle,
+        "description": this.description,
+        "category_id": this.selectedCategory,
+        "admin_id": "1"
+      }).subscribe((response)=>{
+        if(response.Status == "Success"){
+          this.getExampleSh8keList();
+          this.showSuccess = true;
+          this.showError = false;
+        }else if(response.Status == "Error"){
+          this.showSuccess = false;
+          this.showError = true;
+        }
+      }, err =>{
+  
+      })
+
+    }
+   
   }
   //on Menu Icon selected
   onMenuSelect(data: any) {

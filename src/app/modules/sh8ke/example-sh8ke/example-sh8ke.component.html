@@ -10,7 +10,7 @@
     <div class="col-md-6 col-8 align-self-center">
       <h3 class="text-themecolor m-b-0 m-t-0">Example Sh8kes</h3>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+        <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="navigateTo('/home')">Home</a></li>
         <li class="breadcrumb-item active">Sh8kes</li>
         <li class="breadcrumb-item active" >example Sh8kes</li>
         <li class="breadcrumb-item active" *ngIf="visibleElement">Add New example Sh8kes</li>
@@ -43,16 +43,19 @@
                                 <input type="text" class="form-control" id="uname" placeholder="Title" name="title" [(ngModel)]="exampleTitle">
                                 <!--<div class="input-group-addon"><i class="ti-user"></i></div>-->
                             </div>
+                            <span class="error-msg" *ngIf="errorValidationObj.exampleTitle">required</span>
                         </div>
                     </div>
                     
                     <div class="form-group row">
                         <div class="col-sm-9 marginCenter">
                             <div class="input-group">
-                                <select  name="category" [ngModel]="selectedDevice" (ngModelChange)="updatedCategory($event)" class="form-control" id="pass3" placeholder="Select Category">
-                                  <option *ngFor = "let options of categoryItems; let i= index;" [attr.value]="options['id']">{{options['CategoryName']}}</option>
+                                <select  name="category" [ngModel]="selectedCategory" (ngModelChange)="updatedCategory($event)" class="form-control" id="pass3" placeholder="Select Category">
+                                  <option value="-1">Select Category</option>
+                                    <option *ngFor = "let options of categoryItems; let i= index;" [attr.value]="options['id']">{{options['CategoryName']}}</option>
                                 </select>
                             </div>
+                            <span class="error-msg" *ngIf="errorValidationObj.selectedCategory">required</span>
                         </div>
                     </div>
 

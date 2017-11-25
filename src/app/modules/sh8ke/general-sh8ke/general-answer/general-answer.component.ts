@@ -19,7 +19,7 @@ export class GeneralAnswerComponent implements OnInit, AfterViewInit {
 
    generalAnswerList = [];
    dtConfig:Object = {};
-   selectedItem;string = "";
+   selectedItem:string = "-1";
    bool_answerOther:boolean = false;
    bool_fileType:boolean = false;
 
@@ -31,7 +31,11 @@ export class GeneralAnswerComponent implements OnInit, AfterViewInit {
    uploader:FileUploader = new FileUploader({
       url:PathConfig.ADD_GENERAL_SH8KE_ANSWER_UPLOADED_ITEM
     });
-
+    errorGeneralSh8keEdit = {
+      'selectedItem':false,
+      'otherTextAnswer':false,
+      'selectedImage':false
+    }
   constructor(private router:Router, private http:HttpService, private activeRoute:ActivatedRoute, private broadcaster:Broadcaster) {}
   ngAfterViewInit(){
     
@@ -100,6 +104,10 @@ export class GeneralAnswerComponent implements OnInit, AfterViewInit {
       this.bool_fileType = false;
 
       this.getGeneralAnswerList(this.activeRoute.snapshot.params['id']);
+      this.broadcaster.on<string>('ROUTE_URL')
+      .subscribe(message => {
+        this.visibleElement = false;
+      }); 
       
   }
 
@@ -156,57 +164,91 @@ export class GeneralAnswerComponent implements OnInit, AfterViewInit {
     })
        
   }
+  allErrorResolved(obj:Object):boolean{
+    //resetting all errors on Add
+    for (let v in obj){
+      if(obj[v.toString()]){
+        return false;
+      }
+    }
+    return true;
+  }
+
+  resetErrorObj(obj:Object){
+    //resetting all errors
+    for (let v in obj){
+      obj[v.toString()] = false;
+    }
+  }
 
   addGeneralAnswer(){
-    this.broadcaster.broadcast("SHOW_LOADER",false);
-    if(this.selectedItem != 0){
-      this.uploader.cancelAll();
-      this.uploader.uploadAll();
-      this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-        var responsePath = JSON.parse(response);
-        this.broadcaster.broadcast("SHOW_LOADER",true);
-        if(responsePath.Status == "Success"){
-          this.showSuccess= true;
-          this.showError= false;
-          this.message = responsePath.SucessMessage;
-          this.getGeneralAnswerList(this.activeRoute.snapshot.params['id']);
-         }else if(responsePath.Status == "Error"){
-          this.showSuccess= true;
-          this.showError= false;
-          this.message = responsePath.ErrorMessage;
-         }
-        this.bool_answerOther = false;
-        this.bool_fileType = false;
-        this.selectedItem = "-1";
-        $("#avatar").val("");
-        };
-    }else{
-      let postData = {};
-      postData["type"] = this.selectedItem;
-      postData["ans"] = this.otherTextAnswer;
-      postData["qid"]= this.activeRoute.snapshot.params['primeNo'];
-
-      this.http.post(PathConfig.ADD_GENERAL_SH8KE_ANSWER, postData).subscribe((response)=>{
-        console.log(response);
-        this.broadcaster.broadcast("SHOW_LOADER",false);
-        if(response.Status == "Success"){
-         this.showSuccess= true;
-         this.showError= false;
-         this.message = response.SucessMessage;
-         this.getGeneralAnswerList(this.activeRoute.snapshot.params['id']);
-        }else if(response.Status == "Error"){
-         this.showSuccess= true;
-         this.showError= false;
-         this.message = response.ErrorMessage;
-        }
-        $("#avatar").val("");
-       this.bool_answerOther = false;
-       this.bool_fileType = false;
-       this.selectedItem = "-1";
-      }, err=>{
-        
-        });
+    this.resetErrorObj(this.errorGeneralSh8keEdit);
+    
+    if(!this.selectedItem || this.selectedItem == "-1"){
+      this.errorGeneralSh8keEdit['selectedItem']  = true;
     }
+    if(!this.otherTextAnswer){
+      this.errorGeneralSh8keEdit['otherTextAnswer'] = true;
+    }
+    if(this.selectedItem != "0"){
+      if($("input[type='file']").val() == "")
+      {
+        this.errorGeneralSh8keEdit['selectedImage'] = true;
+      }
+    }
+    
+    if(this.allErrorResolved(this.errorGeneralSh8keEdit)){
+      this.broadcaster.broadcast("SHOW_LOADER",false);
+      if(this.selectedItem != "0"){
+        this.uploader.cancelAll();
+        this.uploader.uploadAll();
+        this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+          var responsePath = JSON.parse(response);
+          this.broadcaster.broadcast("SHOW_LOADER",true);
+          if(responsePath.Status == "Success"){
+            this.showSuccess= true;
+            this.showError= false;
+            this.message = responsePath.SucessMessage;
+            this.getGeneralAnswerList(this.activeRoute.snapshot.params['id']);
+           }else if(responsePath.Status == "Error"){
+            this.showSuccess= true;
+            this.showError= false;
+            this.message = responsePath.ErrorMessage;
+           }
+          this.bool_answerOther = false;
+          this.bool_fileType = false;
+          this.selectedItem = "-1";
+          $("#avatar").val("");
+          };
+      }else{
+        let postData = {};
+        postData["type"] = this.selectedItem;
+        postData["ans"] = this.otherTextAnswer;
+        postData["qid"]= this.activeRoute.snapshot.params['primeNo'];
+  
+        this.http.post(PathConfig.ADD_GENERAL_SH8KE_ANSWER, postData).subscribe((response)=>{
+          console.log(response);
+          this.broadcaster.broadcast("SHOW_LOADER",false);
+          if(response.Status == "Success"){
+           this.showSuccess= true;
+           this.showError= false;
+           this.message = response.SucessMessage;
+           this.getGeneralAnswerList(this.activeRoute.snapshot.params['id']);
+          }else if(response.Status == "Error"){
+           this.showSuccess= true;
+           this.showError= false;
+           this.message = response.ErrorMessage;
+          }
+          $("#avatar").val("");
+         this.bool_answerOther = false;
+         this.bool_fileType = false;
+         this.selectedItem = "-1";
+        }, err=>{
+          
+          });
+      }
+    }
+    
   }
 
 

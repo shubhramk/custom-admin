@@ -22,7 +22,7 @@ visibleElement:boolean = false;
    boolErrorMessageOnLoad:boolean = false;
    errorMessageOnLoad:string = "";
 
-   selectedItem;string = "";
+   selectedItem:string = "-1";
    bool_answerOther:boolean = false;
    bool_fileType:boolean = false;
 
@@ -34,6 +34,11 @@ visibleElement:boolean = false;
    uploader:FileUploader = new FileUploader({
       url:PathConfig.ADD_EXAMPLE_SH8KE_ANSWER_UPLOADED_ITEM
     });
+    errorValidationObj = {
+      'selectedItem':false,
+      'otherTextAnswer':false,
+      'selectedImage':false
+    }
 
   constructor(private router:Router, private http:HttpService, private activeRoute:ActivatedRoute, private broadcaster:Broadcaster) { }
 
@@ -95,7 +100,10 @@ visibleElement:boolean = false;
       this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
       //get top global shakes
       this.getExampleAnswerList(this.activeRoute.snapshot.params['id']);
-      
+      this.broadcaster.on<string>('ROUTE_URL')
+      .subscribe(message => {
+        this.visibleElement = false;
+      }); 
   }
 
       //on Menu Icon selected
@@ -165,61 +173,96 @@ visibleElement:boolean = false;
       this.bool_fileType = true;
     }
   }
-
-  addGeneralAnswer(){
-    this.broadcaster.broadcast("SHOW_LOADER",true);
-    if(this.selectedItem != 0){
-      this.uploader.cancelAll();
-      this.uploader.uploadAll();
-      this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-        var responsePath = JSON.parse(response);
-        console.log(responsePath.Status);
-        this.broadcaster.broadcast("SHOW_LOADER",false);
-        
-        if(responsePath.Status == "Success"){
-          this.showSuccess= true;
-          this.showError= false;
-          this.message = responsePath.SucessMessage;
-          this.getExampleAnswerList(this.activeRoute.snapshot.params['id']);
-         }else if(responsePath.Status == "Error"){
-          this.showSuccess= true;
-          this.showError= false;
-          this.message = responsePath.ErrorMessage;
-         }
-        this.bool_answerOther = false;
-        this.bool_fileType = false;
-        this.selectedItem = "-1";
-        $("#avatar").val("");
-        };
-    }else{
-      let postData = {};
-      postData["type"] = this.selectedItem;
-      postData["ans"] = this.otherTextAnswer;
-      postData["qid"]= this.activeRoute.snapshot.params['primeNo'];
-
-      console.log(postData);
-   
-      this.http.post(PathConfig.ADD_EXAMPLE_SH8KE_ANSWER, postData).subscribe((response)=>{
-        this.broadcaster.broadcast("SHOW_LOADER",false);
-        
-        if(response.Status == "Success"){
-         this.showSuccess= true;
-         this.showError= false;
-         this.message = response.SucessMessage;
-         this.getExampleAnswerList(this.activeRoute.snapshot.params['id']);
-        }else if(response.Status == "Error"){
-         this.showSuccess= true;
-         this.showError= false;
-         this.message = response.ErrorMessage;
-        }
-        $("#avatar").val("");
-       this.bool_answerOther = false;
-       this.bool_fileType = false;
-       this.selectedItem = "-1";
-      }, err=>{
-        
-        });
+  allErrorResolved(obj:Object):boolean{
+    //resetting all errors on Add
+    for (let v in obj){
+      if(obj[v.toString()]){
+        return false;
+      }
     }
+    return true;
+  }
+
+  resetErrorObj(obj:Object){
+    //resetting all errors
+    for (let v in obj){
+      obj[v.toString()] = false;
+    }
+  }
+  addGeneralAnswer(){
+    this.resetErrorObj(this.errorValidationObj);
+    
+    if(!this.selectedItem || this.selectedItem == "-1"){
+      this.errorValidationObj['selectedItem']  = true;
+    }
+    if(!this.otherTextAnswer){
+      this.errorValidationObj['otherTextAnswer'] = true;
+    }
+    if(this.selectedItem != "0"){
+      if($("input[type='file']").val() == "")
+      {
+        this.errorValidationObj['selectedImage'] = true;
+      }
+    }
+    
+    if(this.allErrorResolved(this.errorValidationObj)){
+      this.broadcaster.broadcast("SHOW_LOADER",true);
+      if(this.selectedItem != "0"){
+        this.uploader.cancelAll();
+        this.uploader.uploadAll();
+        this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+          var responsePath = JSON.parse(response);
+          console.log(responsePath.Status);
+          this.broadcaster.broadcast("SHOW_LOADER",false);
+          
+          if(responsePath.Status == "Success"){
+            this.showSuccess= true;
+            this.showError= false;
+            this.message = responsePath.SucessMessage;
+            this.getExampleAnswerList(this.activeRoute.snapshot.params['id']);
+           }else if(responsePath.Status == "Error"){
+            this.showSuccess= true;
+            this.showError= false;
+            this.message = responsePath.ErrorMessage;
+           }
+          this.bool_answerOther = false;
+          this.bool_fileType = false;
+          this.selectedItem = "-1";
+          $("#avatar").val("");
+          };
+      }else{
+        let postData = {};
+        postData["type"] = this.selectedItem;
+        postData["ans"] = this.otherTextAnswer;
+        postData["qid"]= this.activeRoute.snapshot.params['primeNo'];
+  
+        console.log(postData);
+     
+        this.http.post(PathConfig.ADD_EXAMPLE_SH8KE_ANSWER, postData).subscribe((response)=>{
+          this.broadcaster.broadcast("SHOW_LOADER",false);
+          
+          if(response.Status == "Success"){
+           this.showSuccess= true;
+           this.showError= false;
+           this.message = response.SucessMessage;
+           this.getExampleAnswerList(this.activeRoute.snapshot.params['id']);
+          }else if(response.Status == "Error"){
+           this.showSuccess= true;
+           this.showError= false;
+           this.message = response.ErrorMessage;
+          }
+          $("#avatar").val("");
+         this.bool_answerOther = false;
+         this.bool_fileType = false;
+         this.selectedItem = "-1";
+        }, err=>{
+          
+          });
+      }
+    }
+
+
+    
   }
 
   navigateTo(url:string){

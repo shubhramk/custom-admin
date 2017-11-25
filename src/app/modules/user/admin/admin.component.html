@@ -10,7 +10,7 @@
     <div class="col-md-6 col-8 align-self-center">
       <h3 class="text-themecolor m-b-0 m-t-0">User</h3>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+        <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="navigateTo('/home')">Home</a></li>
         <li class="breadcrumb-item active">User</li>
         <li class="breadcrumb-item active">Admin User</li>
         <li class="breadcrumb-item active" *ngIf="visibleElement">Add Admin User</li>
@@ -66,7 +66,7 @@
                           <label for="exampleInputpwd2">User Name</label>
                           <div class="input-group">
                               <div class="input-group-addon"><i class="ti-user"></i></div>
-                              <input type="text" class="form-control" name="userName" [(ngModel)]= "user_Name" id="userName" placeholder="Username">
+                              <input type="text" class="form-control" name="userName" [(ngModel)]= "user_Name" id="userName" placeholder="Username" >
 
                           </div>
                           <span class="error-msg" *ngIf="errorAddAdminUser.user_Name">required</span>

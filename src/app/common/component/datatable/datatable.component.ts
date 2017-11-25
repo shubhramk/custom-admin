@@ -12,7 +12,7 @@ import * as _ from 'lodash';
   selector: 'app-datatable',
   template: `
        <div class="custom-dt-table">
-          <div class="noRecord" [ngClass]="{show:isRecordAvailable}"><h3>No Record Found</h3></div>
+          <div class="noRecord" *ngIf="isRecordAvailable"><h3>No Record Found</h3></div>
           <table [attr.id]="elemID" class="dt-table table table-bordered table-striped table-responsive" style="width:100%;"></table>
         </div>
     `

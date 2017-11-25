@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpService} from "../../../../common/services/http.service";
 import {PathConfig} from "../../../../common/config/path.config";
-import {ActivatedRoute} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 import {Broadcaster} from "../../../../common/services/broadcaster.service";
 declare var $:any;
 
@@ -18,7 +18,7 @@ export class GlobalCreatorComponent implements OnInit {
   bool_noRecordGeneral:boolean = false;
   bool_noRecordGlobal:boolean = false;
   noRecordMessage:string = "";
-  constructor(private http:HttpService, private activateroute:ActivatedRoute, private broadcaster:Broadcaster) { }
+  constructor(private router:Router, private http:HttpService, private activateroute:ActivatedRoute, private broadcaster:Broadcaster) { }
 
   ngOnInit() {
     this.creatorName = this.activateroute.snapshot.params['name'];
@@ -37,10 +37,11 @@ export class GlobalCreatorComponent implements OnInit {
      this.getglobalSh8keList(this.activateroute.snapshot.params['id']);
   }
   getgeneralSh8keList(id:string){
-    this.broadcaster.broadcast("SHOW_LOADER",false);
+    
     this.http.post(PathConfig.GET_GLOBAL_SH8KE_CREATOR+id, {"type" : "general"}).subscribe((response)=>{
       this.generalSh8keList = response.data;
       console.log(response);
+      this.broadcaster.broadcast("SHOW_LOADER",false);
       if(this.generalSh8keList.length == 0 || response.data == ""){
         this.noRecordMessage =  response.SucessMessage;
         this.generalSh8keList = [];
@@ -53,6 +54,7 @@ export class GlobalCreatorComponent implements OnInit {
   getglobalSh8keList(id:string){
     this.http.post(PathConfig.GET_GLOBAL_SH8KE_CREATOR+id, {"type" : "global"}).subscribe((response)=>{
       this.globalSh8keList = response.data;
+      this.broadcaster.broadcast("SHOW_LOADER",false);
       if(this.globalSh8keList.length == 0){
         this.noRecordMessage =  response.SucessMessage;
         this.globalSh8keList = [];
@@ -66,6 +68,10 @@ export class GlobalCreatorComponent implements OnInit {
     });
   }
   onMenuSelect(data: any) {
+  }
+  //navigate to page
+  navigateTo(url:string){
+    this.router.navigate([url]);
   }
 
 }

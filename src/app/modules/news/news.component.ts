@@ -32,22 +32,26 @@ export class NewsComponent implements OnInit {
   bool_fileUploaded = false;
   userForm:any;
   constructor(private router:Router, private http:HttpService, private formBuilder: FormBuilder, private broadcaster:Broadcaster) { 
+    
+  }
+
+  createForm() {
     this.userForm = this.formBuilder.group({
       'newsTitle': ['', Validators.required],
       'description': ['', Validators.required],
-      'expireDate': ['', Validators.required],/* 
-      'uploadedAnswer': ['', ValidationService.fileValidator], */
-      /* ,
-      'email': ['', [Validators.required, ValidationService.emailValidator]],
-      'profile': ['', [Validators.required, Validators.minLength(10)]] */
+      'expireDate': ['', Validators.required]
     });
-  }
+   }
   fileChanged(){
-    /* this.userForm = this.formBuilder.group({
-      'uploadedAnswer': ['', ValidationService.fileValidator]
-    }) */
+  
   }
   ngOnInit(){
+    this.broadcaster.on<string>('ROUTE_URL')
+    .subscribe(message => {
+      this.visibleElement = false;
+  });
+
+    this.createForm();
     this.uploader.onBuildItemForm = (item, form) => {
       form.append("title", this.newsTitle);
       form.append("description" ,this.description);
@@ -153,6 +157,7 @@ export class NewsComponent implements OnInit {
         $('#datepicker-autoclose').datepicker({
         autoclose: true,
         todayHighlight: true,
+        startDate:new Date(),
         format:'yyyy-mm-dd'
       }).on('changeDate', function(e) {
         console.log(e.date);
@@ -191,10 +196,10 @@ export class NewsComponent implements OnInit {
   chnageStatus(id:string, status){
     var self = this;
     mscConfirm("Are you sure to chnage status", function(){
-      this.broadcaster.broadcast("SHOW_LOADER",true);
-        this.http.post(PathConfig.NEWS_CHANGE_STATUS, {st:status, id:id}).subscribe((response)=>{
-        this.broadcaster.broadcast("SHOW_LOADER",false);    
-        this.getNewsList();
+      self.broadcaster.broadcast("SHOW_LOADER",true);
+      self.http.post(PathConfig.NEWS_CHANGE_STATUS, {st:status, id:id}).subscribe((response)=>{
+        self.broadcaster.broadcast("SHOW_LOADER",false);    
+        self.getNewsList();
       }, err=>{
 
       });
@@ -285,6 +290,15 @@ export class NewsComponent implements OnInit {
            $("#avatar").val("");
           };
     }
-    
+    this.createForm();
+  }
+  cancelBtnHandler(){
+    this.createForm(); 
+    this.newsTitle = "";
+    this.expireDate = "";
+    this.description = "";
+    this.visibleElement = !this.visibleElement;
+    this.showSuccess=false;
+    this.showError= false;
   }
 }

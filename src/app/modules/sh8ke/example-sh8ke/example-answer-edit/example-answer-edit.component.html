@@ -3,7 +3,7 @@
       <div class="col-md-6 col-8 align-self-center">
         <h3 class="text-themecolor m-b-0 m-t-0">Example Sh8kes</h3>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+          <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="navigateTo('/home')">Home</a></li>
           <li class="breadcrumb-item active">Sh8kes</li>
           <li class="breadcrumb-item active">Example Sh8ke Answer</li>
         </ol>
@@ -36,6 +36,7 @@
                                   <option [attr.selected]="selectedDevice == i ? true:null"  *ngFor="let type of answerType; let i = index;" [attr.value]="i">{{type}}</option>                        
                                 </select>
                               </div>
+                              <span class="error-msg" *ngIf="errorValidationObj.selectedItem">required</span>
                             </div>
                           </div>
                           <div class="form-group row" *ngIf = "bool_fileType">
@@ -45,6 +46,7 @@
                                    <input type="file" ng2FileSelect [uploader]="uploader" id="avatar" name="uploadedAnswer"/>
                                    
                                 </div>
+                                <span class="error-msg" *ngIf="errorValidationObj.selectedImage">required</span>
                               </div>
                             </div>
                             
@@ -54,6 +56,7 @@
                               <div class="input-group">
                                 <textarea class="form-control" rows="4" [(ngModel)]="otherTextAnswer" name="otherTextAnswer"></textarea> 
                               </div>
+                              <span class="error-msg" *ngIf="errorValidationObj.otherTextAnswer">required</span>
                             </div>
                           </div>
                         

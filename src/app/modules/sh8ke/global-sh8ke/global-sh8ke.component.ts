@@ -80,15 +80,13 @@ export class GlobalSh8keComponent implements OnInit {
             var template = '';
 
             let val = data;
-            let no = "No";
-            let yes = "Yes";
             if(val == "No"){
               template = '<div class="dt-menu-icons">' +
-              '<a href="javascript:void(0);" data-name="global-publish"  data-custom="'+ full['rowId']  + '" data-creator="' + full['published'] + '"><span class="fa fa-times" aria-hidden="true"></span></a>' +
+              '<a href="javascript:void(0);" data-name="global-publish"  data-custom="'+ full['rowId']  + '" data-creator="' + full['published'] + '"><span class="fa fa-times-circle" aria-hidden="true"></span></a>' +
              '</div>';
             }else if(val == "Yes"){
               template = '<div class="dt-menu-icons">' +
-              '<a href="javascript:void(0);" data-name="global-publish"  data-custom="'+ full['rowId']  + '" data-creator="' + full['published'] + '"><span class="fa fa-check" aria-hidden="true"></span></a>' +
+              '<a href="javascript:void(0);" data-name="global-publish"  data-custom="'+ full['rowId']  + '" data-creator="' + full['published'] + '"><span class="fa fa-check-circle" aria-hidden="true"></span></a>' +
               '</div>';
 
             }
@@ -151,10 +149,11 @@ getTopGlobalShakes(){
     var self = this;
     mscConfirm("sure to change status!", function(){
         self.broadcaster.broadcast("SHOW_LOADER",true)
+        console.log(status, "    ", id);
         if(status == "No"){
-          status ="No";
+          status ="Yes";
         }else{
-          status = "Yes";
+          status = "No";
         }
         console.log(status, "    ", id);
         //alert(status);

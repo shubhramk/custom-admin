@@ -21,18 +21,40 @@ export class GenralSh8keEditComponent implements OnInit {
   showError:boolean= false;
   selectedDevice:string = "";
   question_id:string = "";
+
+  errorGeneralSh8keEdit = {
+    'titleName':false,
+    'selectedCategory':false,
+  }
   constructor(private router:Router, private activateRoute:ActivatedRoute, private http:HttpService, private broadcaster:Broadcaster) { }
 
   ngOnInit() {
     //this.titleName = this.activateRoute.snapshot.params['name'];
     this.getGeneralSh8keEditableData(this.activateRoute.snapshot.params['id']);
   }
+  allErrorResolved(obj:Object):boolean{
+    //resetting all errors on Add
+    for (let v in obj){
+      if(obj[v.toString()]){
+        return false;
+      }
+    }
+    return true;
+  }
+
+  resetErrorObj(obj:Object){
+    //resetting all errors
+    for (let v in obj){
+      obj[v.toString()] = false;
+    }
+  }
   //get Data from server
   getGeneralSh8keEditableData(id:string){
-    this.broadcaster.broadcast("SHOW_LOADER",false);
+    
     this.options = [];
     this.http.get(PathConfig.GET_GENERAL_SH8KE_EDITABLE_DATA+id)
       .subscribe((response)=> {
+        this.broadcaster.broadcast("SHOW_LOADER",false);
         this.generalSh8keEditableData = response.data;
         console.log(this.generalSh8keEditableData);
         this.titleName = this.generalSh8keEditableData['title'];
@@ -63,37 +85,50 @@ export class GenralSh8keEditComponent implements OnInit {
       console.log("gggg");
   }
   saveGeneralSh8keEditableData(){
-    this.broadcaster.broadcast("SHOW_LOADER",true);
-    let postData = {};
-    this.options.forEach((key,val) =>{
-      //let setvalue = 
-      console.log(key);
-      postData[key.name] = (key.selected == true ? 1 : 0);
-      if(key.name == "sh8ke_down"){
-        console.log(key)
-        postData["shakedown"] = (key.selected == true ? 1 : 0); 
-        delete postData['sh8ke_down']; 
-      }
-    
-    });
-    postData["admin_id"] = "1";
-    postData["category_id"]= this.selectedCategory;
-    postData["title"] = this.titleName;
-    postData["id"] = this.question_id;
+    this.resetErrorObj(this.errorGeneralSh8keEdit);
+    if(!this.titleName){
+      this.errorGeneralSh8keEdit['titleName']  = true;
+    }
+    if(!this.selectedCategory || this.selectedCategory=="0"){
+      this.errorGeneralSh8keEdit['selectedCategory'] = true;
+    }
+    //All Validation passes
+    if(this.allErrorResolved(this.errorGeneralSh8keEdit))
+    {
+      this.broadcaster.broadcast("SHOW_LOADER",true);
+      let postData = {};
+      this.options.forEach((key,val) =>{
+        //let setvalue = 
+        console.log(key);
+        postData[key.name] = (key.selected == true ? 1 : 0);
+        if(key.name == "sh8ke_down"){
+          console.log(key)
+          postData["shakedown"] = (key.selected == true ? 1 : 0); 
+          delete postData['sh8ke_down']; 
+        }
+      
+      });
+      postData["admin_id"] = "1";
+      postData["category_id"]= this.selectedCategory;
+      postData["title"] = this.titleName;
+      postData["id"] = this.question_id;
+  
+      console.log(postData);
+      this.http.post(PathConfig.POST_GENERAL_SH8KE_EDITABLE_DATA, postData).subscribe( (response)=>{
+        this.broadcaster.broadcast("SHOW_LOADER",false);
+            if(response.Status == "Success"){
+              this.showSuccess = true;
+              this.showError = false;
+            }else if(response.Status == "Error"){
+              this.showSuccess = false;
+              this.showError = true;
+            }
+      },err =>{
+        console.log(err);
+      })
+    }
 
-    console.log(postData);
-    this.http.post(PathConfig.POST_GENERAL_SH8KE_EDITABLE_DATA, postData).subscribe( (response)=>{
-      this.broadcaster.broadcast("SHOW_LOADER",false);
-          if(response.Status == "Success"){
-            this.showSuccess = true;
-            this.showError = false;
-          }else if(response.Status == "Error"){
-            this.showSuccess = false;
-            this.showError = true;
-          }
-    },err =>{
-      console.log(err);
-    })
+    
   }
   //navigate to page
   updateCheckedOptions(data,event){ 

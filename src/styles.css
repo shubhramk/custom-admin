@@ -76,39 +76,47 @@ input.ng-dirty.ng-invalid {
     color: #15b6c4;
 }
 button.msc-ok{
-    background-color: #28a745;
-    border-color: #28a745;
+    background-color: #28a745 !important;
+    border-color: #28a745 !important;
 }
 button.msc-cancel {
-    background-color: #7d7f82;
-    border-color: #7d7f82;
+    background-color: #7d7f82 !important;
+    border-color: #7d7f82 !important;
 }
 .error{
     color: #ab3737;
 }
 .msc-action button{
-    color: #fff;
+    color: #fff !important;
 }
 .msc-confirm{
     position: absolute;
 }
 .msc-overlay{
-    background-color:transparent; 
+    background-color:transparent !important; 
 }
 .msc-title{
-    font-size: 1em;
+    font-size: 1em !important;
+    color: #fff !important; 
 }
 .msc-content{
-    border-radius: 10px;
-    border: 1px solid #246733;
-    box-shadow: 1px 1px 3px 3px;
+    border-radius: 10px !important;
+    border: 1px solid #246733 !important;
+    box-shadow: 1px 1px 3px 3px !important;
+    background: #272c33 !important;
+    z-index: 211 !important;
 } 
 .dt-table tr td{
     word-break: break-word;
 }
-.noRecord{
-    display: none;
-}
+
 .noRecord.show{
     display: block;
+}
+.msc-confirm{
+    top:10%;
+}
+.datepicker table tr td.disabled, .datepicker table tr td.disabled:hover{
+    cursor: not-allowed;
+    color: #784747;
 }

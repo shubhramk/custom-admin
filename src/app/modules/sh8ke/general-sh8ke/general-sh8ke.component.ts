@@ -22,6 +22,11 @@ export class GeneralSh8keComponent implements OnInit {
 
   showSuccess:boolean = false;
   showError:boolean= false;
+  errorGeneralSh8ke = {
+    'titleName':false,
+    'selectedCategory':false,
+  }
+
   constructor(private router:Router, private http:HttpService, private broadcaster:Broadcaster) { }
 
   ngOnInit(){
@@ -82,8 +87,28 @@ export class GeneralSh8keComponent implements OnInit {
     }
     this.getTopGeneralShakes();
     this.getGeneralSh8keEditableData();
+    this.broadcaster.on<string>('ROUTE_URL')
+    .subscribe(message => {
+      this.visibleElement = false;
+  });
   }
 
+  allErrorResolved(obj:Object):boolean{
+    //resetting all errors on Add
+    for (let v in obj){
+      if(obj[v.toString()]){
+        return false;
+      }
+    }
+    return true;
+  }
+
+  resetErrorObj(obj:Object){
+    //resetting all errors
+    for (let v in obj){
+      obj[v.toString()] = false;
+    }
+  }
    //get top20 generalShakes
   getTopGeneralShakes(){
     this.http.post(PathConfig.GET_SHAKES_LIST, { "trending_type": "general","limit": "","user_type": "","user_id": 1})
@@ -209,7 +234,17 @@ updateCheckedOptions(data,event){
   console.log(this.options);
 }
 submitData(){
-  this.broadcaster.broadcast("SHOW_LOADER",true);
+  this.resetErrorObj(this.errorGeneralSh8ke);
+  if(!this.titleName){
+    this.errorGeneralSh8ke['titleName']  = true;
+  }
+  if(!this.selectedCategory || this.selectedCategory=="0"){
+    this.errorGeneralSh8ke['selectedCategory'] = true;
+  }
+  //All Validation passes
+  if(this.allErrorResolved(this.errorGeneralSh8ke))
+  {
+    this.broadcaster.broadcast("SHOW_LOADER",true);
     let postData = {};
     this.options.forEach((key,val) =>{
       //let setvalue = 
@@ -236,6 +271,9 @@ submitData(){
     },err =>{
       console.log(err);
     })
+  }
+
+  
   }
   updatedCategory( event){
     this.selectedCategory = event;

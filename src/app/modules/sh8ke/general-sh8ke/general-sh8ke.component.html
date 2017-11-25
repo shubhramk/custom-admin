@@ -10,7 +10,7 @@
     <div class="col-md-6 col-8 align-self-center">
       <h3 class="text-themecolor m-b-0 m-t-0">General Sh8kes</h3>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+        <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="navigateTo('/home')">Home</a></li>
         <li class="breadcrumb-item active">Sh8kes</li>
         <li class="breadcrumb-item active">General Sh8kes</li>
         <li class="breadcrumb-item active" *ngIf="visibleElement">Add New General Sh8kes</li>
@@ -42,6 +42,7 @@
                                 <input type="text" class="form-control" name = "titleName" [(ngModel)]="titleName" id="uname" placeholder="Title">
                                 <!--<div class="input-group-addon"><i class="ti-user"></i></div>-->
                             </div>
+                            <span class="error-msg" *ngIf="errorGeneralSh8ke.titleName">required</span>
                         </div>
                     </div>
                     
@@ -53,6 +54,7 @@
                                       <option  *ngFor = "let category of categoryItems; let i= index;"  [attr.value]="category['id']" >{{category['CategoryName']}}</option>
                                     </select>
                                 </div>
+                                <span class="error-msg" *ngIf="errorGeneralSh8ke.selectedCategory">required</span>
                             </div>
                         </div>
                         <div class="form-group row">  
