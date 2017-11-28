@@ -65,7 +65,7 @@
                     <div class="form-group row m-b-0">
                         <div class="offset-sm-3 col-sm-9 marginCenter ">
                             <button type="submit" [disabled]="!userForm.valid" class="btn btn-success waves-effect waves-light m-r-10" (click)="updateNews()">Save</button>
-                          <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
+                          <button type="submit" class="btn btn-inverse waves-effect waves-light" (click)="navigateTo('news'); showSuccess=false;showError= false;">Cancel</button>
                         </div>
                     </div>
                 </form>

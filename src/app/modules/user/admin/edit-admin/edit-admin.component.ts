@@ -80,10 +80,12 @@ export class EditAdminComponent implements OnInit {
         this.message = " Record Updated Successfully"
         this.showError = false;
         this.showSuccess = true;
+        window.scrollTo(0, 0);
       }else{
         this.message = response.data['ErrorMessage'];
         this.showError = true;
         this.showSuccess = false;
+        window.scrollTo(0, 0);
       }
     }, err=>{
 
@@ -100,11 +102,13 @@ export class EditAdminComponent implements OnInit {
         this.showSuccess= true;
         this.showError= false;
         this.message = responsePath.SucessMessage;
+        window.scrollTo(0, 0);
        // this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
        }else if(responsePath.Status == "Error"){
         this.showSuccess= true;
         this.showError= false;
         this.message = responsePath.ErrorMessage;
+        window.scrollTo(0, 0);
        }
        $("#avatar").val("");
      }

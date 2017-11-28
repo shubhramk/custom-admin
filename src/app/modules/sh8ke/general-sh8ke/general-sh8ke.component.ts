@@ -15,6 +15,10 @@ export class GeneralSh8keComponent implements OnInit {
   generalSh8keEditableData  = [];
   titleName:string = "";
   selectedCategory:string = "";
+  
+  newPassword = "";
+  confirmPassword = "";
+  boolPasswordElem = false;
 
   visibleElement:boolean = false;
   topGeneralSh8ke = [];
@@ -25,6 +29,8 @@ export class GeneralSh8keComponent implements OnInit {
   errorGeneralSh8ke = {
     'titleName':false,
     'selectedCategory':false,
+    'password':false,
+    'confirmPassword':false
   }
 
   constructor(private router:Router, private http:HttpService, private broadcaster:Broadcaster) { }
@@ -230,7 +236,11 @@ updateCheckedOptions(data,event){
       }
     })
   }
-
+  if(data['name'] == "password" && data['selected'] == true){
+    this.boolPasswordElem = true;
+  }else if(data['name'] == "password" && data['selected'] == false){
+    this.boolPasswordElem = false;
+  }
   console.log(this.options);
 }
 submitData(){
@@ -241,21 +251,32 @@ submitData(){
   if(!this.selectedCategory || this.selectedCategory=="0"){
     this.errorGeneralSh8ke['selectedCategory'] = true;
   }
+  this.options.forEach((key, val)=>{
+    if(key.name == "password" && key.selected == true){
+      if(!this.newPassword){
+        this.errorGeneralSh8ke['password']  = true;
+      }else if(this.newPassword != this.confirmPassword){
+        this.errorGeneralSh8ke['confirmPassword']  = true;
+      }
+    }
+  })
   //All Validation passes
   if(this.allErrorResolved(this.errorGeneralSh8ke))
   {
     this.broadcaster.broadcast("SHOW_LOADER",true);
     let postData = {};
+    postData["password"] = "";
     this.options.forEach((key,val) =>{
       //let setvalue = 
       postData[key.name] = (key.selected == true ? 1 : 0);
       console.log(postData[key.name] + "   postData[key.name]")
-    
+      if(key.name == "password" && key.selected == true){
+        postData["password"] = this.newPassword;
+      }
     });
     postData["userID"] = "1";
     postData["category_id"]= this.selectedCategory;
     postData["title"] = this.titleName;
-
     console.log(postData);
     this.http.post(PathConfig.ADD_NEW_GENERAL_SH8KE, postData).subscribe( (response)=>{
       console.log(response);
@@ -264,6 +285,7 @@ submitData(){
             this.getTopGeneralShakes();
             this.showSuccess = true;
             this.showError = false;
+            setTimeout(()=>{this.navigateTo('sh8ke/generalAnswer/'+response.data['rowId']+"/"+response.data['id']);},2000)
           }else if(response.Status == "Error"){
             this.showSuccess = false;
             this.showError = true;

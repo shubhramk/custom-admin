@@ -89,7 +89,7 @@ export class NewsComponent implements OnInit {
 
             let val = data;
             template = '<div class="dt-menu-icons">' +
-              '<a href="javascript:void(0);" data-name="notification" (click) ="alert("asas")" data-custom="' + full['rowId'] + '">Send Notifaction</a>' +
+              '<a href="javascript:void(0);" data-name="notification" (click) ="alert("asas")" data-custom="' + full['rowId'] + '">Send Notification</a>' +
                '</div>';
 
             return template;
@@ -215,7 +215,7 @@ export class NewsComponent implements OnInit {
   }
   deleteNews(id:string){
     var self = this;
-    mscConfirm("Are you sure to chnage status", function(){
+    mscConfirm("Are you sure to Delete", function(){
       self.broadcaster.broadcast("SHOW_LOADER",true);      
       self.http.get(PathConfig.DELETE_NEWS+id).subscribe((response)=>{
         self.broadcaster.broadcast("SHOW_LOADER",false);        
@@ -260,9 +260,11 @@ export class NewsComponent implements OnInit {
           this.getNewsList();
           this.showSuccess = true;
           this.showError = false;
+          window.scrollTo(0, 0);
         }else if(response.Status == "Error"){
           this.showSuccess = false;
           this.showError = true;
+          window.scrollTo(0, 0);
         }
       }, err=>{
         
@@ -281,11 +283,13 @@ export class NewsComponent implements OnInit {
             this.showError= false;
             this.message = responsePath.SucessMessage;
             this.getNewsList();
+            window.scrollTo(0, 0);
            // this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
            }else if(responsePath.Status == "Error"){
             this.showSuccess= true;
             this.showError= false;
             this.message = responsePath.ErrorMessage;
+            window.scrollTo(0, 0);
            }
            $("#avatar").val("");
           };

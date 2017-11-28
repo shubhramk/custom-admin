@@ -54,6 +54,7 @@ export class LoginComponent implements OnInit{
           if(code == "400"){
             this.loginItem.reset();
             this.message = response['ErrorMessage'];
+            this.message = this.message.split(";")[0];
             return true;
           }
 

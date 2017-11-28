@@ -177,10 +177,12 @@ ngOnInit(){
         this.showSuccess = true;
         this.getAdminUsers();
         this.resetForm();
+        window.scrollTo(0, 0);
       }else{
         this.message = response.data['ErrorMessage'];
         this.showError = true;
         this.showSuccess = false;
+        window.scrollTo(0, 0);
       }
     }, err=>{
 
@@ -199,11 +201,13 @@ ngOnInit(){
         this.message = responsePath.SucessMessage;
         this.getAdminUsers();
         this.resetForm();
+        window.scrollTo(0, 0);
        // this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
        }else if(responsePath.Status == "Error"){
         this.showSuccess= true;
         this.showError= false;
         this.message = responsePath.ErrorMessage;
+        window.scrollTo(0, 0);
        }
        $("#avatar").val("");
      }

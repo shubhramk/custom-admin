@@ -101,7 +101,7 @@
                               <div class="message-center">
                                   <!-- Message -->
                                   <a href="#">
-                                      <div class="user-img"> <img src="../assets/images/users/1.jpg" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
+                                      <div class="user-img"> <img src="{{loggedInUserImg}}" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
                                       <div class="mail-contnet">
                                           <h5>Pavan kumar</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:30 AM</span> </div>
                                   </a>
@@ -240,12 +240,12 @@
                       <input type="text" class="form-control" placeholder="Search for..."> <a class="srh-btn"><i class="ti-search"></i></a> </form>
               </li>
               <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="../assets/images/users/1.jpg" alt="user" class="profile-pic" /></a>
+                  <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{loggedInUserImg}}" alt="user" class="profile-pic" /></a>
                   <div class="dropdown-menu dropdown-menu-right animated flipInY">
                       <ul class="dropdown-user">
                           <li>
                               <div class="dw-user-box">
-                                  <div class="u-img"><img src="../assets/images/users/1.jpg" alt="user"></div>
+                                  <div class="u-img"><img src="{{loggedInUserImg}}" alt="user"></div>
                                   <div class="u-text">
                                       <h4>{{loggedInUserName | titleCase}}</h4>
                                       <p class="text-muted"></p>
@@ -287,7 +287,7 @@
       <!-- User profile -->
       <div class="user-profile">
         <!-- User profile image -->
-        <div class="profile-img"> <img src="../assets/images/users/1.jpg" alt="user" /> </div>
+        <div class="profile-img"> <img src="{{loggedInUserImg}}" alt="user" /> </div>
         <!-- User profile text-->
         <div class="profile-text"> <a href="javascript:void(0)" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">{{loggedInUserName | titleCase}} <span class="caret"></span></a>
           <div class="dropdown-menu animated flipInY">
@@ -361,7 +361,7 @@
     <!-- footer -->
     <!-- ============================================================== -->
     <footer class="footer">
-      © 2015 Sh8ke
+      © 2017 Sh8ke
     </footer>
     <!-- ============================================================== -->
     <!-- End footer -->

@@ -82,10 +82,12 @@ question_id:string = "";
       //this.getEditableAnswer("1");
   }
   getEditableAnswer(id:string){
-    this.broadcaster.broadcast("SHOW_LOADER",false);
+   
     this.http.get(PathConfig.GET_EDITABLE_GLOBAL_ANSWER+id).subscribe((response)=>{
+      this.broadcaster.broadcast("SHOW_LOADER",false);
       if(response.Status == "Success"){
         console.log(response);
+        
         this.selectedDevice = response.data['type'];
         this.otherTextAnswer = response.data['text_english'];
         this.recieved_url = response.data['url'];

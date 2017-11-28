@@ -21,7 +21,18 @@ export class GlobalSh8keComponent implements OnInit {
   dtConfigGlobal:Object = {};
   showSuccess:boolean = false;
   showError:boolean= false;
-  
+
+  newPassword = "";
+  confirmPassword = "";
+  boolPasswordElem = false;
+
+  errorGlobalSh8ke = {
+    'titleName':false,
+    'selectedCategory':false,
+    'password':false,
+    'confirmPassword':false
+  }
+
   temp_Option = [];
   constructor(private router:Router, private http:HttpService, private broadcaster:Broadcaster) { }
 
@@ -237,7 +248,11 @@ getTopGlobalShakes(){
         }
       })
     }
-
+    if(data['name'] == "password" && data['selected'] == true){
+      this.boolPasswordElem = true;
+    }else if(data['name'] == "password" && data['selected'] == false){
+      this.boolPasswordElem = false;
+    }
     console.log(this.options);
   }
   
@@ -262,42 +277,87 @@ getTopGlobalShakes(){
      );
     });      
   }
-  submitData(){   
-    let postData = {};
-    this.options.forEach((key,val) =>{
-      //let setvalue = 
-      postData[key.name] = (key.selected == true ? 1 : 0);
-      console.log(postData[key.name] + "   postData[key.name]");    
-    });
-    console.log(this.options, "    OPTIONS");
-    postData["admin_id"] = "1";
-    postData["category_id"]= this.selectedCategory;
-    postData["title_english"] = this.titleName;
-    postData["user_type"] = "Administrator";    
-    postData["status_approved"] = "1";
-    postData["published"] = "1";
 
-    console.log(postData);
-    this.broadcaster.broadcast("SHOW_LOADER",true);
-    this.http.post(PathConfig.ADD_NEW_GLOBAL_SH8KE, postData).subscribe( (response)=>{
+  allErrorResolved(obj:Object):boolean{
+    //resetting all errors on Add
+    for (let v in obj){
+      if(obj[v.toString()]){
+        return false;
+      }
+    }
+    return true;
+  }
+
+  resetErrorObj(obj:Object){
+    //resetting all errors
+    for (let v in obj){
+      obj[v.toString()] = false;
+    }
+  }
+
+  submitData(){
+    this.resetErrorObj(this.errorGlobalSh8ke);
+    if(!this.titleName){
+      this.errorGlobalSh8ke['titleName']  = true;
+    }
+    if(!this.selectedCategory || this.selectedCategory=="0"){
+      this.errorGlobalSh8ke['selectedCategory'] = true;
+    }
+    this.options.forEach((key, val)=>{
+      if(key.name == "password" && key.selected == true){
+        if(!this.newPassword){
+          this.errorGlobalSh8ke['password']  = true;
+        }else if(this.newPassword != this.confirmPassword){
+          this.errorGlobalSh8ke['confirmPassword']  = true;
+        }
+      }
+    });
+    //All Validation passes
+    if(this.allErrorResolved(this.errorGlobalSh8ke))
+    {
+      let postData = {};
+     /*  postData["password"] = ""; */
+      this.options.forEach((key,val) =>{
+        //let setvalue = 
+        postData[key.name] = (key.selected == true ? 1 : 0);
+        console.log(postData[key.name] + "   postData[key.name]");  
+        /* if(key.name == "password" && key.selected == true){
+          postData["password"] = this.newPassword;
+        }  */ 
+      });
+      console.log(this.options, "    OPTIONS");
+      postData["admin_id"] = "1";
+      postData["category_id"]= this.selectedCategory;
+      postData["title_english"] = this.titleName;
+      postData["user_type"] = "Administrator";    
+      postData["status_approved"] = "1";
+      postData["published"] = "1";
+      /* postData["password"] = this.newPassword; */
       console.log(postData);
-          if(response.Status == "Success"){
-            this.broadcaster.broadcast("SHOW_LOADER",false);
-            this.options = [];
-            this.options = this.temp_Option;
-            console.log(this.options);
-            this.getTopGlobalShakes();
-            this.showSuccess = true;
-            this.showError = false;
-            this.selectedCategory = "0";
-            this.titleName = "";
-          }else if(response.Status == "Error"){
-            this.showSuccess = false;
-            this.showError = true;
-          }
-    },err =>{
-      console.log(err);
-    })
+      this.broadcaster.broadcast("SHOW_LOADER",true);
+      this.http.post(PathConfig.ADD_NEW_GLOBAL_SH8KE, postData).subscribe( (response)=>{
+        console.log(postData);
+            if(response.Status == "Success"){
+              this.broadcaster.broadcast("SHOW_LOADER",false);
+              this.options = [];
+              this.options = this.temp_Option;
+              console.log(this.options);
+              this.getTopGlobalShakes();
+              this.showSuccess = true;
+              this.showError = false;
+              this.selectedCategory = "0";
+              this.titleName = "";
+              setTimeout(()=>{ this.navigateTo('sh8ke/globalAnswer/'+response.data['rowId']+"/"+response.data['id'])}, 2000);
+             
+            }else if(response.Status == "Error"){
+              this.showSuccess = false;
+              this.showError = true;
+            }
+      },err =>{
+        console.log(err);
+      });
+    }   
+    
   }
   updatedCategory( event){
     this.selectedCategory = event;

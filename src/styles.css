@@ -1,4 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+.paddLeft0{
+    padding-left: 0;
+}
 .sparkline .ct-bar{
     stroke-width: 2px !important;
 }
@@ -107,7 +110,7 @@ button.msc-cancel {
     z-index: 211 !important;
 } 
 .dt-table tr td{
-    word-break: break-word;
+    word-break: break-word !important;
 }
 
 .noRecord.show{

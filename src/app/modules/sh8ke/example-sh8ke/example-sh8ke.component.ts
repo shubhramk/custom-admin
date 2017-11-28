@@ -126,7 +126,7 @@ export class ExampleSh8keComponent implements OnInit {
     }
     
     if(this.allErrorResolved(this.errorValidationObj)){
-      
+
       this.http.post(PathConfig.ADD_NEW_EXAMPLE_SH8KE, {
         "title": this.exampleTitle,
         "description": this.description,
@@ -137,6 +137,9 @@ export class ExampleSh8keComponent implements OnInit {
           this.getExampleSh8keList();
           this.showSuccess = true;
           this.showError = false;
+          this.selectedCategory = "-1";
+          this.exampleTitle = "";
+          this.description = "";
         }else if(response.Status == "Error"){
           this.showSuccess = false;
           this.showError = true;

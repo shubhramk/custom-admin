@@ -30,6 +30,9 @@ export class DashboardComponent implements OnInit,AfterViewInit{
     let userDetail = this.localStorage.get(ConstantConfig.USER_DETAIL);
     this.loggedInUserName = userDetail ? JSON.parse(userDetail)['name'] : '';
     this.loggedInUserImg  = userDetail ? JSON.parse(userDetail)['img'] : '';
+    if(this.loggedInUserImg == ""){
+      this.loggedInUserImg = "../assets/images/users/noImg.png";
+    }
     
   }
 

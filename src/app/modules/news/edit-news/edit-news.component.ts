@@ -52,7 +52,7 @@ userForm:any;
     };
 
     this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
-
+    this.getEditableNewsData(this.activatedroute.snapshot.params['id']);
     var self = this;
     setTimeout(()=>{
        $('#datepicker-autoclose').datepicker({
@@ -68,7 +68,6 @@ userForm:any;
         });
       },200);
 
-    this.getEditableNewsData(this.activatedroute.snapshot.params['id']);
   }
 
   getEditableNewsData(id:string){
@@ -83,6 +82,8 @@ userForm:any;
         this.expireDate = response.data['expire_on'];
         this.answer_id = response.data["id"];
         this.oldImagePath = response.data['old_file'];
+        let tempExpire = this.expireDate.split("-");
+        this.expireDate = tempExpire[2]+"-"+tempExpire[1]+"-"+tempExpire[0];
         //$("#datepicker-autoclose").datepicker("update", new Date(this.expireDate));
       }
     }, err=>{
@@ -94,13 +95,13 @@ userForm:any;
     this.router.navigate([url]);
   }
   updateNews(){
-    console.log(this.uploader.isFile);
+    /* console.log(this.uploader.isFile);
     if($("#avatar").val() == ""){
       this.bool_fileUploaded = true;
       return true;
     }else{
       this.bool_fileUploaded = false;
-    }
+    } */
     this.broadcaster.broadcast("SHOW_LOADER",true);
     
     if($("input[type =file]").val() == ""){      
@@ -109,6 +110,7 @@ userForm:any;
       postData["description"] = this.description;
       postData["expire_on"] = this.expireDate;
       postData["id"] = this.answer_id;
+      console.log(postData);
       this.http.post(PathConfig.UPDATE_NEWS_ANSWER, postData).subscribe((response)=>{
         this.broadcaster.broadcast("SHOW_LOADER",false);
         
@@ -116,11 +118,13 @@ userForm:any;
           this.showSuccess= true;
           this.showError= false;
           this.message = response.SucessMessage;
+          window.scrollTo(0, 0);
          // this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
          }else if(response.Status == "Error"){
           this.showSuccess= true;
           this.showError= false;
           this.message = response.ErrorMessage;
+          window.scrollTo(0, 0);
          }
       }, err=>{
 
@@ -137,11 +141,13 @@ userForm:any;
           this.showSuccess= true;
           this.showError= false;
           this.message = responsePath.SucessMessage;
+          window.scrollTo(0, 0);
          // this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
          }else if(responsePath.Status == "Error"){
           this.showSuccess= true;
           this.showError= false;
           this.message = responsePath.ErrorMessage;
+          window.scrollTo(0, 0);
          }
          $("#avatar").val("");
     }

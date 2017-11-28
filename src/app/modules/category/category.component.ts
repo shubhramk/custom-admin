@@ -166,6 +166,7 @@ getCategoryList(){
   }
 
   addCategoryData(){
+    this.broadcaster.broadcast("SHOW_LOADER",true);  
     if($("input[type =file]").val() == ""){
     this.http.post(PathConfig.ADD_NEW_CATEGORY, 
       {
@@ -179,12 +180,14 @@ getCategoryList(){
           this.showError = true;
           this.showSuccess = false;
           this.message  = response.ErrorMessage;
+          this.broadcaster.broadcast("SHOW_LOADER",false);  
         }else if(response.Status == "Success"){
           this.message = response.SucessMessage;
           this.showError = false;
           this.showSuccess = true;
           this.getCategoryList();
           this.createForm();
+          this.broadcaster.broadcast("SHOW_LOADER",false);  
         }
       },
       err => {
@@ -207,11 +210,13 @@ getCategoryList(){
           this.frenchName = "";
           this.sorting = "";
           this.getCategoryList();
+          this.broadcaster.broadcast("SHOW_LOADER",false);  
          // this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
          }else if(responsePath.Status == "Error"){
           this.showSuccess= false;
           this.showError= true;
           this.message = responsePath.ErrorMessage;
+          this.broadcaster.broadcast("SHOW_LOADER",false);  
          }
          $("#avatar").val("");
     }

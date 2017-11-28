@@ -330,10 +330,12 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
         this.addGeneralUserWithoutImage();
         this.broadcaster.broadcast("SHOW_LOADER",false)
         this.resetFromValues();
+        window.scrollTo(0, 0);
       }else{
         this.addGeneralUsreWithImage();
         this.broadcaster.broadcast("SHOW_LOADER",false)
         this.resetFromValues();
+        window.scrollTo(0, 0);
       }
     }
     
