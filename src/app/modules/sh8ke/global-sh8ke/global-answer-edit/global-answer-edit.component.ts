@@ -125,6 +125,16 @@ question_id:string = "";
           }else if(event == "Video"){
             this.selectedDevice = "3";
           }
+          console.log(event + " EVENT");
+          setTimeout(()=>{
+            if(event == "1"){
+              $("#avatar").attr("accept", "image/*") ;
+            }else if(event == "2"){
+              $("#avatar").attr("accept", "audio/*") ;
+            }else if(event == "3"){
+              $("#avatar").attr("accept", "video/*") ;
+            }
+          }, 100);
       //this.selectedDevice = event;
         console.log(this.selectedDevice);
         if(event == "0"){

@@ -169,13 +169,15 @@ export class GeneralAnswerEditComponent implements OnInit {
           this.bool_answerOther = false;
           this.bool_fileType = true;
           
-          if(event == "1"){
-            $("#avatar").attr("accept", "image/*") ;
-          }else if(event == "Audio"){
-            $("#avatar").attr("accept", "audio/*") ;
-          }else if(event == "Video"){
-            $("#avatar").attr("accept", "video/*") ;
-          }
+          setTimeout(()=>{
+            if(event == "1"){
+              $("#avatar").attr("accept", "image/*") ;
+            }else if(event == "2"){
+              $("#avatar").attr("accept", "audio/*") ;
+            }else if(event == "3"){
+              $("#avatar").attr("accept", "video/*") ;
+            }
+          }, 100);
         }
   
 }

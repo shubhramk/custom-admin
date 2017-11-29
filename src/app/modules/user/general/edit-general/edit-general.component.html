@@ -102,7 +102,7 @@
                       <div class="form-group row">
                         <div class="col-sm-9 marginCenter">
                           <label for="exampleInputpwd3">Select Gender</label>
-                          <div class="input-group">{{selectedGender}}
+                          <div class="input-group">
                             <select class="form-control" id="user_type" [ngModel]="selectedGender" (ngModelChange)="updateCheckedOptions($event, 'gender')" name="user_type" aria-required="true" aria-invalid="false">
                               <option value="-1" selected disabled>Select Gender</option>
                               <option [attr.selected]="selectedGender == i ? true:null"  *ngFor="let gender of arr_gender; let i = index;" [attr.value]="i">{{gender}}</option>

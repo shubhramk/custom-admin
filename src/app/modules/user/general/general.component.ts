@@ -21,7 +21,7 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
 
    fName:string = "";
    surName:string = "";
-   phoneNo:number;
+   phoneNo:string = "";
    email:string = "";
    userName_general:string = "";
    password:string = "";
@@ -391,16 +391,17 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
   resetFromValues(){
     this.fName = "";
     this.surName = "";
-    this.phoneNo ;
+    this.phoneNo ="";
     this.email = "";
     this.userName_general = "";
     this.password = "";
     this.selectedGender = "0";
-    this.selectStatus = "";
-    this.selectIntrest = "";
+    this.selectStatus = "-1";
+    this.selectIntrest = "0";
     this.selectedDate = "";
     this.selectedMonth = "";
     this.selectedYear = "";
+    $("#datepicker-autoclose").datepicker('update', "");
     this.preferencesItems =  [{name:"Arty", selected:false, disabled:false }, {name:"Girly",selected:false, disabled:false }, {name:"Nerdy",selected:false, disabled:false }, {name:"Craftsman",selected:false, disabled:false }, {name:"Hip-ster",selected:false, disabled:false }, {name:"Old School",selected:false, disabled:false }, {name:"Dapper",selected:false, disabled:false }, {name:"Jock",selected:false, disabled:false}, {name:"Quiet",selected:false, disabled:false}, {name:"Extreme",selected:false, disabled:false}, {name:"Loud",selected:false, disabled:false}, {name:"Romantic",selected:false, disabled:false},
     {name:"Funny",selected:false, disabled:false}, {name:"Manly",selected:false, disabled:false}, {name:"Sassy",selected:false, disabled:false}, {name:"Ditzy",selected:false, disabled:false}, {name:"Social",selected:false, disabled:false}, {name:"Techie",selected:false, disabled:false}];
   

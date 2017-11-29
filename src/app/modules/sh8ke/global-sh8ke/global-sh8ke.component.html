@@ -71,12 +71,12 @@
                     <div class="form-group row" *ngIf = "boolPasswordElem">  
                         <div class="col-sm-9 marginCenter" >
                             <div class="input-group col-sm-4 paddLeft0">
-                                <input type="number" onKeyDown="if(this.value.length==4 && event.keyCode!=8) return false;" class="form-control" name = "titleName" [(ngModel)]="newPassword" id="newPassword" placeholder="Password">
+                                <input type="text" maxlength="4" onKeyDown="if(!(event.keyCode<58 && event.keyCode>48 ) && event.keyCode !=8 ) return false;" class="form-control" name = "titleName" [(ngModel)]="newPassword" id="newPassword" placeholder="Password">
                                 
                             </div>
                             <span class="error-msg" *ngIf="errorGlobalSh8ke.password">required</span>
                             <div class="input-group col-sm-4 paddLeft0">
-                                <input type="number" onKeyDown="if(this.value.length==4 && event.keyCode!=8) return false;" class="form-control" name = "titleName" [(ngModel)]="confirmPassword" id="confirmPassword" placeholder="Confirm Password">
+                                <input type="text" maxlength="4" onKeyDown="if(!(event.keyCode<58 && event.keyCode>48 ) && event.keyCode !=8 ) return false;" class="form-control" name = "titleName" [(ngModel)]="confirmPassword" id="confirmPassword" placeholder="Confirm Password">
                                 <!--<div class="input-group-addon"><i class="ti-user"></i></div>-->
                             </div>                                
                             <span class="error-msg" *ngIf="errorGlobalSh8ke.confirmPassword">Password and confirm password are not same</span>
