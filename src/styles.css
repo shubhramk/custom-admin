@@ -107,7 +107,7 @@ button.msc-cancel {
     border: 1px solid #246733 !important;
     box-shadow: 1px 1px 3px 3px !important;
     background: #272c33 !important;
-    z-index: 211 !important;
+    z-index: 99999 !important;
 } 
 .dt-table tr td{
     word-break: break-word !important;

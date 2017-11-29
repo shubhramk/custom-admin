@@ -4,6 +4,7 @@ import {HttpService} from "../../../../common/services/http.service";
 import {PathConfig} from "../../../../common/config/path.config";
 import { FileUploader } from 'ng2-file-upload';
 import {Broadcaster} from "../../../../common/services/broadcaster.service";
+import {GlobalVariableConfig} from "../../../../common/config/globalVariable.config";
 declare var $:any;
 
 @Component({
@@ -181,6 +182,11 @@ export class ExampleAnswerEditComponent implements OnInit {
           }
         }
   
+}
+cancelBtnHandler(){
+  this.navigateTo('sh8ke/exampleAnswer/'+GlobalVariableConfig.ANSWER_ID+"/"+GlobalVariableConfig.QUESTION_ID);
+  GlobalVariableConfig.ANSWER_ID = "";
+  GlobalVariableConfig.QUESTION_ID = "";
 }
 navigateTo(url:string){
   this.router.navigate([url]);

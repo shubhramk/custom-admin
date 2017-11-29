@@ -120,6 +120,10 @@ export class GlobalSh8keComponent implements OnInit {
      }
      this.getTopGlobalShakes();
      this.getGlobalSh8keEditableData();
+     this.broadcaster.on<string>('ROUTE_URL')
+     .subscribe(message => {
+       this.visibleElement = false;
+   });
  }
 
 getTopGlobalShakes(){
@@ -189,7 +193,7 @@ getTopGlobalShakes(){
         this.categoryItems = (this.generalSh8keEditableData['Category']);
         //this.selectedCategory = this.generalSh8keEditableData["category_id"];
         for(let obj in this.generalSh8keEditableData){
-          if(obj != "Category" && obj !="title" && obj != "category_id" && obj != "id"){
+          if(obj != "Category" && obj !="title" && obj != "category_id" && obj != "id" && obj !="rowId"){
             let key = obj;
             let data:object ={}// {[key]:this.generalSh8keEditableData[obj]};
             if(this.generalSh8keEditableData[obj] === null && obj != "share" && obj != "socialize"){

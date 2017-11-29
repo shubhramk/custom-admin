@@ -4,6 +4,7 @@ import {HttpService} from "../../../../common/services/http.service";
 import {PathConfig} from "../../../../common/config/path.config";
 import { FileUploader } from 'ng2-file-upload';
 import {Broadcaster} from "../../../../common/services/broadcaster.service";
+import {GlobalVariableConfig} from "../../../../common/config/globalVariable.config";
 declare var $:any;
 declare var mscConfirm:any;
 
@@ -41,6 +42,9 @@ export class GeneralAnswerComponent implements OnInit, AfterViewInit {
     
   }
   ngOnInit(){
+    GlobalVariableConfig.ANSWER_ID = "";
+    GlobalVariableConfig.QUESTION_ID = "";
+    
      //general data table
       this.dtConfig =  {
         "columnDefs": [
@@ -142,6 +146,9 @@ export class GeneralAnswerComponent implements OnInit, AfterViewInit {
   onMenuSelect(data: any) {
     if (data['clickedOn'] == 'edit') {
       let customData = data['value'];
+      GlobalVariableConfig.ANSWER_ID = this.activeRoute.snapshot.params['id'];
+      GlobalVariableConfig.QUESTION_ID = this.activeRoute.snapshot.params['primeNo'];
+
        this.navigateTo('sh8ke/editGeneralAnswer/'+customData);
     }else if(data['clickedOn'] == 'name'){
       this.navigateTo('user/generalCreator');

@@ -4,6 +4,7 @@ import {HttpService} from "../../../../common/services/http.service";
 import {PathConfig} from "../../../../common/config/path.config";
 import { FileUploader } from 'ng2-file-upload';
 import {Broadcaster} from "../../../../common/services/broadcaster.service";
+import {GlobalVariableConfig} from "../../../../common/config/globalVariable.config";
 
 declare var $:any;
 
@@ -345,6 +346,11 @@ question_id:string = "";
      });
       },200)
       
+  }
+  cancelBtnHandler(){
+    this.navigateTo('/sh8ke/globalAnswer/'+GlobalVariableConfig.ANSWER_ID+"/"+GlobalVariableConfig.QUESTION_ID);
+    GlobalVariableConfig.ANSWER_ID = "";
+    GlobalVariableConfig.QUESTION_ID = "";
   }
   navigateTo(url:string){
     this.router.navigate([url]);

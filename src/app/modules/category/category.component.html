@@ -57,8 +57,9 @@
                                 <div class="col-sm-9 marginCenter">
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="ti-world"></i></div>
-                                        <input type="file" ng2FileSelect [uploader]="uploader" id="avatar" name="uploadedAnswer"/>
+                                        <input type="file" accept="image/*" ng2FileSelect [uploader]="uploader" id="avatar" name="uploadedAnswer" (change)="fileSelection()"/>
                                     </div>
+                                    <div class="error" *ngIf="bool_fileUploaded">Please select a file to upload</div>
                                 </div>
                             </div>
         

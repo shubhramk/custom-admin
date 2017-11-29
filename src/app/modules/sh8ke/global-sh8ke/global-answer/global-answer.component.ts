@@ -4,6 +4,7 @@ import {HttpService} from "../../../../common/services/http.service";
 import {PathConfig} from "../../../../common/config/path.config";
 import { FileUploader } from 'ng2-file-upload';
 import {Broadcaster} from "../../../../common/services/broadcaster.service";
+import {GlobalVariableConfig} from "../../../../common/config/globalVariable.config";
 
 declare var $:any, mscConfirm:any;
 @Component({
@@ -14,7 +15,7 @@ declare var $:any, mscConfirm:any;
 export class GlobalAnswerComponent implements OnInit {
   globalsh8keAnswer = [];
   dtConfig:Object = {};
- visibleElement:boolean = false;
+  visibleElement:boolean = false;
 
  text_AnswerType =["Positive", "Negative", "Neutral", "8Ball", "Other"]; 
  text_Answers = [];
@@ -43,7 +44,8 @@ export class GlobalAnswerComponent implements OnInit {
   constructor(private router:Router, private http:HttpService, private activeRoute:ActivatedRoute, private broadcaster:Broadcaster) { }
 
   ngOnInit(){
-
+    GlobalVariableConfig.ANSWER_ID = "";
+    GlobalVariableConfig.QUESTION_ID = "";
     this.uploader.onBuildItemForm = (item, form) => {
       //form.append('key1', 'S');
       //form.append('key2', 'K');
@@ -59,6 +61,12 @@ export class GlobalAnswerComponent implements OnInit {
       form.append("finalans", checkBoxFinalAnswer);
       form.append("img" , this.uploadedFileDetail['base64Code']);
       console.log(form);
+
+      this.broadcaster.on<string>('ROUTE_URL')
+      .subscribe(message => {
+        this.visibleElement = false;
+    });
+
     };
 
     this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
@@ -154,14 +162,16 @@ export class GlobalAnswerComponent implements OnInit {
           console.log(this.text_Answers);
         }, err=>{
         });
-
-        if(event == "Image"){
-          $("#avatar").attr("accept", "image/*") ;
-        }else if(event == "Audio"){
-          $("#avatar").attr("accept", "audio/*") ;
-        }else if(event == "Video"){
-          $("#avatar").attr("accept", "video/*") ;
-        }
+        setTimeout(()=>{
+          if(event == "Image"){
+            $("#avatar").attr("accept", "image/*") ;
+          }else if(event == "Audio"){
+            $("#avatar").attr("accept", "audio/*") ;
+          }else if(event == "Video"){
+            $("#avatar").attr("accept", "video/*") ;
+          }
+        }, 100);
+        
       }
     }else if(type == 'answerType'){
       this.answer_type = event;
@@ -288,6 +298,9 @@ export class GlobalAnswerComponent implements OnInit {
   onMenuSelect(data: any) {
     if (data['clickedOn'] == 'edit') {
       let customData = data['value'];
+      GlobalVariableConfig.ANSWER_ID = this.activeRoute.snapshot.params['id'];
+      GlobalVariableConfig.QUESTION_ID = this.activeRoute.snapshot.params['primeNo'];
+
        this.navigateTo('sh8ke/editGlobalAnswer/'+customData);
     }else if(data['clickedOn'] == 'name'){
       this.navigateTo('user/generalCreator');

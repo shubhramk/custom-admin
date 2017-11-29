@@ -31,7 +31,7 @@ export class CategoryComponent implements OnInit {
 
  form: FormGroup;
  userForm: any;
-
+ bool_fileUploaded:boolean = false;
  path= "../../assets/images/1.jpg";
 
  uploader:FileUploader = new FileUploader({
@@ -105,6 +105,10 @@ export class CategoryComponent implements OnInit {
       ]
      }
     this.getCategoryList();
+    this.broadcaster.on<string>('ROUTE_URL')
+    .subscribe(message => {
+      this.visibleElement = false;
+  });
     //$("#avatar").attr('val', this.path);
     
 }
@@ -142,6 +146,15 @@ getCategoryList(){
     }
   }
 
+  fileSelection(){
+    if($("#avatar").val() == ""){
+      this.bool_fileUploaded = true;
+      return true;
+    }else{
+      this.bool_fileUploaded = false;
+    }
+  }
+
   deleteCategory(id:string){
   var self = this;    
     mscConfirm("Are you sure to delete Category?", function(){
@@ -166,7 +179,14 @@ getCategoryList(){
   }
 
   addCategoryData(){
+    if($("#avatar").val() == ""){
+      this.bool_fileUploaded = true;
+      return true;
+    }else{
+      this.bool_fileUploaded = false;
+    }
     this.broadcaster.broadcast("SHOW_LOADER",true);  
+    
     if($("input[type =file]").val() == ""){
     this.http.post(PathConfig.ADD_NEW_CATEGORY, 
       {
@@ -211,7 +231,8 @@ getCategoryList(){
           this.sorting = "";
           this.getCategoryList();
           this.broadcaster.broadcast("SHOW_LOADER",false);  
-         // this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
+          this.createForm();
+          // this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
          }else if(responsePath.Status == "Error"){
           this.showSuccess= false;
           this.showError= true;
