@@ -97,6 +97,7 @@
                           <div class="input-group">
                             <input type="file" ng2FileSelect [uploader]="uploader" id="avatar" name="uploadedAnswer"/>
                           </div>
+                          <span class="error-msg" *ngIf="errorAddGeneralUser.uploader">{{fileErrorMsg}}</span>
                         </div>
                       </div>
                       <div class="form-group row">

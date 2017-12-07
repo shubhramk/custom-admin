@@ -32,6 +32,9 @@ export class AdminUserComponent implements OnInit {
   showSuccess:boolean = false;
   showError:boolean = false;
   message:string = "";
+  fileErrorMsg = "Please select a file to upload"; 
+  isFileValid = false;
+  bool_fileUploaded = false;
   constructor( private router:Router, private http:HttpService, private broadcaster:Broadcaster) {  }
 ngOnInit(){
 
@@ -44,7 +47,19 @@ ngOnInit(){
     form.append("username" ,this.user_Name);
   };
 
-  this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+  this.uploader.onAfterAddingFile = (file)=> {
+    var ValidImageTypes = ["image/gif", "image/jpeg", "image/png"];          
+    if ($.inArray(file.file['type'], ValidImageTypes) < 0) {
+      this.fileErrorMsg = "Please select valid Image type"; 
+      this.isFileValid = true;
+      this.errorAddAdminUser['uploader'] = true;
+    }else{
+      this.fileErrorMsg = "Please select a file to upload"; 
+      this.isFileValid = false;
+      this.errorAddAdminUser['uploader'] = false;
+    }
+     file.withCredentials = false; 
+  };
     this.dtConfigAdminUser =  {
       "columnDefs": [
         {
@@ -190,7 +205,7 @@ ngOnInit(){
   }
   adMinUserDateWithImage(){
     this.uploader.cancelAll();
-
+    this.broadcaster.broadcast("SHOW_LOADER",true);
     this.uploader.uploadAll();
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
       var responsePath = JSON.parse(response);
@@ -218,7 +233,8 @@ ngOnInit(){
     'email':false,
     'user_Name':false,
     'password_admin':false,
-    'user_type':false
+    'user_type':false,
+    'uploader':false
   }
 
   allErrorResolved(obj:Object):boolean{
@@ -241,7 +257,7 @@ ngOnInit(){
     //resetting all errors
     this.resetErrorObj(this.errorAddAdminUser);
     //validation
-
+    
     if(!this.fName){
       this.errorAddAdminUser['fName']  = true;
     }
@@ -258,7 +274,11 @@ ngOnInit(){
     if(!this.user_type ){
       this.errorAddAdminUser['user_type'] = true;
     }
-
+    if($("#avatar").val() == "" || this.isFileValid == true){
+      this.errorAddAdminUser['uploader'] = true;
+     // this.bool_fileUploaded = true;
+     // return true;
+    }
     //All Validation passes
     if(this.allErrorResolved(this.errorAddAdminUser)) {
       if ($("input[type =file]").val() == "") {

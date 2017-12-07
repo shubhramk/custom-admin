@@ -29,6 +29,10 @@ export class GeneralAnswerComponent implements OnInit, AfterViewInit {
    showSuccess= false;
    showError= false;
    message:string = "";
+
+   fileErrorMsg = "required";
+   isFileValid = false;
+
    uploader:FileUploader = new FileUploader({
       url:PathConfig.ADD_GENERAL_SH8KE_ANSWER_UPLOADED_ITEM
     });
@@ -92,6 +96,7 @@ export class GeneralAnswerComponent implements OnInit, AfterViewInit {
       
       }
       //get top global shakes
+      
       this.uploader.onBuildItemForm = (item, form) => {
         //form.append('key1', 'S');
         //form.append('key2', 'K');
@@ -102,7 +107,45 @@ export class GeneralAnswerComponent implements OnInit, AfterViewInit {
         form.append("qid" ,this.activeRoute.snapshot.params['primeNo']);
       };
   
-      this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+      this.uploader.onAfterAddingFile = (file)=> {
+        var ValidImageTypes = ["image/gif", "image/jpeg", "image/png"];
+        var ValidAudioTypes = ["audio/mp3", "audio/ogg", "audio/wav"];
+        var ValidVideoTypes = ["video/mp4", "video/wenm", "video/ogg"];
+        console.log("HELLo"); 
+        if(this.selectedItem == "1"){          
+          if ($.inArray(file.file['type'], ValidImageTypes) < 0) {
+            this.fileErrorMsg = "Please select valid Image type"; 
+            this.errorGeneralSh8keEdit['selectedImage'] = true;
+            this.isFileValid = true;
+          }else{
+            this.fileErrorMsg = "required"; 
+            this.errorGeneralSh8keEdit['selectedImage'] = false;
+            this.isFileValid = false;
+          }
+         }else if(this.selectedItem == "2"){
+          if ($.inArray(file.file['type'], ValidAudioTypes) < 0) {
+            this.fileErrorMsg = "Please select valid Audio type"; 
+            this.errorGeneralSh8keEdit['selectedImage'] = true;
+            this.isFileValid = true;
+          }else{
+            this.fileErrorMsg = "required"; 
+            this.errorGeneralSh8keEdit['selectedImage'] = false;
+            this.isFileValid = false;
+          }
+        }else if(this.selectedItem == "3"){
+          if ($.inArray(file.file['type'], ValidVideoTypes) < 0) {
+            this.fileErrorMsg = "Please select valid Video type"; 
+            this.errorGeneralSh8keEdit['selectedImage'] = true;
+            this.isFileValid = true;
+          }else{
+            this.fileErrorMsg = "required"; 
+            this.errorGeneralSh8keEdit['selectedImage'] = false;
+            this.isFileValid = false;
+          }
+        }
+
+        file.withCredentials = false; 
+      };
   
       this.bool_answerOther = false;
       this.bool_fileType = false;
@@ -118,6 +161,9 @@ export class GeneralAnswerComponent implements OnInit, AfterViewInit {
       //on Menu Icon selected
 
   valueChange(event){
+    $("#avatar").val('');
+    this.errorGeneralSh8keEdit['selectedImage'] = false;
+    this.fileErrorMsg = "required";
     console.log(event);
     if(event == "0"){
       this.bool_answerOther = true;
@@ -129,6 +175,7 @@ export class GeneralAnswerComponent implements OnInit, AfterViewInit {
     setTimeout(()=>{
       if(event == "1"){
         $("#avatar").attr("accept", "image/*") ;
+        
       }else if(event == "2"){
         $("#avatar").attr("accept", "audio/*") ;
       }else if(event == "3"){
@@ -204,17 +251,19 @@ export class GeneralAnswerComponent implements OnInit, AfterViewInit {
       this.errorGeneralSh8keEdit['selectedItem']  = true;
     }
     if(!this.otherTextAnswer){
-      this.errorGeneralSh8keEdit['otherTextAnswer'] = true;
-    }
+      if(this.selectedItem == "0"){
+        this.errorGeneralSh8keEdit['otherTextAnswer'] = true;
+      } 
+      
+    } 
     if(this.selectedItem != "0"){
-      if($("input[type='file']").val() == "")
+      if($("input[type='file']").val() == "" ||  this.isFileValid == true)
       {
         this.errorGeneralSh8keEdit['selectedImage'] = true;
       }
     }
-    
     if(this.allErrorResolved(this.errorGeneralSh8keEdit)){
-      this.broadcaster.broadcast("SHOW_LOADER",false);
+      this.broadcaster.broadcast("SHOW_LOADER",true);
       if(this.selectedItem != "0"){
         this.uploader.cancelAll();
         this.uploader.uploadAll();
@@ -278,6 +327,7 @@ export class GeneralAnswerComponent implements OnInit, AfterViewInit {
       },200)
       
   }
+  
   navigateTo(url:string){
     this.router.navigate([url]);
   }

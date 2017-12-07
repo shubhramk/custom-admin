@@ -38,18 +38,28 @@ text_mainType = ["Text", "Image", "Audio", "Video"];
  showSuccess= false;
  showError= false;
  message:string = "";
- uploader:FileUploader = new FileUploader({
+
+ fileErrorMsg = "required";
+ isFileValid = false;
+
+ errorGlobalSh8keAnswer = {
+  'selectedDevice':false,
+  'answerValue':false,
+  'answer_type':false,
+  'otherTextAnswer':false,
+  'selectedImage':false
+}
+uploader:FileUploader = new FileUploader({
   url:PathConfig.UPDATE_SH8KE_GLOBAL_ANSWER_UPLOADED_ITEM
 });
 recieved_url = "";
 question_id:string = ""; 
 
   constructor(private router:Router, private http:HttpService, private activeRoute:ActivatedRoute, private broadcaster:Broadcaster) { }
+  
   ngAfterViewInit(){
-    
-    
-    
   }
+
   ngOnInit(){
     this.bool_answer = false;
     this.bool_answerType = false;
@@ -78,10 +88,45 @@ question_id:string = "";
       console.log(this.selectedDevice, "    ",this.answer_type,"    ", this.otherTextAnswer, "    ",this.answerValue, "    ",this.question_id,"    ", this.link_url, "    ",checkBoxFinalAnswer ,"    ", this.activeRoute.snapshot.params['id'], "    ", this.recieved_url);
     };
 
-    this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+    this.uploader.onAfterAddingFile = (file)=> {
+      var ValidImageTypes = ["image/gif", "image/jpeg", "image/png"];
+      var ValidAudioTypes = ["audio/mp3", "audio/ogg", "audio/wav"];
+      var ValidVideoTypes = ["video/mp4", "video/wenm", "video/ogg"];
+       if(this.selectedDevice == "1"){          
+        if ($.inArray(file.file['type'], ValidImageTypes) < 0) {
+          this.fileErrorMsg = "Please select valid Image type"; 
+          this.errorGlobalSh8keAnswer['selectedImage'] = true;
+          this.isFileValid = true;
+        }else{
+          this.fileErrorMsg = "required"; 
+          this.errorGlobalSh8keAnswer['selectedImage'] = false;
+          this.isFileValid = false;
+        }
+       }else if(this.selectedDevice == "2"){
+        if ($.inArray(file.file['type'], ValidAudioTypes) < 0) {
+          this.fileErrorMsg = "Please select valid Audio type"; 
+          this.errorGlobalSh8keAnswer['selectedImage'] = true;
+          this.isFileValid = true;
+        }else{
+          this.fileErrorMsg = "required"; 
+          this.errorGlobalSh8keAnswer['selectedImage'] = false;
+          this.isFileValid = false;
+        }
+      }else if(this.selectedDevice == "3"){
+        if ($.inArray(file.file['type'], ValidVideoTypes) < 0) {
+          this.fileErrorMsg = "Please select valid Video type"; 
+          this.errorGlobalSh8keAnswer['selectedImage'] = true;
+          this.isFileValid = true;
+        }else{
+          this.fileErrorMsg = "required"; 
+          this.errorGlobalSh8keAnswer['selectedImage'] = false;
+          this.isFileValid = false;
+        }
+      }
+    file.withCredentials = false; };
       this.getEditableAnswer(this.activeRoute.snapshot.params['id']);
       //this.getEditableAnswer("1");
-  }
+  } 
   getEditableAnswer(id:string){
    
     this.http.get(PathConfig.GET_EDITABLE_GLOBAL_ANSWER+id).subscribe((response)=>{
@@ -141,11 +186,13 @@ question_id:string = "";
           this.bool_answerType = true;
           this.bool_fileType = false;
           this.bool_answerOther = false;
+          this.answer_type = "-1"
         }else{
-          this.bool_answer = true;
+          this.bool_answer = false;
           this.bool_answerType = false;
-          this.bool_answerOther = false;
+          this.bool_answerOther = true;
           this.bool_fileType = true;
+          
           //let x= event;
           this.http.post(PathConfig.GET_GLOBAL_ANSWERS_LIST, {"get_option":"Positive"}).subscribe((response)=>{            
             this.text_Answers = response.data;
@@ -163,17 +210,15 @@ question_id:string = "";
         }
       }else if(type == 'answerType'){
         this.answer_type = event;
+        this.answerValue = "-1";
         console.log(event);
         if(event != '-1' && event !='Other'){
           this.bool_answer = true;
           this.bool_answerOther = false;
           this.http.post(PathConfig.GET_GLOBAL_ANSWERS_LIST, {"get_option":event}).subscribe((response)=>{            
               this.text_Answers = response.data;
-              console.log(this.text_Answers);
-  
-          }, err=>{
-  
-          })
+              console.log(this.text_Answers);  
+          }, err=>{ });
         }else{
           this.bool_answer = false;
           this.bool_answerOther = true;
@@ -276,72 +321,123 @@ question_id:string = "";
     }
     assignValue(baseVal:string){
       this.uploadedFileDetail['base64Code'] = baseVal;
+    }
+    allErrorResolved(obj:Object):boolean{
+      //resetting all errors on Add
+      for (let v in obj){
+        if(obj[v.toString()]){
+          return false;
+        }
+      }
+      return true;
+    }
+  
+    resetErrorObj(obj:Object){
+      //resetting all errors
+      for (let v in obj){
+        obj[v.toString()] = false;
+      }
     }   
     submitAnswer(){
-      this.broadcaster.broadcast("SHOW_LOADER",true);
-    if($("input[type =file]").val() != ""  && $("input[type =file]").val() != undefined ){
-      this.uploader.cancelAll();
-      this.uploader.uploadAll();
-      this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-        var responsePath = JSON.parse(response);
-        this.broadcaster.broadcast("SHOW_LOADER",false);
-        if(responsePath.Status == "Success"){
-          this.showSuccess= true;
-          this.showError= false;
-          this.message = responsePath.SucessMessage;
-         // this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
-         }else if(responsePath.Status == "Error"){
-          this.showSuccess= true;
-          this.showError= false;
-          this.message = responsePath.ErrorMessage;
-         }
-        this.bool_answer = false;
-        this.bool_answerType = false;
-        this.bool_answerOther = false;
-        this.bool_fileType = false;
-        this.selectedItem = "-1";
-        $("#avatar").val("");
-        };
-    }else{
-  
-     let postData = {};
-     let checkBoxFinalAnswer:string;
-     checkBoxFinalAnswer = this.finalAnswer?"1":"0";
-     console.log(checkBoxFinalAnswer );
-     postData["type"] = this.selectedDevice;
-     postData["anstype"] = this.answer_type;
-     postData["ans"] = this.otherTextAnswer;
-     postData["getans"]= this.answerValue;
-     postData["qid"]= this.question_id;
-     postData["url_link"]=this.link_url;
-     postData["finalans"]= checkBoxFinalAnswer;
-     postData['id'] = this.activeRoute.snapshot.params['id']; 
-     console.log(postData);
-  
-     this.http.post(PathConfig.UPDATE_SH8KE_GLOBAL_ANSWER_TEXT, postData).subscribe((response)=>{
-       console.log(response);
-       this.broadcaster.broadcast("SHOW_LOADER",false);
-       if(response.Status == "Success"){
-        this.showSuccess= true;
-        this.showError= false;
-        this.message = response.SucessMessage;
-        //this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
-       }else if(response.Status == "Error"){
-        this.showSuccess= true;
-        this.showError= false;
-        this.message = response.ErrorMessage;
-       }
-       $("#avatar").val("");
-      this.bool_answer = false;
-      this.bool_answerType = false;
-      this.bool_answerOther = false;
-      this.bool_fileType = false;
-      this.selectedItem = "-1";
-     }, err=>{
-       
-       })
-      }   
-    }
+      this.resetErrorObj(this.errorGlobalSh8keAnswer);
+      if(!this.selectedDevice || this.selectedDevice == "-1"){
+        this.errorGlobalSh8keAnswer['selectedDevice']  = true;
+      }
+      
+      if(this.selectedDevice == "0"){
+        if(this.answerValue == "-1"){
+          this.errorGlobalSh8keAnswer['answerValue']  = true;
+        }
+        if(this.answer_type == "-1"){
+          this.errorGlobalSh8keAnswer['answer_type']  = true;
+        }   
+      }
+      console.log( this.answer_type +"   LLLL" )
+      if(this.selectedDevice == "1" || this.selectedDevice == "2" || this.selectedDevice == "3" ){
+        if(this.answer_type == "-1"){
+          this.errorGlobalSh8keAnswer['answer_type']  = true;
+        }
+        if(!this.otherTextAnswer){
+          this.errorGlobalSh8keAnswer['otherTextAnswer'] = true;     
+        }
+      }
+      if(this.answer_type == "Other"){
+        if(!this.otherTextAnswer){
+          this.errorGlobalSh8keAnswer['otherTextAnswer'] = true;     
+        }
+      }
+        
+      if(this.selectedDevice != "0"){
+        if($("input[type='file']").val() == "" ||  this.isFileValid == true)
+        {
+          this.errorGlobalSh8keAnswer['selectedImage'] = true;
+        }
+      }
+      if(this.allErrorResolved(this.errorGlobalSh8keAnswer)){
+        this.broadcaster.broadcast("SHOW_LOADER",true);
+        if($("input[type =file]").val() != ""  && $("input[type =file]").val() != undefined ){
+          this.uploader.cancelAll();
+          this.uploader.uploadAll();
+          this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+            var responsePath = JSON.parse(response);
+            this.broadcaster.broadcast("SHOW_LOADER",false);
+            if(responsePath.Status == "Success"){
+              this.showSuccess= true;
+              this.showError= false;
+              this.message = responsePath.SucessMessage;
+             // this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
+             }else if(responsePath.Status == "Error"){
+              this.showSuccess= true;
+              this.showError= false;
+              this.message = responsePath.ErrorMessage;
+             }
+            this.bool_answer = false;
+            this.bool_answerType = false;
+            this.bool_answerOther = false;
+            this.bool_fileType = false;
+            this.selectedItem = "-1";
+            $("#avatar").val("");
+            };
+        }else{
+      
+         let postData = {};
+         let checkBoxFinalAnswer:string;
+         checkBoxFinalAnswer = this.finalAnswer?"1":"0";
+         console.log(checkBoxFinalAnswer );
+         postData["type"] = this.selectedDevice;
+         postData["anstype"] = this.answer_type;
+         postData["ans"] = this.otherTextAnswer;
+         postData["getans"]= this.answerValue;
+         postData["qid"]= this.question_id;
+         postData["url_link"]=this.link_url;
+         postData["finalans"]= checkBoxFinalAnswer;
+         postData['id'] = this.activeRoute.snapshot.params['id']; 
+         console.log(postData);
+      
+         this.http.post(PathConfig.UPDATE_SH8KE_GLOBAL_ANSWER_TEXT, postData).subscribe((response)=>{
+           console.log(response);
+           this.broadcaster.broadcast("SHOW_LOADER",false);
+           if(response.Status == "Success"){
+            this.showSuccess= true;
+            this.showError= false;
+            this.message = response.SucessMessage;
+            //this.getGlobalAnswerList(this.activeRoute.snapshot.params['id']);
+           }else if(response.Status == "Error"){
+            this.showSuccess= true;
+            this.showError= false;
+            this.message = response.ErrorMessage;
+           }
+           $("#avatar").val("");
+          this.bool_answer = false;
+          this.bool_answerType = false;
+          this.bool_answerOther = false;
+          this.bool_fileType = false;
+          this.selectedItem = "-1";
+         }, err=>{})
+        } 
+      }
+     
+  }
   handleVisiblity(){    
     this.visibleElement = !this.visibleElement;
     this.bool_answer = false;

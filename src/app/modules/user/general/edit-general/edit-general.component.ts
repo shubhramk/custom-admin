@@ -44,7 +44,8 @@ export class EditGeneralComponent implements OnInit {
   uploader:FileUploader = new FileUploader({
     url:PathConfig.UPDATE_GENERAL_USER_WITH_IMAGE
   });
-
+  fileErrorMsg = "required";
+  isFileValid = false;
 
   constructor(private router:Router, private broadcaster:Broadcaster, private http:HttpService, private activatedRouteL:ActivatedRoute, private formBuilder: FormBuilder) {
 
@@ -81,7 +82,19 @@ export class EditGeneralComponent implements OnInit {
       form.append("prefrence" , selectedPrefrences);
     };
 
-    this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+    this.uploader.onAfterAddingFile = (file)=> { 
+      var ValidImageTypes = ["image/gif", "image/jpeg", "image/png"];          
+      if ($.inArray(file.file['type'], ValidImageTypes) < 0) {
+        this.fileErrorMsg = "Please select valid Image type"; 
+        this.errorAddGeneralUser['uploader'] = true;
+        this.isFileValid = true;
+      }else{
+        this.fileErrorMsg = "required"; 
+        this.errorAddGeneralUser['uploader'] = false;
+        this.isFileValid = false;
+      }
+      file.withCredentials = false; 
+    };
 
     setTimeout(()=>{
        $('#datepicker-autoclose').datepicker({
@@ -144,7 +157,8 @@ export class EditGeneralComponent implements OnInit {
     'selectIntrest':false,
     'selectStatus':false,
     'preferencesItems':false,
-    'date':false
+    'date':false,
+    'uploader':false
   }
 
   allErrorResolved(obj:Object):boolean{
@@ -200,6 +214,9 @@ export class EditGeneralComponent implements OnInit {
     }
     if(!this.selectedDate){
       this.errorAddGeneralUser['date'] = true;
+    }
+    if(this.isFileValid == true){
+      this.errorAddGeneralUser['uploader'] = true;
     }
 
     //All Validation passes
@@ -268,6 +285,7 @@ export class EditGeneralComponent implements OnInit {
         this.message = responsePath.ErrorMessage;
        }
        $("#avatar").val("");
+       window.scrollTo(0, 0);
     }
   }
 

@@ -73,7 +73,7 @@
                                     <input type="file" ng2FileSelect [uploader]="uploader" id="avatar" name="uploadedAnswer"/>
                                     
                                 </div>
-                                <span class="error-msg" *ngIf="errorValidationObj.selectedImage">required</span>
+                                <span class="error-msg" *ngIf="errorValidationObj.selectedImage">{{fileErrorMsg}}</span>
                               </div>
                             </div>
                         

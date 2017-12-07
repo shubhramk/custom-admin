@@ -52,6 +52,7 @@
                                       <div class="input-group-addon"><i class="ti-world"></i></div>
                                       <input type="file" ng2FileSelect [uploader]="uploader" id="avatar" name="uploadedAnswer"/>
                                   </div>
+                                  <div class="error" *ngIf="bool_fileUploaded">{{fileErrorMsg}}</div>
                               </div>
                           </div>
       

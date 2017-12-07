@@ -12,7 +12,7 @@
   
     <div class="row">
       <div class="col-md-12 marB">
-        <a href="javascript:void(0)"  (click)="navigateTo('sh8ke/generalSh8ke'); showSuccess = false;showError = false;">Back</a>
+        <a href="javascript:void(0)"  (click)="cancelBtnHandler()">Back</a>
         <div class="alert alert-success" *ngIf = "showSuccess">
           <strong>Success!</strong> Record Updated Successfully !
         </div>
@@ -46,7 +46,7 @@
                                    <input type="file" ng2FileSelect [uploader]="uploader" id="avatar" name="uploadedAnswer"/>
                                    
                                 </div>
-                                <span class="error-msg" *ngIf="errorGeneralSh8keEdit.selectedImage">required</span>
+                                <span class="error-msg" *ngIf="errorGeneralSh8keEdit.selectedImage">{{fileErrorMsg}}</span>
                               </div>
                             </div>
                             

@@ -77,8 +77,9 @@
                         <div class="col-sm-9 marginCenter">
                           <label for="exampleInputpwd3">Upload Photo</label>
                           <div class="input-group">
-                            <input type="file" ng2FileSelect [uploader]="uploader" id="avatar" name="uploadedAnswer"/>
+                            <input type="file" ng2FileSelect [uploader]="uploader" id="avatar" name="uploadedAnswer" (change)="fileElementChnage()"/>
                           </div>
+                          <span class="error-msg" *ngIf="errorAddAdminUser.uploader">{{fileErrorMsg}}</span>
                         </div>
                       </div>
                       <div class="form-group row">

@@ -25,6 +25,10 @@ export class GeneralAnswerEditComponent implements OnInit {
   showError= false;
   message:string = "";
   answer_id:string = "";
+
+  fileErrorMsg = "required";
+  isFileValid = false;
+
   uploader:FileUploader = new FileUploader({
    url:PathConfig.UPDATE_SH8KE_GENERAL_ANSWER_UPLOADED_ITEM
  });
@@ -50,7 +54,43 @@ export class GeneralAnswerEditComponent implements OnInit {
       form.append("id" ,this.answer_id);
     };
 
-    this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+    this.uploader.onAfterAddingFile = (file)=> { 
+      var ValidImageTypes = ["image/gif", "image/jpeg", "image/png"];
+      var ValidAudioTypes = ["audio/mp3", "audio/ogg", "audio/wav"];
+      var ValidVideoTypes = ["video/mp4", "video/wenm", "video/ogg"];
+       if(this.selectedDevice == "1"){          
+        if ($.inArray(file.file['type'], ValidImageTypes) < 0) {
+          this.fileErrorMsg = "Please select valid Image type"; 
+          this.errorGeneralSh8keEdit['selectedImage'] = true;
+          this.isFileValid = true;
+        }else{
+          this.fileErrorMsg = "required"; 
+          this.errorGeneralSh8keEdit['selectedImage'] = false;
+          this.isFileValid = false;
+        }
+       }else if(this.selectedDevice == "2"){
+        if ($.inArray(file.file['type'], ValidAudioTypes) < 0) {
+          this.fileErrorMsg = "Please select valid Audio type"; 
+          this.errorGeneralSh8keEdit['selectedImage'] = true;
+          this.isFileValid = true;
+        }else{
+          this.fileErrorMsg = "required"; 
+          this.errorGeneralSh8keEdit['selectedImage'] = false;
+          this.isFileValid = false;
+        }
+      }else if(this.selectedDevice == "3"){
+        if ($.inArray(file.file['type'], ValidVideoTypes) < 0) {
+          this.fileErrorMsg = "Please select valid Video type"; 
+          this.errorGeneralSh8keEdit['selectedImage'] = true;
+          this.isFileValid = true;
+        }else{
+          this.fileErrorMsg = "required"; 
+          this.errorGeneralSh8keEdit['selectedImage'] = false;
+          this.isFileValid = false;
+        }
+      }
+      file.withCredentials = false; 
+    };
     this.getEditableAnswer(this.activeRoute.snapshot.params['id']);
 
   }
@@ -97,10 +137,11 @@ export class GeneralAnswerEditComponent implements OnInit {
       this.errorGeneralSh8keEdit['selectedItem']  = true;
     }
     if(!this.otherTextAnswer){
+      if(this.selectedDevice == "0")
       this.errorGeneralSh8keEdit['otherTextAnswer'] = true;
     }
     if(this.selectedDevice != "0"){
-      if($("input[type='file']").val() == "")
+      if($("input[type='file']").val() == "" ||  this.isFileValid == true)
       {
         this.errorGeneralSh8keEdit['selectedImage'] = true;
       }
@@ -160,6 +201,9 @@ export class GeneralAnswerEditComponent implements OnInit {
     
   }
   setOnAnswerLoad(event){
+    $("#avatar").val('');
+    this.errorGeneralSh8keEdit['selectedImage'] = false;
+    this.fileErrorMsg = "required";
       this.selectedDevice = event;      
         if(event == "0"){
           this.bool_fileType = false;

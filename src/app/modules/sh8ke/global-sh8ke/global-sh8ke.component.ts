@@ -3,6 +3,9 @@ import {Router} from "@angular/router";
 import {HttpService} from "../../../common/services/http.service";
 import {PathConfig} from "../../../common/config/path.config";
 import {Broadcaster} from "../../../common/services/broadcaster.service";
+import {LocalStorageService} from "../../../common/services/local-storage.service";
+import {ConstantConfig} from "../../../common/config/constant.config";
+
 declare var $:any, mscConfirm:any;
 @Component({
   selector: 'app-global-sh8ke',
@@ -34,7 +37,7 @@ export class GlobalSh8keComponent implements OnInit {
   }
 
   temp_Option = [];
-  constructor(private router:Router, private http:HttpService, private broadcaster:Broadcaster) { }
+  constructor(private router:Router, private http:HttpService, private broadcaster:Broadcaster, private localStorage:LocalStorageService) { }
 
  ngOnInit(){
     this.dtConfigGlobal = {
@@ -319,18 +322,16 @@ getTopGlobalShakes(){
     //All Validation passes
     if(this.allErrorResolved(this.errorGlobalSh8ke))
     {
+      let userDetail = this.localStorage.get(ConstantConfig.USER_DETAIL);
+      let userId  = userDetail ? JSON.parse(userDetail)['userId'] : '';
+
       let postData = {};
-     /*  postData["password"] = ""; */
       this.options.forEach((key,val) =>{
-        //let setvalue = 
         postData[key.name] = (key.selected == true ? 1 : 0);
-        console.log(postData[key.name] + "   postData[key.name]");  
-        /* if(key.name == "password" && key.selected == true){
-          postData["password"] = this.newPassword;
-        }  */ 
+        console.log(postData[key.name] + "   postData[key.name]"); 
       });
       console.log(this.options, "    OPTIONS");
-      postData["admin_id"] = "1";
+      postData["admin_id"] = userId;
       postData["category_id"]= this.selectedCategory;
       postData["title_english"] = this.titleName;
       postData["user_type"] = "Administrator";    

@@ -38,6 +38,8 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
    noRecordFound:boolean = false;
 
    uploader:FileUploader = new FileUploader({url:PathConfig.ADD_GENERAL_USER_IMAGE});
+   fileErrorMsg = "required";
+   isFileValid = false;
 
   constructor(private router:Router, private http:HttpService, private broadcaster:Broadcaster) {}
   ngAfterViewInit(){
@@ -71,7 +73,19 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
       form.append("prefrence" , selectedPrefrences);
     };
 
-    this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+    this.uploader.onAfterAddingFile = (file)=> {
+      var ValidImageTypes = ["image/gif", "image/jpeg", "image/png"];          
+      if ($.inArray(file.file['type'], ValidImageTypes) < 0) {
+        this.fileErrorMsg = "Please select valid Image type"; 
+        this.errorAddGeneralUser['uploader'] = true;
+        this.isFileValid = true;
+      }else{
+        this.fileErrorMsg = "required"; 
+        this.errorAddGeneralUser['uploader'] = false;
+        this.isFileValid = false;
+      }
+       file.withCredentials = false;
+    };
 
      //general data table
      var self = this;
@@ -309,11 +323,15 @@ export class GeneralUserComponent implements OnInit, AfterViewInit {
     if(!this.selectedGender || this.selectedGender == "0"){
       this.errorAddGeneralUser['selectedGender'] = true;
     }
-    if(!this.selectIntrest || this.selectIntrest == "-1"){
+    if(!this.selectIntrest || this.selectIntrest == "0"){
       this.errorAddGeneralUser['selectIntrest'] = true;
     }
-    if(!this.selectStatus || this.selectIntrest == "0"){
+    if(!this.selectStatus || this.selectStatus == "-1"){
       this.errorAddGeneralUser['selectStatus'] = true;
+    }
+    if($("input[type='file']").val() == "" ||  this.isFileValid == true)
+    {
+      this.errorAddGeneralUser['uploader'] = true;
     }
 
     if(_.filter(this.preferencesItems,{'selected':true}).length == 0){

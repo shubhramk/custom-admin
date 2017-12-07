@@ -26,6 +26,10 @@ export class EditAdminComponent implements OnInit {
   form: FormGroup;
   userForm: any;
 
+  fileErrorMsg = "Please select a file to upload"; 
+  isFileValid = false;
+  bool_fileUploaded = false;
+
   uploader:FileUploader = new FileUploader({
     url:PathConfig.UPDATE_ADMIN_USER_WITH_IMAGE
   });
@@ -44,7 +48,21 @@ export class EditAdminComponent implements OnInit {
       form.append("username" ,this.user_Name);
     };
 
-    this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+    this.uploader.onAfterAddingFile = (file)=> { 
+      var ValidImageTypes = ["image/gif", "image/jpeg", "image/png"]; 
+      console.log($("#avatar").val());
+        if ($.inArray(file.file['type'], ValidImageTypes) < 0) {
+          this.fileErrorMsg = "Please select valid Image type"; 
+          this.isFileValid = true;
+          this.errorAddAdminUser['uploader'] = true;
+        }else{
+          this.fileErrorMsg = "Please select a file to upload"; 
+          this.isFileValid = false;
+          this.errorAddAdminUser['uploader'] = false;
+        }
+
+      file.withCredentials = false; 
+    };
 
     console.log(this.activatedRouteL.snapshot.params["id"]);
     this.getAdminUserDetail();
@@ -118,9 +136,14 @@ export class EditAdminComponent implements OnInit {
     'name':false,
     'email':false,
     'user_Name':false,
-    'user_type':false
+    'user_type':false,
+    'uploader':false
   }
-
+  fileElementChnage(){
+    if($("#avatar").val() == ""){
+      this.errorAddAdminUser['uploader'] = false;
+    }
+  }
   allErrorResolved(obj:Object):boolean{
     //resetting all errors on Add
     for (let v in obj){
@@ -141,7 +164,10 @@ export class EditAdminComponent implements OnInit {
     //resetting all errors
     this.resetErrorObj(this.errorAddAdminUser);
     //validation
-
+    if($("#avatar").val() != "" && this.isFileValid == true){
+      this.errorAddAdminUser['uploader']  = true;
+      //return true;
+    }
     if(!this.name){
       this.errorAddAdminUser['name']  = true;
     }

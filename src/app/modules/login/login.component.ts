@@ -5,6 +5,7 @@ import {LocalStorageService} from "../../common/services/local-storage.service";
 import {FormGroup, Validators, FormControl} from "@angular/forms";
 import {PathConfig} from "../../common/config/path.config";
 import {ConstantConfig} from "../../common/config/constant.config";
+import {GlobalVariableConfig} from "../../common/config/globalVariable.config";
 @Component({
   styleUrls: ['./login.component.scss'],
   templateUrl: './login.component.html'
@@ -48,9 +49,11 @@ export class LoginComponent implements OnInit{
       this.message = '';
       this.authService.login(PathConfig.LOGIN_AUTH , {'username':value['email'],'password':value['userPwd']})
         .then(response => {
+          console.log(response);
           let data = response['data'];
           let code = response['MessageCode'];
-
+         
+          
           if(code == "400"){
             this.loginItem.reset();
             this.message = response['ErrorMessage'];
@@ -61,12 +64,15 @@ export class LoginComponent implements OnInit{
           let accessToken = data['token'];
           let profile_image = data['profile_image'];
           let name = data['name'];
+          let userId = data['id'];
           if(accessToken){
             this.localStorage.set(ConstantConfig.AUTH_TOKEN,accessToken );
+           // this.localStorage.set(ConstantConfig.AUTH_TOKEN,userId );
             this.localStorage.set(ConstantConfig.USER_DETAIL,JSON.stringify(
               {
               "name":name ,
-              "img":profile_image
+              "img":profile_image,
+              "userId":userId
               }
             ));
             this.router.navigate(['/home']);

@@ -3,6 +3,10 @@ import {Router} from "@angular/router";
 import {HttpService} from "../../../common/services/http.service";
 import {PathConfig} from "../../../common/config/path.config";
 import {Broadcaster} from "../../../common/services/broadcaster.service";
+import {GlobalVariableConfig} from "../../../common/config/globalVariable.config";
+import {LocalStorageService} from "../../../common/services/local-storage.service";
+import {ConstantConfig} from "../../../common/config/constant.config";
+
 declare var $:any, mscConfirm:any;
 @Component({
   selector: 'app-general-sh8ke',
@@ -33,7 +37,7 @@ export class GeneralSh8keComponent implements OnInit {
     'confirmPassword':false
   }
 
-  constructor(private router:Router, private http:HttpService, private broadcaster:Broadcaster) { }
+  constructor(private router:Router, private http:HttpService, private broadcaster:Broadcaster,private localStorage:LocalStorageService) { }
 
   ngOnInit(){
     this.dtConfigGeneral = {
@@ -274,7 +278,11 @@ submitData(){
         postData["password"] = this.newPassword;
       }
     });
-    postData["userID"] = "1";
+    let userDetail = this.localStorage.get(ConstantConfig.USER_DETAIL);
+    let userId  = userDetail ? JSON.parse(userDetail)['userId'] : '';
+    //let userDetail = this.localStorage.get(ConstantConfig.USER_DETAIL);
+    console.log( userId+ "     GlobalVariableConfig.USER_ID");
+    postData["userID"] = userId;
     postData["category_id"]= this.selectedCategory;
     postData["title"] = this.titleName;
     console.log(postData);

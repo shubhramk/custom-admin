@@ -26,6 +26,10 @@ export class NewsComponent implements OnInit {
    showSuccess:boolean = false;
    showError:boolean= false;
    message:string = "";
+
+   fileErrorMsg = "Please select a file to upload"; 
+   isFileValid = false;
+
    uploader:FileUploader = new FileUploader({
     url:PathConfig.ADD_NEWS_WITH_IMAGE
   });
@@ -58,7 +62,17 @@ export class NewsComponent implements OnInit {
       form.append("expire_on" ,this.expireDate);
     };
 
-    this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+    this.uploader.onAfterAddingFile = (file)=> { 
+      var ValidImageTypes = ["image/gif", "image/jpeg", "image/png"];          
+      if ($.inArray(file.file['type'], ValidImageTypes) < 0) {
+        this.fileErrorMsg = "Please select valid Image type"; 
+        this.isFileValid = true;
+      }else{
+        this.fileErrorMsg = "required"; 
+        this.isFileValid = false;
+      }
+      file.withCredentials = false; 
+    };
 
     this.dtConfig = { 
       "columnDefs": [
@@ -195,7 +209,7 @@ export class NewsComponent implements OnInit {
 
   chnageStatus(id:string, status){
     var self = this;
-    mscConfirm("Are you sure to chnage status", function(){
+    mscConfirm("Are you sure to change status", function(){
       self.broadcaster.broadcast("SHOW_LOADER",true);
       self.http.post(PathConfig.NEWS_CHANGE_STATUS, {st:status, id:id}).subscribe((response)=>{
         self.broadcaster.broadcast("SHOW_LOADER",false);    
@@ -239,7 +253,7 @@ export class NewsComponent implements OnInit {
     }
   }
   addNews(){
-    if($("#avatar").val() == ""){
+    if($("#avatar").val() == "" || this.isFileValid == true){
       this.bool_fileUploaded = true;
       return true;
     }else{

@@ -26,6 +26,10 @@ export class ExampleAnswerEditComponent implements OnInit {
   showError= false;
   message:string = "";
   answer_id:string = "";
+
+  fileErrorMsg = "required";
+  isFileValid = false;
+
   uploader:FileUploader = new FileUploader({
    url:PathConfig.UPDATE_SH8KE_EXAMPLE_ANSWER_UPLOADED_ITEM
  });
@@ -49,7 +53,42 @@ export class ExampleAnswerEditComponent implements OnInit {
       form.append("id" ,this.answer_id);
     };
 
-    this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+    this.uploader.onAfterAddingFile = (file)=> {  var ValidImageTypes = ["image/gif", "image/jpeg", "image/png"];
+    var ValidAudioTypes = ["audio/mp3", "audio/ogg", "audio/wav"];
+    var ValidVideoTypes = ["video/mp4", "video/wenm", "video/ogg"];
+   if(this.selectedDevice == "1"){          
+    if ($.inArray(file.file['type'], ValidImageTypes) < 0) {
+      this.fileErrorMsg = "Please select valid Image type"; 
+      this.errorValidationObj['selectedImage'] = true;
+      this.isFileValid = true;
+    }else{
+      this.fileErrorMsg = "required"; 
+      this.errorValidationObj['selectedImage'] = false;
+      this.isFileValid = false;
+    }
+   }else if(this.selectedDevice == "2"){
+    if ($.inArray(file.file['type'], ValidAudioTypes) < 0) {
+      this.fileErrorMsg = "Please select valid Audio type"; 
+      this.errorValidationObj['selectedImage'] = true;
+      this.isFileValid = true;
+    }else{
+      this.fileErrorMsg = "required"; 
+      this.errorValidationObj['selectedImage'] = false;
+      this.isFileValid = false;
+    }
+  }else if(this.selectedDevice == "3"){
+    if ($.inArray(file.file['type'], ValidVideoTypes) < 0) {
+      this.fileErrorMsg = "Please select valid Video type"; 
+      this.errorValidationObj['selectedImage'] = true;
+      this.isFileValid = true;
+    }else{
+      this.fileErrorMsg = "required"; 
+      this.errorValidationObj['selectedImage'] = false;
+      this.isFileValid = false;
+    }
+  }
+    file.withCredentials = false; 
+  };
     this.getEditableAnswer(this.activeRoute.snapshot.params['id']);
 
   }
@@ -57,11 +96,10 @@ export class ExampleAnswerEditComponent implements OnInit {
   question_id:string = "";
 
   getEditableAnswer(id:string){
-    this.broadcaster.broadcast("SHOW_LOADER",false);
     
     this.http.get(PathConfig.GET_EDITABLE_EXAMPLE_ANSWER+id).subscribe((response)=>{
       if(response.Status == "Success"){
-        console.log(response);
+        this.broadcaster.broadcast("SHOW_LOADER",false);
         this.selectedDevice = response.data['type'];
         this.otherTextAnswer = response.data['text_field'];
         this.question_id = response.data['question_id'];
@@ -95,11 +133,13 @@ export class ExampleAnswerEditComponent implements OnInit {
     if(!this.selectedDevice || this.selectedDevice == "-1"){
       this.errorValidationObj['selectedItem']  = true;
     }
-    if(!this.otherTextAnswer){
-      this.errorValidationObj['otherTextAnswer'] = true;
+    if(this.selectedDevice == "0"){
+      if(!this.otherTextAnswer){
+        this.errorValidationObj['otherTextAnswer'] = true;
+      }
     }
     if(this.selectedDevice != "0"){
-      if($("input[type='file']").val() == "")
+      if($("input[type='file']").val() == "" ||  this.isFileValid == true)
       {
         this.errorValidationObj['selectedImage'] = true;
       }

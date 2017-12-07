@@ -23,10 +23,11 @@ export class EditCategoryComponent implements OnInit {
   englishName:string = "";
   frenchName:string = "";
   sorting:string = "";
- 
+  bool_fileUploaded= false;
   form: FormGroup;
   userForm: any;
- 
+  fileErrorMsg = "Please select a file to upload"; 
+  isFileValid = false;
   path= "../../assets/images/1.jpg";
   category_id:string = "";
  
@@ -43,7 +44,17 @@ export class EditCategoryComponent implements OnInit {
       form.append('id', this.category_id);
     };
 
-    this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+    this.uploader.onAfterAddingFile = (file)=> { 
+      var ValidImageTypes = ["image/gif", "image/jpeg", "image/png"];          
+      if ($.inArray(file.file['type'], ValidImageTypes) < 0) {
+        this.fileErrorMsg = "Please select valid Image type"; 
+        this.isFileValid = true;
+      }else{
+        this.fileErrorMsg = "Please select a file to upload"; 
+        this.isFileValid = false;
+      }
+      file.withCredentials = false; 
+    };
 
     this.userForm = this.formBuilder.group({
       'englishName': ['', Validators.required],
@@ -73,6 +84,13 @@ export class EditCategoryComponent implements OnInit {
     this.router.navigate([url]);
   }
   updateCategory(){
+    if($("#avatar").val() != "" && this.isFileValid == true){
+      this.bool_fileUploaded = true;
+      return true;
+    }else{
+      this.bool_fileUploaded = false;
+    }
+
     if($("input[type =file]").val() == ""){      
       let postData = {};
       postData["order"] = this.sorting;

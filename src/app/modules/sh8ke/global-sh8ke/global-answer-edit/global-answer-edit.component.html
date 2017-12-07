@@ -21,7 +21,7 @@
     </div>
     <div class="row">
       <div class="col-md-12 marB">        
-        <a href="javascript:void(0)" (click)="navigateTo('/sh8ke/globalSh8ke')">Back</a>
+        <a href="javascript:void(0)" (click)="cancelBtnHandler()">Back</a>
         <div class="alert alert-success" *ngIf = "showSuccess">
             <strong>Success!</strong> {{message}}
       </div>
@@ -50,6 +50,7 @@
                                 <option [attr.selected]="selectedDevice == i ? true:null"  *ngFor="let type of text_mainType; let i = index;" [attr.value]="i">{{type}}</option>                        
                               </select>
                             </div>
+                            <span class="error-msg" *ngIf="errorGlobalSh8keAnswer.selectedDevice">required</span>
                           </div>
                         </div>
   
@@ -62,6 +63,7 @@
                                     <option *ngFor="let answerType of text_AnswerType; let i = index;" [attr.value]="answerType">{{answerType}}</option>                        
                                 </select>
                               </div>
+                              <span class="error-msg" *ngIf="errorGlobalSh8keAnswer.answer_type">required</span>
                             </div>
                           </div>
                           <div class="form-group row" *ngIf= "bool_answer">
@@ -74,6 +76,7 @@
                                       <option [attr.selected]="answerValue == answer['value'] ? true:null" *ngFor="let answer of text_Answers; let i = index;" [attr.value]="answer['value']">{{answer["text"]}}</option>                       
                                   </select>
                                 </div>
+                                <span class="error-msg" *ngIf="errorGlobalSh8keAnswer.answerValue">required</span>
                               </div>
                             </div>
                             
@@ -84,6 +87,7 @@
                                      <input type="file" ng2FileSelect [uploader]="uploader" id="avatar" name="uploadedAnswer"/>
                                      
                                   </div>
+                                  <span class="error-msg" *ngIf="errorGlobalSh8keAnswer.selectedImage">{{fileErrorMsg}}</span>
                                 </div>
                               </div>
                               
@@ -93,6 +97,7 @@
                                 <div class="input-group">
                                   <textarea class="form-control" rows="4" [(ngModel)]="otherTextAnswer" name="otherTextAnswer"></textarea> 
                                 </div>
+                                <span class="error-msg" *ngIf="errorGlobalSh8keAnswer.otherTextAnswer">required</span>
                               </div>
                             </div>
   

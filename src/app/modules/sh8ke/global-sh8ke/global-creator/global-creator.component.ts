@@ -34,7 +34,8 @@ export class GlobalCreatorComponent implements OnInit {
       ]
      }
      this.getgeneralSh8keList(this.activateroute.snapshot.params['id']);
-     this.getglobalSh8keList(this.activateroute.snapshot.params['id']);
+     setTimeout(()=>{this.getglobalSh8keList(this.activateroute.snapshot.params['id']);}, 1000)
+     
   }
   getgeneralSh8keList(id:string){
     

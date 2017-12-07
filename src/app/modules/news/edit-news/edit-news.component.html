@@ -58,7 +58,7 @@
                             <div class="input-group">
                                 <input type="file" ng2FileSelect [uploader]="uploader" id="avatar" name="uploadedAnswer"/>
                             </div>
-                            <div class="error" *ngIf="bool_fileUploaded">Please select a file to upload</div>
+                            <div class="error" *ngIf="bool_fileUploaded">{{fileErrorMsg}}</div>
                         </div>
                     </div>
                                   

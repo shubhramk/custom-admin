@@ -134,12 +134,16 @@ export class ExampleSh8keComponent implements OnInit {
         "admin_id": "1"
       }).subscribe((response)=>{
         if(response.Status == "Success"){
+          console.log(response);
           this.getExampleSh8keList();
           this.showSuccess = true;
           this.showError = false;
           this.selectedCategory = "-1";
           this.exampleTitle = "";
           this.description = "";
+          
+          setTimeout(()=>{ this.navigateTo('sh8ke/exampleAnswer/'+response.data['rowId']+"/"+response.data['id'])}, 2000);
+          
         }else if(response.Status == "Error"){
           this.showSuccess = false;
           this.showError = true;

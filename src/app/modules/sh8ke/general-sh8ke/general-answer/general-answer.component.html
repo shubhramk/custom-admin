@@ -13,7 +13,7 @@
         <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="navigateTo('/home')">Home</a></li>
         <li class="breadcrumb-item active">sh8ke</li>
         <li class="breadcrumb-item active">General sh8ke</li>
-        <li class="breadcrumb-item active" *ngIf="visibleElement">Add General User</li>
+        <li class="breadcrumb-item active" *ngIf="visibleElement">Add General Answer</li>
         <li class="breadcrumb-item active" *ngIf="!visibleElement">Answer</li>
       </ol>
     </div>
@@ -73,14 +73,14 @@
                                   <input type="file" ng2FileSelect [uploader]="uploader" id="avatar" name="uploadedAnswer"/>
                                   
                               </div>
-                              <span class="error-msg" *ngIf="errorGeneralSh8keEdit.selectedImage">required</span>
+                              <span class="error-msg" *ngIf="errorGeneralSh8keEdit.selectedImage">{{fileErrorMsg}}</span>
                             </div>
                           </div>
                       
                       <div class="text-left row">
                         <div class="col-sm-9 marginCenter">
                           <button type="submit" class="btn btn-success waves-effect waves-light m-r-10" (click) = "addGeneralAnswer()">Submit</button>
-                          <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
+                          <button type="submit" class="btn btn-inverse waves-effect waves-light" (click)="handleVisiblity();showSuccess= false;showError= false;">Cancel</button>
                         </div>
                       </div>
                   </form>

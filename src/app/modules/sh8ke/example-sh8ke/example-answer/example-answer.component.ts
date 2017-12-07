@@ -5,6 +5,7 @@ import {PathConfig} from "../../../../common/config/path.config";
 import {Broadcaster} from "../../../../common/services/broadcaster.service";
 import { FileUploader } from 'ng2-file-upload';
 import {GlobalVariableConfig} from "../../../../common/config/globalVariable.config";
+
 declare var $:any;
 declare var mscConfirm:any;
 
@@ -32,6 +33,10 @@ visibleElement:boolean = false;
    showSuccess= false;
    showError= false;
    message:string = "";
+
+   fileErrorMsg = "required";
+   isFileValid = false;
+
    uploader:FileUploader = new FileUploader({
       url:PathConfig.ADD_EXAMPLE_SH8KE_ANSWER_UPLOADED_ITEM
     });
@@ -101,7 +106,44 @@ visibleElement:boolean = false;
         form.append("ans" ,this.otherTextAnswer);
         form.append("qid" ,this.activeRoute.snapshot.params['primeNo']);
       };
-      this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+      this.uploader.onAfterAddingFile = (file)=> { 
+        var ValidImageTypes = ["image/gif", "image/jpeg", "image/png"];
+      var ValidAudioTypes = ["audio/mp3", "audio/ogg", "audio/wav"];
+      var ValidVideoTypes = ["video/mp4", "video/wenm", "video/ogg"];
+      console.log("HEEELLLLOOOO");
+     if(this.selectedItem == "1"){          
+      if ($.inArray(file.file['type'], ValidImageTypes) < 0) {
+        this.fileErrorMsg = "Please select valid Image type"; 
+        this.errorValidationObj['selectedImage'] = true;
+        this.isFileValid = true;
+      }else{
+        this.fileErrorMsg = "required"; 
+        this.errorValidationObj['selectedImage'] = false;
+        this.isFileValid = false;
+      }
+     }else if(this.selectedItem == "2"){
+      if ($.inArray(file.file['type'], ValidAudioTypes) < 0) {
+        this.fileErrorMsg = "Please select valid Audio type"; 
+        this.errorValidationObj['selectedImage'] = true;
+        this.isFileValid = true;
+      }else{
+        this.fileErrorMsg = "required"; 
+        this.errorValidationObj['selectedImage'] = false;
+        this.isFileValid = false;
+      }
+    }else if(this.selectedItem == "3"){
+      if ($.inArray(file.file['type'], ValidVideoTypes) < 0) {
+        this.fileErrorMsg = "Please select valid Video type"; 
+        this.errorValidationObj['selectedImage'] = true;
+        this.isFileValid = true;
+      }else{
+        this.fileErrorMsg = "required"; 
+        this.errorValidationObj['selectedImage'] = false;
+        this.isFileValid = false;
+      }
+    }
+      file.withCredentials = false; 
+    };
       //get top global shakes
       this.getExampleAnswerList(this.activeRoute.snapshot.params['id']);
       this.broadcaster.on<string>('ROUTE_URL')
@@ -203,11 +245,13 @@ visibleElement:boolean = false;
     if(!this.selectedItem || this.selectedItem == "-1"){
       this.errorValidationObj['selectedItem']  = true;
     }
-    if(!this.otherTextAnswer){
-      this.errorValidationObj['otherTextAnswer'] = true;
+    if(this.selectedItem == "0"){
+      if(!this.otherTextAnswer){
+        this.errorValidationObj['otherTextAnswer'] = true;
+      }
     }
     if(this.selectedItem != "0"){
-      if($("input[type='file']").val() == "")
+      if($("input[type='file']").val() == ""  ||  this.isFileValid == true)
       {
         this.errorValidationObj['selectedImage'] = true;
       }

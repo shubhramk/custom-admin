@@ -20,6 +20,9 @@ export class EditNewsComponent implements OnInit {
   showSuccess:boolean = false;
   showError:boolean= false;
   message:string = "";
+  fileErrorMsg = "Please select a file to upload"; 
+  isFileValid = false;
+
   bool_fileUploaded:boolean = false;
   /* uploader:FileUploader = new FileUploader({
    url:PathConfig.UPDATE_NEWS_ANSWER_UPLOADED_ITEM
@@ -51,7 +54,17 @@ userForm:any;
       form.append("id", this.answer_id);
     };
 
-    this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+    this.uploader.onAfterAddingFile = (file)=> { 
+      var ValidImageTypes = ["image/gif", "image/jpeg", "image/png"];          
+      if ($.inArray(file.file['type'], ValidImageTypes) < 0) {
+        this.fileErrorMsg = "Please select valid Image type"; 
+        this.isFileValid = true;
+      }else{
+        this.fileErrorMsg = "Please select a file to upload"; 
+        this.isFileValid = false;
+      }
+      file.withCredentials = false; 
+    };
     this.getEditableNewsData(this.activatedroute.snapshot.params['id']);
     var self = this;
     setTimeout(()=>{
@@ -102,6 +115,12 @@ userForm:any;
     }else{
       this.bool_fileUploaded = false;
     } */
+    if($("#avatar").val() != "" && this.isFileValid == true){
+      this.bool_fileUploaded = true;
+      return true;
+    }else{
+      this.bool_fileUploaded = false;
+    }
     this.broadcaster.broadcast("SHOW_LOADER",true);
     
     if($("input[type =file]").val() == ""){      

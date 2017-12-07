@@ -94,6 +94,7 @@ button.msc-cancel {
 }
 .msc-confirm{
     position: absolute;
+    z-index: 999 !important;
 }
 .msc-overlay{
     background-color:transparent !important; 

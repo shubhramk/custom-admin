@@ -34,6 +34,9 @@ export class CategoryComponent implements OnInit {
  bool_fileUploaded:boolean = false;
  path= "../../assets/images/1.jpg";
 
+ fileErrorMsg = "Please select a file to upload"; 
+ isFileValid = false;
+
  uploader:FileUploader = new FileUploader({
   url:PathConfig.ADD_NEW_CATEGORY_UPLOADED_ITEM
 });
@@ -58,7 +61,17 @@ export class CategoryComponent implements OnInit {
       form.append("order" ,this.sorting);
     };
 
-    this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+    this.uploader.onAfterAddingFile = (file)=> {
+    var ValidImageTypes = ["image/gif", "image/jpeg", "image/png"];          
+    if ($.inArray(file.file['type'], ValidImageTypes) < 0) {
+      this.fileErrorMsg = "Please select valid Image type"; 
+      this.isFileValid = true;
+    }else{
+      this.fileErrorMsg = "Please select a file to upload"; 
+      this.isFileValid = false;
+    }
+    file.withCredentials = false; 
+  };
 
 
     this.visibleElement = ConstantConfig.visibleElement;
@@ -114,9 +127,9 @@ export class CategoryComponent implements OnInit {
 }
 
 handleInput(){
-  this.sorting = "";
+  /* this.sorting = "";
   this.englishName = "";
-  this.frenchName = "";
+  this.frenchName = ""; */
 }
 
 getCategoryList(){
@@ -179,7 +192,7 @@ getCategoryList(){
   }
 
   addCategoryData(){
-    if($("#avatar").val() == ""){
+    if($("#avatar").val() == "" || this.isFileValid == true){
       this.bool_fileUploaded = true;
       return true;
     }else{
